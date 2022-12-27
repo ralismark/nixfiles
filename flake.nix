@@ -20,11 +20,9 @@
         config = import ./nixpkgs/config.nix;
       };
       extras =
-        let
+        rec {
+          inherit inputs;
           lock = builtins.fromJSON (builtins.readFile ./flake.lock);
-        in
-        {
-          inherit inputs lock;
           lock-inputs =
             assert pkgs.lib.asserts.assertMsg (lock.version == 7) "flake.lock version has changed!";
             builtins.mapAttrs
@@ -36,6 +34,23 @@
       formatter.${system} = pkgs.nixpkgs-fmt;
 
       # Home Manager ============================================================
+
+      homeConfigurations.me = home-manager.lib.homeManagerConfiguration {
+        inherit pkgs;
+
+        # Specify your home configuration modules here, for example,
+        # the path to your home.nix.
+        modules = [ ./hm/home.nix ];
+
+        extraSpecialArgs = extras;
+      };
+
+      # So that `nix run` is sufficient to rebuild
+      apps.${system}.default = {
+        type = "app";
+        program = "${homeConfigurations.me.activationPackage}/activate";
+      };
+      packages.${system}.default = homeConfigurations.me.activationPackage;
 
       # NixOS ===================================================================
 
