@@ -8,16 +8,20 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    hyprland.url = "github:hyprwm/Hyprland";
     nix-index-database.url = "github:Mic92/nix-index-database";
   };
 
-  outputs = { nixpkgs, home-manager, ... }@inputs:
+  outputs = { nixpkgs, home-manager, hyprland, ... }@inputs:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs {
         inherit system;
-        overlays = [ (import ./nixpkgs/overlay.nix) ];
-        config = import ./nixpkgs/config.nix;
+        overlays = [
+          (import ./nixpkgs)
+          hyprland.overlays.default
+        ];
+        config = import ./nixpkgs-config.nix;
       };
       extras =
         rec {
@@ -32,6 +36,8 @@
     in
     rec {
       formatter.${system} = pkgs.nixpkgs-fmt;
+
+      np = pkgs;
 
       # Home Manager ============================================================
 

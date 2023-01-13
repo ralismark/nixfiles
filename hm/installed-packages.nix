@@ -6,11 +6,10 @@
   evince
   firefox
   git
-  gnome.adwaita-icon-theme
   gnome.file-roller
   gnome.gucharmap
   helvum
-  htop
+  htop-vim
   libqalculate
   mpv
   nomacs
@@ -18,6 +17,7 @@
   pavucontrol
   ranger
   rclone
+  shared-mime-info
   silver-searcher
   wl-clipboard
   # END

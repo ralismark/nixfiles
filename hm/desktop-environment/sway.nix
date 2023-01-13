@@ -55,7 +55,7 @@ in
         gaps.outer = 0;
 
         keybindings = {
-          "--locked ${modifier}+q" = ''exec "swaylock -f; systemctl suspend"'';
+          "--locked ${modifier}+q" = ''exec "swaylock -f; ${pkgs.systemd}/bin/systemctl suspend"'';
 
           # Start a terminal
           "${modifier}+Return" = "exec ${terminal}";

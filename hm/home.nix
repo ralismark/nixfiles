@@ -4,18 +4,12 @@ with config;
 
 let
   inherit (pkgs) lib;
-
-  lock = builtins.fromJSON (builtins.readFile ./flake.lock);
-
-  lock-inputs =
-    assert lib.asserts.assertMsg (lock.version == 7) "flake.lock version has changed!";
-    builtins.mapAttrs
-      (_: n: lock.nodes.${n})
-      lock.nodes.${lock.root}.inputs;
 in
 {
   imports = [
     ./desktop-environment
+
+    ./programs/tmux.nix
   ];
 
   home.packages = [
@@ -23,6 +17,7 @@ in
       let
         links = {
           vim = "${home.homeDirectory}/src/github.com/ralismark/vimfiles/result/bin/vim";
+          vim-manpager = "${home.homeDirectory}/src/github.com/ralismark/vimfiles/result/bin/vim-manpager";
         };
       in
       pkgs.runCommandLocal "pathlinks" { } ''
@@ -46,7 +41,7 @@ in
     {
       EDITOR = "${userBin}/vim";
       VISUAL = "${userBin}/vim";
-      MANPAGER = "${userBin}/vim +Man!";
+      MANPAGER = "${userBin}/vim-manpager";
       BROWSER = "${userBin}/firefox";
       NIX_PATH = lib.concatStringsSep ":" [
         "nixpkgs=${inputs.nixpkgs}"
@@ -84,6 +79,10 @@ in
       package = pkgs.adapta-maia-theme;
       name = "Adapta-Nokto-Eta-Maia";
     };
+
+    gtk3.bookmarks = [
+      "file:///tmp tmp"
+    ];
   };
 
   qt = {
@@ -122,6 +121,8 @@ in
   };
 
   programs.bash.enable = true;
+  programs.direnv.enable = true;
+  programs.direnv.nix-direnv.enable = false;
 
   # Misc ======================================================================
 
@@ -132,7 +133,7 @@ in
     # The default unit has dependencies on tray.target and stuff and is kinda shit
     Unit = {
       Description = "udiskie mount daemon";
-      After = [ "graphical-session-pre.target" ];
+      After = [ "graphical-session.target" ];
       PartOf = [ "graphical-session.target" ];
     };
 
@@ -140,9 +141,15 @@ in
     Install.WantedBy = [ "graphical-session.target" ];
   };
 
+  # fortunes
+  home.file.".local/fortunes".source = ./fortunes;
+  home.file.".local/fortunes.dat".source = pkgs.runCommand "fortunes.dat" { } ''
+    ${pkgs.fortune}/bin/strfile ${./fortunes} $out
+  '';
+
   # Nix =======================================================================
 
-  xdg.configFile."nixpkgs/config.nix".source = ../nixpkgs/config.nix;
+  xdg.configFile."nixpkgs/config.nix".source = ../nixpkgs-config.nix;
   nix.package = pkgs.nixUnstable;
   nix.registry.nixpkgs.flake = inputs.nixpkgs;
 

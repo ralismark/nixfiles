@@ -10,6 +10,7 @@ with config;
       layer = "top";
       position = "left";
       spacing = 0; # we do spacing in CSS to handle hidden items properly
+      width = 32;
 
       modules-left = [ "pulseaudio" "tray" ];
       modules-center = [ "sway/workspaces" ];
@@ -85,6 +86,12 @@ with config;
         };
       };
 
+      "wlr/workspaces" = {
+        all-outputs = true;
+        sort-by-number = true;
+        format = "{name}";
+      };
+
       tray = {
         spacing = 8;
       };
@@ -146,16 +153,16 @@ with config;
           background: #1a1a1a;
           color: #fdf6e3;
         }
-        #workspaces > button.persistent {
-          border-color: transparent;
-        }
+        #workspaces > button.persistent,
         #workspaces > button:not(.current_output):not(.persistent) {
           border-color: transparent;
         }
-        #workspaces > button.visible.current_output {
+        #workspaces > button.visible.current_output,
+        #workspaces > button.visible {
           color: #fdf6e3;
         }
-        #workspaces > button.current_output.focused {
+        #workspaces > button.current_output.focused,
+        #workspaces > button.active {
           background: linear-gradient(to right, #808080, transparent);
           color: #fdf6e3;
         }
@@ -166,7 +173,9 @@ with config;
       #temperature { color: #b58900; }
       #cpu { color: #6c71c4; }
     '';
-
-
   };
+
+  xdg.configFile."waybar/config".onChange = ''
+    ${pkgs.systemd}/bin/systemctl --user try-restart waybar.service
+  '';
 }

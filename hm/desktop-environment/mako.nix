@@ -34,7 +34,7 @@ in
       Description = "Lightweight Wayland notifcation deamon";
       Documentation = "man:mako(1)";
       PartOf = [ "graphical-session.target" ];
-      After = [ "graphical-session-pre.target" ];
+      After = [ "graphical-session.target" ];
     };
 
     Service = {
