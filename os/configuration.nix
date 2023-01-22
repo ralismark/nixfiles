@@ -6,7 +6,8 @@
 
 let
   inherit (pkgs) lib;
-in {
+in
+{
   imports =
     [
       ./hardware-configuration.nix # Include the results of the hardware scan.
@@ -46,8 +47,22 @@ in {
     font = ""; # hope this is okay
     colors = [
       # Solarised w/ corrected bright colours
-      "002b36" "dc322f" "859900" "b58900" "268bd2" "d33682" "2aa198" "eee8d5"
-      "586e75" "e35d5b" "b1cc00" "e8b000" "4ca2df" "dc609c" "35c9be" "fdf6e3"
+      "002b36"
+      "dc322f"
+      "859900"
+      "b58900"
+      "268bd2"
+      "d33682"
+      "2aa198"
+      "eee8d5"
+      "586e75"
+      "e35d5b"
+      "b1cc00"
+      "e8b000"
+      "4ca2df"
+      "dc609c"
+      "35c9be"
+      "fdf6e3"
     ];
   };
 
@@ -66,7 +81,7 @@ in {
       serif = [ "Droid Serif" "Noto Serif" ];
       sansSerif = [ "Droid Sans" "Noto Sans" ];
       monospace = [ "Cascadia Code PL" "Noto Sans Mono" ];
-      emoji = [ "Blobmoji"];
+      emoji = [ "Blobmoji" ];
     };
   };
 
@@ -150,7 +165,7 @@ in {
     package = pkgs.nixUnstable;
     settings = {
       auto-optimise-store = true;
-      experimental-features = ["nix-command" "flakes"];
+      experimental-features = [ "nix-command" "flakes" ];
     };
     registry.nixpkgs.flake = inputs.nixpkgs;
     nixPath = [

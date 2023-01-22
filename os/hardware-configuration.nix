@@ -3,7 +3,8 @@
 
 {
   imports =
-    [ (modulesPath + "/installer/scan/not-detected.nix")
+    [
+      (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "nvme" "usb_storage" "sd_mod" "rtsx_pci_sdmmc" ];
@@ -12,29 +13,34 @@
   boot.extraModulePackages = [ ];
 
   fileSystems."/" =
-    { device = "rpool/ephemeral/nixos";
+    {
+      device = "rpool/ephemeral/nixos";
       fsType = "zfs";
     };
 
   fileSystems."/persist" =
-    { device = "rpool/ds1/ROOT/nixos";
+    {
+      device = "rpool/ds1/ROOT/nixos";
       fsType = "zfs";
       neededForBoot = true;
     };
 
   fileSystems."/mnt/efi" =
-    { device = "/dev/disk/by-uuid/AE7E-AF45";
+    {
+      device = "/dev/disk/by-uuid/AE7E-AF45";
       fsType = "vfat";
     };
 
   fileSystems."/mnt/manjaro" =
-    { device = "rpool/ds1/ROOT/manjaro";
+    {
+      device = "rpool/ds1/ROOT/manjaro";
       fsType = "zfs";
       neededForBoot = true;
     };
 
   fileSystems."/boot" =
-    { device = "/mnt/efi/EFI/nixos";
+    {
+      device = "/mnt/efi/EFI/nixos";
       fsType = "none";
       options = [ "bind" ];
     };

@@ -14,14 +14,14 @@
     nix-index-database.url = "github:Mic92/nix-index-database";
   };
 
-  outputs = {
-    nixpkgs,
-    home-manager,
-    nixos-hardware,
-    impermanence,
-    hyprland,
-    ...
-  }@inputs:
+  outputs =
+    { nixpkgs
+    , home-manager
+    , nixos-hardware
+    , impermanence
+    , hyprland
+    , ...
+    }@inputs:
     let
       repo-root = "/home/temmie/src/github.com/ralismark/nixfiles"; # !!! The physical location this repo is cloned to
 
@@ -46,10 +46,10 @@
           lock-inputs =
             assert pkgs.lib.asserts.assertMsg (lock.version == 7) "flake.lock version has changed!";
             builtins.mapAttrs
-            (_: n: lock.nodes.${n})
-            lock.nodes.${lock.root}.inputs;
-          };
+              (_: n: lock.nodes.${n})
+              lock.nodes.${lock.root}.inputs;
         };
+      };
 
     in
     rec {

@@ -1,7 +1,8 @@
 { config, pkgs, inputs, repo-root, ... }:
 let
   inherit (pkgs) lib;
-in {
+in
+{
   # Ephemeral root
   boot.initrd.postDeviceCommands =
     assert config.boot.resumeDevice != "";
