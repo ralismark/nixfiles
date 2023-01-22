@@ -6,7 +6,6 @@
   evince
   file
   firefox
-  git
   gnome.file-roller
   gnome.gucharmap
   helvum

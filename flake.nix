@@ -17,7 +17,8 @@
   };
 
   outputs =
-    { nixpkgs
+    { self
+    , nixpkgs
     , home-manager
     , nixos-hardware
     , impermanence
@@ -52,10 +53,10 @@
               lock.nodes.${lock.root}.inputs;
         };
       };
-
     in
-    rec {
+    {
       formatter.${system} = pkgs.nixpkgs-fmt;
+      inherit pkgs;
 
       # Home Manager ============================================================
 
@@ -66,13 +67,6 @@
           ./hm/home.nix
         ];
       };
-
-      # So that `nix run` is sufficient to rebuild
-      apps.${system}.default = {
-        type = "app";
-        program = "${homeConfigurations.me.activationPackage}/activate";
-      };
-      packages.${system}.default = homeConfigurations.me.activationPackage;
 
       # NixOS ===================================================================
 
@@ -87,5 +81,13 @@
       };
 
       # =========================================================================
+
+      # So that `nix run` is sufficient to rebuild home manager
+      # TODO make a home-grown hm-rebuild like nixos-rebuild that can differentiate between systems <2023-01-22>
+      apps.${system}.default = {
+        type = "app";
+        program = "${self.homeConfigurations.me.activationPackage}/activate";
+      };
+      packages.${system}.default = self.homeConfigurations.me.activationPackage;
     };
 }

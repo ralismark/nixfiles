@@ -9,6 +9,7 @@ in
   imports = [
     ./desktop-environment
 
+    ./programs/git.nix
     ./programs/tmux.nix
   ];
 
