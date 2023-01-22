@@ -12,6 +12,8 @@
 
     hyprland.url = "github:hyprwm/Hyprland";
     nix-index-database.url = "github:Mic92/nix-index-database";
+
+    flake-compat = { url = "github:edolstra/flake-compat"; flake = false; };
   };
 
   outputs =
