@@ -19,7 +19,6 @@ in
     keyMode = "vi";
     prefix = "M-w";
     secureSocket = false; # avoid the global env var
-    shell = "\${SHELL}"; # inherit shell but be not login shell
 
     extraConfig = ''
       #
@@ -27,6 +26,7 @@ in
       #
       setw -g mode-keys vi # Vi copy mode
       set -g mouse on # Mouse control
+      set -g default-command "''${SHELL}"
 
       # copy stuff
       set-option -s set-clipboard off

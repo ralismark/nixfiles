@@ -4,6 +4,7 @@
   atool
   authy
   evince
+  file
   firefox
   git
   gnome.file-roller

@@ -23,22 +23,26 @@
     ...
   }@inputs:
     let
+      repo-root = "/home/temmie/src/github.com/ralismark/nixfiles"; # !!! The physical location this repo is cloned to
+
       system = "x86_64-linux";
 
       pkgs = import nixpkgs {
         inherit system;
         overlays = [
-          (import ./nixpkgs)
+          (import ./pkgs)
           hyprland.overlays.default
         ];
         config = import ./nixpkgs-config.nix;
       };
 
-      # Pass flake inputs + lockfile info to modules
+      # Extra params to pass to modules
       extra-args = {
         _module.args = rec {
-          inherit inputs;
+          inherit inputs repo-root;
+
           lock = builtins.fromJSON (builtins.readFile ./flake.lock);
+
           lock-inputs =
             assert pkgs.lib.asserts.assertMsg (lock.version == 7) "flake.lock version has changed!";
             builtins.mapAttrs

@@ -72,6 +72,7 @@ in
           # dropdown terminal
           "${modifier}+Tab" =
             let
+              tmux = "${config.programs.tmux.package}/bin/tmux";
               # TODO avoid path search
               # TODO extract out name
               dropper = pkgs.writeScript "dropper" ''
@@ -80,10 +81,10 @@ in
                 session_name=drop
                 name=tdrop
 
-                if [ -z "$(${pkgs.tmux}/bin/tmux list-clients -t "$session_name")" ]; then
-                  exec ${cfg.config.terminal} --class "$name" --command ${pkgs.tmux}/bin/tmux new-session -Ads "$session_name"
+                if [ -z "$(${tmux} list-clients -t "$session_name")" ]; then
+                  exec ${cfg.config.terminal} --class "$name" --command ${tmux} new-session -Ads "$session_name"
                 else
-                  exec ${pkgs.tmux}/bin/tmux detach-client -s "$session_name"
+                  exec ${tmux} detach-client -s "$session_name"
                 fi
               '';
             in
@@ -243,7 +244,10 @@ in
       ];
 
       # TODO also need to unset in dbus?
-      ExecStopPost = "${pkgs.systemd}/bin/systemctl --user unset-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP XDG_SESSION_TYPE";
+      ExecStopPost = [
+        "${pkgs.systemd}/bin/systemctl --user unset-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP XDG_SESSION_TYPE"
+        "${pkgs.systemd}/bin/systemctl --user stop graphical-session.target"
+      ];
     };
   };
 }

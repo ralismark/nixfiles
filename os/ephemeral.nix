@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, ... }:
+{ config, pkgs, inputs, repo-root, ... }:
 let
   inherit (pkgs) lib;
 in {
@@ -24,7 +24,7 @@ in {
   };
 
   # use persistent flake for nixos-rebuild
-  environment.etc."nixos/flake.nix".source = "/persist/etc/nixos/flake.nix";
+  environment.etc."nixos/flake.nix".source = "${repo-root}/flake.nix";
 
   # Avoid getting the sudo lecture on every boot
   security.sudo.extraConfig = "Defaults lecture=never";
