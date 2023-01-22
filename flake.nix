@@ -2,7 +2,9 @@
   description = "Temmie's Nix Things";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable"; # or "nixpkgs/nixos-22.05"
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixos-hardware.url = "github:NixOS/nixos-hardware";
+    impermanence.url = "github:nix-community/impermanence";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -12,9 +14,17 @@
     nix-index-database.url = "github:Mic92/nix-index-database";
   };
 
-  outputs = { nixpkgs, home-manager, hyprland, ... }@inputs:
+  outputs = {
+    nixpkgs,
+    home-manager,
+    nixos-hardware,
+    impermanence,
+    hyprland,
+    ...
+  }@inputs:
     let
       system = "x86_64-linux";
+
       pkgs = import nixpkgs {
         inherit system;
         overlays = [
@@ -23,32 +33,32 @@
         ];
         config = import ./nixpkgs-config.nix;
       };
-      extras =
-        rec {
+
+      # Pass flake inputs + lockfile info to modules
+      extra-args = {
+        _module.args = rec {
           inherit inputs;
           lock = builtins.fromJSON (builtins.readFile ./flake.lock);
           lock-inputs =
             assert pkgs.lib.asserts.assertMsg (lock.version == 7) "flake.lock version has changed!";
             builtins.mapAttrs
-              (_: n: lock.nodes.${n})
-              lock.nodes.${lock.root}.inputs;
+            (_: n: lock.nodes.${n})
+            lock.nodes.${lock.root}.inputs;
+          };
         };
+
     in
     rec {
       formatter.${system} = pkgs.nixpkgs-fmt;
-
-      np = pkgs;
 
       # Home Manager ============================================================
 
       homeConfigurations.me = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
-
-        # Specify your home configuration modules here, for example,
-        # the path to your home.nix.
-        modules = [ ./hm/home.nix ];
-
-        extraSpecialArgs = extras;
+        modules = [
+          extra-args
+          ./hm/home.nix
+        ];
       };
 
       # So that `nix run` is sufficient to rebuild
@@ -59,6 +69,16 @@
       packages.${system}.default = homeConfigurations.me.activationPackage;
 
       # NixOS ===================================================================
+
+      nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
+        inherit pkgs;
+        modules = [
+          extra-args
+          nixos-hardware.nixosModules.dell-xps-13-9360
+          impermanence.nixosModules.impermanence
+          ./os/configuration.nix
+        ];
+      };
 
       # =========================================================================
     };
