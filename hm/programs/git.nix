@@ -38,6 +38,7 @@ in
         shove = "push --force-with-lease";
         standup = ''!git log --author="$(git config user.name)" --all --date-order --relative-date --format='%Cgreen%h %Cblue%ad %Creset%s%Cred%d%Creset' --since=yesterday'';
         commit-empty = "commit --allow-empty --only";
+        push-new = "push -u origin HEAD";
 
         # shortcuts
         ap = "add -p";
@@ -46,18 +47,17 @@ in
         dl = "clone --recursive";
 
         # history
-        graph = "hist --all -n20";
-        graph2 = "log --graph --format=format:'%C(yellow)%h%C(reset) - %C(blue)%aD%C(reset) %C(green)(%ar)%C(reset)%C(auto)%d%C(reset)%n          %C(white)%s%C(reset) %C(bold black)- %an%C(reset)' --all --date-order";
-        grapha = "hist --all";
+        graph = "hist -n20 --branches";
 
         # TODO make these use git-foresta if that's available <2023-01-22>
-        hist = "log --graph --date-order --format=tformat:'\t%C(yellow)%h%C(reset) %ad - %C(green)(%ar)%C(reset) %s  %C(auto)%d%C(reset)' --date=format-local:%y%m%d%H%M%S --boundary";
-        #hist = "foresta --style=10 --svdepth=10 --graph-symbol-commit=● --graph-symbol-merge=▲ --graph-symbol-tip=∇  --date-order --reverse --no-status --boundary"
+        hist = "log --graph --date-order --boundary --format=tformat:'\t%C(yellow)%h %C(blue)%ad %C(bold black)%an %C(reset)%s%C(auto)%d' --date=format-local:'%_d %b %y'";
+        hist-base = "log --graph --date-order --boundary --format=tformat:'\t%C(yellow)%h %C(blue)%ad %C(reset)\t%C(bold black)%an %C(reset)%s%C(auto)%d%C(reset) #@#' --date=format-local:'%_d %b %y'";
+        hist2 = ''!bash -c 'git hist-base --color=always "$@" | sed -Ee "s/^(.*)\t(.*)\t(.*)#@#$/\2\1\t\3/" | less -F' --'';
 
         # branch workflow
         bnew = "checkout --no-track origin/HEAD -b"; # usage: bnew <name> [<commit>]
         bls = "branch --list -vv";
-        blog = "hist --not origin/HEAD";
+        blog = "hist origin/HEAD --not origin/HEAD";
         bdiff = "diff --merge-base origin/HEAD";
 
         # diff
