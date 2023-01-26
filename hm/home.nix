@@ -11,6 +11,7 @@ in
 
     ./programs/git.nix
     ./programs/tmux.nix
+    ./toolchains/rust.nix
   ];
 
   home.packages = [
