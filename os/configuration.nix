@@ -139,6 +139,7 @@ in
     "zfs"
     "ntfs"
   ];
+  services.zfs.autoScrub.enable = true;
 
 
   # Users =====================================================================
