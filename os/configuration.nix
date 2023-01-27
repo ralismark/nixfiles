@@ -35,7 +35,7 @@ in
 
   # Networking ================================================================
 
-  networking.hostName = "nixos";
+  networking.hostName = "wattle";
   networking.networkmanager.enable = true;
   networking.firewall.enable = false; # personal system; don't need a firewall
 

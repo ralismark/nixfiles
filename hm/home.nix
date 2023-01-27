@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, ... }:
+{ config, pkgs, inputs, repo-root, ... }:
 
 with config;
 
@@ -161,6 +161,9 @@ in
     enable = true;
   };
 
+  programs.home-manager.enable = true;
+  xdg.configFile."nixpkgs/flake.nix".source = config.lib.file.mkOutOfStoreSymlink "${repo-root}/flake.nix";
+
   # Meta ======================================================================
 
   # This value determines the Home Manager release that your
@@ -172,9 +175,4 @@ in
   # the Home Manager release notes for a list of state version
   # changes in each release.
   home.stateVersion = "21.11";
-
-  # Home Manager needs a bit of information about you and the
-  # paths it should manage.
-  home.username = "temmie";
-  home.homeDirectory = "/home/${home.username}";
 }

@@ -26,8 +26,6 @@
     , ...
     }@inputs:
     let
-      repo-root = "/home/temmie/src/github.com/ralismark/nixfiles"; # !!! The physical location this repo is cloned to
-
       system = "x86_64-linux";
 
       pkgs = import nixpkgs {
@@ -42,7 +40,7 @@
       # Extra params to pass to modules
       extra-args = {
         _module.args = rec {
-          inherit inputs repo-root;
+          inherit inputs;
 
           lock = builtins.fromJSON (builtins.readFile ./flake.lock);
 
@@ -58,36 +56,35 @@
       formatter.${system} = pkgs.nixpkgs-fmt;
       inherit pkgs;
 
-      # Home Manager ============================================================
+      # temmie@wattle: XPS 13 =================================================
 
-      homeConfigurations.me = home-manager.lib.homeManagerConfiguration {
+      homeConfigurations."temmie@wattle" = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         modules = [
           extra-args
+          ({ config, ... }: with config; {
+            home.username = "temmie";
+            home.homeDirectory = "/home/${home.username}";
+            _module.args.repo-root = "${home.homeDirectory}/src/github.com/ralismark/nixfiles";
+          })
           ./hm/home.nix
         ];
       };
 
-      # NixOS ===================================================================
-
-      nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
+      nixosConfigurations.wattle = nixpkgs.lib.nixosSystem {
         inherit pkgs;
         modules = [
           extra-args
+          (rec {
+            _module.args.repo-root = "/home/temmie/src/github.com/ralismark/nixfiles";
+          })
           nixos-hardware.nixosModules.dell-xps-13-9360
           impermanence.nixosModules.impermanence
           ./os/configuration.nix
         ];
       };
 
-      # =========================================================================
+      # =======================================================================
 
-      # So that `nix run` is sufficient to rebuild home manager
-      # TODO make a home-grown hm-rebuild like nixos-rebuild that can differentiate between systems <2023-01-22>
-      apps.${system}.default = {
-        type = "app";
-        program = "${self.homeConfigurations.me.activationPackage}/activate";
-      };
-      packages.${system}.default = self.homeConfigurations.me.activationPackage;
     };
 }
