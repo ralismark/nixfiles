@@ -3,31 +3,30 @@ let
   inherit (pkgs) lib;
 in
 {
-  programs.git =
-    let
-      idents = [
-        {
-          alias = "ac";
-          origin = "git@gitlab.com:autumn-compass*/**";
-          name = "Temmie Yao";
-          email = "temmie@autumncompass.com";
-        }
-        {
-          alias = "cse";
-          origin = "gitlab@gitlab.cse.unsw.edu.au:*/**";
-          name = "Temmie Yao";
-          email = "t.yao@unsw.edu.au";
-        }
-        {
-          alias = "github";
-          origin = "git@github.com:*/**";
-          name = "ralismark";
-          email = "13449732+ralismark@users.noreply.github.com";
-        }
-      ];
-    in
-    {
+  imports = [
+    ../modules/git-identity.nix
+  ];
+
+  programs.git = {
       enable = true;
+
+      identity = {
+        ac = {
+          origins = ["git@gitlab.com:autumn-compass*/**"];
+          userName = "Temmie Yao";
+          userEmail = "temmie@autumncompass.com";
+        };
+        cse = {
+          origins = ["gitlab@gitlab.cse.unsw.edu.au:*/**"];
+          userName = "Temmie Yao";
+          userEmail = "t.yao@unsw.edu.au";
+        };
+        github = {
+          origins = ["git@github.com:*/**"];
+          userName = "ralismark";
+          userEmail = "13449732+ralismark@users.noreply.github.com";
+        };
+      };
 
       aliases = {
         # higher-level ops
@@ -63,12 +62,7 @@ in
         # diff
         sdiff = "diff --cached";
 
-      } // lib.listToAttrs (map
-        ({ alias, origin, name, email }: {
-          name = "id-${alias}";
-          value = ''!git config --local user.name "${name}" && git config --local user.email "${email}"'';
-        })
-        idents);
+      };
 
       extraConfig = {
         core = {
@@ -120,13 +114,5 @@ in
         # but not for crates.io (to avoid issues with cargo-edit)
         url."https://github.com/rust-lang/crates.io-index".insteadOf = "https://github.com/rust-lang/crates.io-index";
       };
-
-      includes =
-        (map
-          ({ alias, origin, name, email }: {
-            condition = "hasconfig:remote.*.url:${origin}";
-            contents.user = { inherit name email; };
-          })
-          idents);
     };
 }
