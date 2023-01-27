@@ -345,3 +345,9 @@ If you need to wrap a binary of a package (or a non-binary), there are a few
 ways of doing it.
 
     -- NixOS Wiki, "Nix Cookbook" page, "Wrapping packages" section
+%
+It's pulled, and it's fine, but there's clearly a balance between
+"octopus merges are fine" and "Christ, that's not an octopus, that's a
+Cthulhu merge".
+
+    -- Linux Torvalds, linux-kernel mailing list

@@ -69,10 +69,12 @@ in
   fonts = {
     enableDefaultFonts = false; # enable base font package set
     fonts = with pkgs; [
-      font-droid
-      noto-fonts-emoji-blob-bin
       cascadia-code
+      font-droid
       noto-fonts
+      noto-fonts-cjk-sans
+      noto-fonts-cjk-serif
+      noto-fonts-emoji-blob-bin
     ];
 
     fontconfig.allowType1 = true;
@@ -132,7 +134,12 @@ in
 
   # ZFS
   networking.hostId = "8425e349";
-  boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
+  boot.kernelPackages = let
+    k = pkgs.linuxPackages;
+    k_zfs = config.boot.zfs.package.latestCompatibleLinuxPackages;
+  in
+  assert (builtins.compareVersions k.kernel.version k_zfs.kernel.version) <= 0;
+  k;
   boot.tmpOnTmpfs = false; # root is ephemeral so no tmpfs
   boot.zfs.allowHibernation = false; # TODO switch on true when we know things are safe
   boot.supportedFilesystems = [

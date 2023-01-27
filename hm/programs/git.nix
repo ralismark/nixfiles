@@ -56,7 +56,7 @@ in
         # branch workflow
         bnew = "checkout --no-track origin/HEAD -b"; # usage: bnew <name> [<commit>]
         bls = "branch --list -vv";
-        blog = "hist origin/HEAD --not origin/HEAD";
+        blog = "hist HEAD ^origin/HEAD";
         bdiff = "diff --merge-base origin/HEAD";
 
         # diff
