@@ -1,7 +1,4 @@
-{ config, pkgs, ... }:
-let
-  inherit (pkgs) lib;
-in
+{ lib, pkgs, ... }:
 {
   home.packages = with pkgs; [
     cargo
@@ -11,7 +8,7 @@ in
     rustc
   ];
 
-  home.file.".cargo/config.toml".text = lib.generators.toINI {} {
+  home.file.".cargo/config.toml".text = lib.generators.toINI { } {
     # make cargo clone with git cli, not libgit, so that ssh auth/etc work
     net.git-fetch-with-cli = true;
   };

@@ -1,8 +1,6 @@
-{ config, pkgs, inputs, ... }:
+{ config, lib, pkgs, ... }:
 let
-  inherit (pkgs) lib;
-
-  tmux = "${config.programs.tmux.package}/bin/tmux";
+  tmux-bin = "${config.programs.tmux.package}/bin/tmux";
   gui-clip = {
     copy = "${pkgs.wl-clipboard}/bin/wl-copy";
     paste = "${pkgs.wl-clipboard}/bin/wl-paste";
@@ -31,7 +29,7 @@ in
       # copy stuff
       set-option -s set-clipboard off
       bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "${gui-clip.copy}"
-      bind-key p run "${gui-clip.paste} | ${tmux} load-buffer - ; ${tmux} paste-buffer"
+      bind-key p run "${gui-clip.paste} | ${tmux-bin} load-buffer - ; ${tmux-bin} paste-buffer"
       bind-key -T copy-mode-vi MouseDragEnd1Pane send-keys -X copy-pipe-and-cancel "${gui-clip.copy}"
       bind-key -T copy-mode MouseDragEnd1Pane send-keys -X copy-pipe-and-cancel "${gui-clip.copy}"
 
@@ -48,9 +46,9 @@ in
 
       # switch windows alt+number
       ${map-lines (map builtins.toString (lib.range 1 9)) (i: ''
-        bind-key -n M-${i} if-shell '${tmux} select-window -t :${i}' "" 'new-window -t :${i}; select-window -t ${i}'
+        bind-key -n M-${i} if-shell '${tmux-bin} select-window -t :${i}' "" 'new-window -t :${i}; select-window -t ${i}'
       '')}
-      bind-key -n M-0 if-shell '${tmux} select-window -t :10' "" 'new-window -t :10; select-window -t 10'
+      bind-key -n M-0 if-shell '${tmux-bin} select-window -t :10' "" 'new-window -t :10; select-window -t 10'
 
       bind -n M-h select-pane -L
       bind -n M-j select-pane -D

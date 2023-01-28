@@ -134,12 +134,13 @@ in
 
   # ZFS
   networking.hostId = "8425e349";
-  boot.kernelPackages = let
-    k = pkgs.linuxPackages;
-    k_zfs = config.boot.zfs.package.latestCompatibleLinuxPackages;
-  in
-  assert (builtins.compareVersions k.kernel.version k_zfs.kernel.version) <= 0;
-  k;
+  boot.kernelPackages =
+    let
+      k = pkgs.linuxPackages;
+      k_zfs = config.boot.zfs.package.latestCompatibleLinuxPackages;
+    in
+    assert (builtins.compareVersions k.kernel.version k_zfs.kernel.version) <= 0;
+    k;
   boot.tmpOnTmpfs = false; # root is ephemeral so no tmpfs
   boot.zfs.allowHibernation = false; # TODO switch on true when we know things are safe
   boot.supportedFilesystems = [

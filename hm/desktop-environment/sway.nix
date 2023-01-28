@@ -1,8 +1,6 @@
 { config, pkgs, ... }:
-with config;
 let
-  inherit (pkgs) lib;
-  cfg = wayland.windowManager.sway;
+  cfg = config.wayland.windowManager.sway;
 in
 {
   wayland.windowManager.sway = {
@@ -38,8 +36,8 @@ in
       rec {
         modifier = "Mod4"; # Window key
 
-        menu = "${exec} ${programs.rofi.package}/bin/rofi -show combi";
-        terminal = "${exec} ${programs.alacritty.package}/bin/alacritty";
+        menu = "${exec} ${config.programs.rofi.package}/bin/rofi -show combi";
+        terminal = "${exec} ${config.programs.alacritty.package}/bin/alacritty";
 
         bars = [ ]; # managed separately
 

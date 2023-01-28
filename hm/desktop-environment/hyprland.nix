@@ -1,8 +1,4 @@
 { config, pkgs, ... }:
-with config;
-let
-  inherit (pkgs) lib;
-in
 {
   imports = [
     ../modules/hyprland.nix
@@ -141,9 +137,9 @@ in
         in
         [
           # ref: https://wiki.hyprland.org/Configuring/Binds/
-          "${mod}, Return, exec, ${exec} ${programs.alacritty.package}/bin/alacritty"
+          "${mod}, Return, exec, ${exec} ${config.programs.alacritty.package}/bin/alacritty"
           "${mod}, W, killactive"
-          "${mod}, Space, exec, ${exec} ${programs.rofi.package}/bin/rofi -show combi"
+          "${mod}, Space, exec, ${exec} ${config.programs.rofi.package}/bin/rofi -show combi"
 
           # "${mod}, Q, exec, kitty"
           # "${mod}, C, killactive, "

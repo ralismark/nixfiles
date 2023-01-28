@@ -12,7 +12,8 @@ let
       multipleType = either primitiveType (listOf primitiveType);
       sectionType = attrsOf multipleType;
       supersectionType = attrsOf (either multipleType sectionType);
-    in attrsOf supersectionType;
+    in
+    attrsOf supersectionType;
 in
 {
   options.programs.git.identity = mkOption {
@@ -48,19 +49,23 @@ in
   };
 
   config.programs.git = {
-    aliases = mapAttrs' (name: c: {
-      name = "id-${name}";
-      value = "!git config --local user.name ${escapeShellArg c.userName} && git config --local user.email ${escapeShellArg c.userEmail}";
-    }) cfg;
+    aliases = mapAttrs'
+      (name: c: {
+        name = "id-${name}";
+        value = "!git config --local user.name ${escapeShellArg c.userName} && git config --local user.email ${escapeShellArg c.userEmail}";
+      })
+      cfg;
 
-    includes = let
-      gen = origin: c: {
-        condition = "hasconfig:remote.*.url:${origin}";
-        contents = c.extraConfig // {
-          user.name = c.userName;
-          user.email = c.userEmail;
+    includes =
+      let
+        gen = origin: c: {
+          condition = "hasconfig:remote.*.url:${origin}";
+          contents = c.extraConfig // {
+            user.name = c.userName;
+            user.email = c.userEmail;
+          };
         };
-      };
-    in concatMap (ident: map (origin: gen origin ident) ident.origins) (attrValues cfg);
+      in
+      concatMap (ident: map (origin: gen origin ident) ident.origins) (attrValues cfg);
   };
 }

@@ -1,10 +1,11 @@
-{ config, pkgs, inputs, repo-root, ... }:
-
+{ config
+, inputs
+, lib
+, pkgs
+, repo-root
+, ...
+}:
 with config;
-
-let
-  inherit (pkgs) lib;
-in
 {
   imports = [
     ./desktop-environment

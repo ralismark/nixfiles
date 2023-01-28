@@ -1,5 +1,4 @@
 { config, pkgs, ... }:
-with config;
 {
   # https://github.com/Alexays/Waybar/wiki/Configuration
   programs.waybar = {

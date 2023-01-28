@@ -1,7 +1,6 @@
-{ config, pkgs, ... }:
-with config;
+{ config, lib, ... }:
 let
-  inherit (pkgs) lib;
+  mako-pkg = "${config.programs.mako.package}";
 in
 {
   programs.mako = {
@@ -24,7 +23,7 @@ in
     lib.generators.toINI { } {
       "D-BUS Service" = {
         Name = "org.freedesktop.Notifications";
-        Exec = "${programs.mako.package}/bin/mako";
+        Exec = "${mako-pkg}/bin/mako";
         SystemdService = "mako.service";
       };
     };
@@ -41,8 +40,8 @@ in
       Type = "dbus";
       BusName = "org.freedesktop.Notifications";
       ExecCondition = "/bin/sh -c '[ -n \"$WAYLAND_DISPLAY\" ]'"; # TODO nixify path?
-      ExecStart = "${programs.mako.package}/bin/mako";
-      ExecReload = "${programs.mako.package}/bin/makoctl reload";
+      ExecStart = "${mako-pkg}/bin/mako";
+      ExecReload = "${mako-pkg}/bin/makoctl reload";
     };
 
     Install.WantedBy = [ "graphical-session.target" ];

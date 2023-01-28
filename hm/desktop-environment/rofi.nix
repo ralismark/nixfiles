@@ -1,8 +1,5 @@
-{ config, pkgs, ... }:
-with config;
+{ pkgs, ... }:
 let
-  inherit (pkgs) lib;
-
   rofi-theme = ''
     /* vim:set ft=css: */
 

@@ -1,13 +1,7 @@
-{ config, pkgs, ... }:
-with config;
-let
-  inherit (pkgs) lib;
-in
+{ lib, pkgs, ... }:
+with lib;
 {
   programs.alacritty = {
-    # see https://github.com/alacritty/alacritty/blob/master/alacritty.yml
-    # last updated: 2021-10-17, for v0.9.0
-    # (hotfixed window.opacity 2022-02-06)
     enable = true;
 
     settings = {
