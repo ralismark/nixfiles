@@ -1,7 +1,4 @@
-{ config, pkgs, inputs, repo-root, ... }:
-let
-  inherit (pkgs) lib;
-in
+{ config, lib, pkgs, ... }:
 {
   # Ephemeral root
   boot.initrd.postDeviceCommands =
@@ -18,14 +15,12 @@ in
     directories = [
       "/nix"
       "/home"
-      "/etc/NetworkManager/system-connections"
+      "/etc/NetworkManager/system-connections" # save network connections
+      "/var/lib/systemd/timers" # make timers work across reboots
     ];
     files = [
     ];
   };
-
-  # use persistent flake for nixos-rebuild
-  environment.etc."nixos/flake.nix".source = "${repo-root}/flake.nix";
 
   # Avoid getting the sudo lecture on every boot
   security.sudo.extraConfig = "Defaults lecture=never";

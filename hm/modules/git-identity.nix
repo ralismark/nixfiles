@@ -3,9 +3,6 @@ with lib;
 let
   cfg = config.programs.git.identity;
 
-  genAttrs = fn: mapAttrs fn cfg;
-  genList = fn: mapAttrsToList fn cfg;
-
   gitIniType = with types;
     let
       primitiveType = either str (either bool int);

@@ -13,6 +13,8 @@ with config;
     ./programs/git.nix
     ./programs/tmux.nix
     ./toolchains/rust.nix
+
+    ./pin.nix
   ];
 
   home.packages = [
@@ -46,9 +48,6 @@ with config;
       VISUAL = "${userBin}/vim";
       MANPAGER = "${userBin}/vim-manpager";
       BROWSER = "${userBin}/firefox";
-      NIX_PATH = lib.concatStringsSep ":" [
-        "nixpkgs=${inputs.nixpkgs}"
-      ];
     };
 
   # HACK until we have better sessionPath handling
@@ -98,7 +97,7 @@ with config;
   # Auth Agent
   systemd.user.services.polkit-gnome-authentication-agent-1 = {
     Unit = {
-      Description = "polkit-gnome-authentication-agent-1";
+      Description = "Gnome PolicyKit authentication agent";
       After = [ "graphical-session-pre.target" ];
       PartOf = [ "graphical-session.target" ];
     };
@@ -124,6 +123,9 @@ with config;
   };
 
   programs.bash.enable = true;
+  programs.bash.bashrcExtra = ''
+    . "${config.home.profileDirectory}/etc/profile.d/hm-session-vars.sh"
+  '';
   programs.direnv.enable = true;
   programs.direnv.nix-direnv.enable = false;
 
@@ -152,10 +154,6 @@ with config;
 
   # Nix =======================================================================
 
-  xdg.configFile."nixpkgs/config.nix".source = ../nixpkgs-config.nix;
-  nix.package = pkgs.nixUnstable;
-  nix.registry.nixpkgs.flake = inputs.nixpkgs;
-
   # nix-index
   home.file.".cache/nix-index/files".source = inputs.nix-index-database.legacyPackages.${nixpkgs.system}.database;
   programs.nix-index = {
@@ -164,8 +162,6 @@ with config;
 
   programs.home-manager.enable = true;
   xdg.configFile."nixpkgs/flake.nix".source = config.lib.file.mkOutOfStoreSymlink "${repo-root}/flake.nix";
-
-  # Meta ======================================================================
 
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage

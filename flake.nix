@@ -13,55 +13,50 @@
     hyprland.url = "github:hyprwm/Hyprland";
     nix-index-database.url = "github:Mic92/nix-index-database";
 
+    flake-utils.url = "github:numtide/flake-utils";
     flake-compat = { url = "github:edolstra/flake-compat"; flake = false; };
   };
 
   outputs =
     { self
+    , flake-utils
     , nixpkgs
     , home-manager
-    , nixos-hardware
-    , impermanence
-    , hyprland
     , ...
     }@inputs:
     let
-      system = "x86_64-linux";
-
-      pkgs = import nixpkgs {
+      pkgsFor = system: import nixpkgs {
         inherit system;
+
         overlays = [
           (import ./pkgs)
-          hyprland.overlays.default
+          inputs.hyprland.overlays.default
         ];
         config = import ./nixpkgs-config.nix;
       };
 
       # Extra params to pass to modules
-      extra-args = {
+      common-cfg = { lib, ... }: {
         _module.args = rec {
           inherit inputs;
-
-          lock = builtins.fromJSON (builtins.readFile ./flake.lock);
-
-          lock-inputs =
-            assert pkgs.lib.asserts.assertMsg (lock.version == 7) "flake.lock version has changed!";
-            builtins.mapAttrs
-              (_: n: lock.nodes.${n})
-              lock.nodes.${lock.root}.inputs;
         };
       };
     in
+    flake-utils.lib.eachDefaultSystem
+      (system:
+      let
+        pkgs = pkgsFor system;
+      in
+      {
+        formatter = pkgs.nixpkgs-fmt;
+      }) //
     {
-      formatter.${system} = pkgs.nixpkgs-fmt;
-      inherit pkgs;
-
       # temmie@wattle: XPS 13 =================================================
 
       homeConfigurations."temmie@wattle" = home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
+        pkgs = pkgsFor "x86_64-linux";
         modules = [
-          extra-args
+          common-cfg
           ({ config, ... }: with config; {
             home.username = "temmie";
             home.homeDirectory = "/home/${home.username}";
@@ -71,15 +66,15 @@
         ];
       };
 
-      nixosConfigurations.wattle = nixpkgs.lib.nixosSystem {
-        inherit pkgs;
+      nixosConfigurations."wattle" = nixpkgs.lib.nixosSystem {
+        pkgs = pkgsFor "x86_64-linux";
         modules = [
-          extra-args
-          (rec {
+          common-cfg
+          ({
             _module.args.repo-root = "/home/temmie/src/github.com/ralismark/nixfiles";
           })
-          nixos-hardware.nixosModules.dell-xps-13-9360
-          impermanence.nixosModules.impermanence
+          inputs.nixos-hardware.nixosModules.dell-xps-13-9360
+          inputs.impermanence.nixosModules.impermanence
           ./os/configuration.nix
         ];
       };

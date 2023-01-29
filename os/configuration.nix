@@ -2,16 +2,13 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, inputs, ... }:
-
-let
-  inherit (pkgs) lib;
-in
+{ config, lib, pkgs, inputs, repo-root, ... }:
 {
   imports =
     [
       ./hardware-configuration.nix # Include the results of the hardware scan.
       ./ephemeral.nix
+      ./pin.nix
     ];
 
   # General Configuration =====================================================
@@ -169,20 +166,17 @@ in
 
   # Nix =======================================================================
 
-  nixpkgs.config.allowUnfree = true;
   nix = {
     package = pkgs.nixUnstable;
     settings = {
       auto-optimise-store = true;
       experimental-features = [ "nix-command" "flakes" ];
     };
-    registry.nixpkgs.flake = inputs.nixpkgs;
-    nixPath = [
-      "nixpkgs=${inputs.nixpkgs}"
-      "/nix/var/nix/profiles/per-user/root/channels"
-    ];
   };
   system.copySystemConfiguration = false; # This doesn't work with flakes
+
+  # use persistent flake for nixos-rebuild
+  environment.etc."nixos/flake.nix".source = "${repo-root}/flake.nix";
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

@@ -23,7 +23,7 @@ in
     lib.generators.toINI { } {
       "D-BUS Service" = {
         Name = "org.freedesktop.Notifications";
-        Exec = "${mako-pkg}/bin/mako";
+        Exec = "/bin/false";
         SystemdService = "mako.service";
       };
     };
