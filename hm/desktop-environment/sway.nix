@@ -1,8 +1,13 @@
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 let
   cfg = config.wayland.windowManager.sway;
 in
 {
+  home.shellAliases = lib.mkIf cfg.enable {
+    left-handed = "${cfg.package}/bin/swaymsg input type:pointer left_handed enabled";
+    right-handed = "${cfg.package}/bin/swaymsg input type:pointer left_handed disabled";
+  };
+
   wayland.windowManager.sway = {
     enable = true;
     systemdIntegration = false; # We do our own custom systemd integration

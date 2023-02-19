@@ -156,6 +156,7 @@
   users.users.temmie = {
     uid = 1000;
     isNormalUser = true;
+    shell = "/home/temmie/.nix-profile/bin/x-default-shell";
     initialHashedPassword = "$6$duE2AEUJWJRR7mHF$fmn9Zo7RVnRJDkyhfE/TqMzMaRLCAK6mDZJ2DyRO6xt0ycuf.TZ0G57QJDFKBHour2Z2P2diHrLKRBNJDW2HT0";
     extraGroups = [
       "wheel" # allow sudo

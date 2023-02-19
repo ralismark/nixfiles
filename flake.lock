@@ -109,6 +109,22 @@
         "type": "github"
       }
     },
+    "mafredri-zsh-async": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1672955751,
+        "narHash": "sha256-mkTmgSnfoZlTaOPhw0Y0yG1BkZv+oTo/eEisZZTN5nM=",
+        "owner": "mafredri",
+        "repo": "zsh-async",
+        "rev": "ee1d11b68c38dec24c22b1c51a45e8a815a79756",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mafredri",
+        "repo": "zsh-async",
+        "type": "github"
+      }
+    },
     "nix-index-database": {
       "inputs": {
         "nixpkgs": "nixpkgs_2"
@@ -197,6 +213,7 @@
         "home-manager": "home-manager",
         "hyprland": "hyprland",
         "impermanence": "impermanence",
+        "mafredri-zsh-async": "mafredri-zsh-async",
         "nix-index-database": "nix-index-database",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_3"

@@ -156,8 +156,7 @@
         #workspaces > button:not(.current_output):not(.persistent) {
           border-color: transparent;
         }
-        #workspaces > button.visible.current_output,
-        #workspaces > button.visible {
+        #workspaces > button.visible.current_output {
           color: #fdf6e3;
         }
         #workspaces > button.current_output.focused,
