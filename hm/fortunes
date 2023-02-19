@@ -1,11 +1,9 @@
-
-%
 vi-caps-lock-panic
 
 Hang until any lowercase key is pressed. This is for vi users without the
 mental capacity to keep track of their caps lock key (like the author).
 
-    -- man zshzle(1)
+    -- zshzle(1) man page
        [added 14 Aug 2021]
 %
 Tags like "stupid," "bad at __", "sloppy," and so on, are ways of saying
@@ -124,13 +122,13 @@ Anoia, a minor goddess of Things That Stick In Drawers. Often, but not
 uniquely, a ladle, but sometimes a metal spatula or, rarely, a mechanical
 egg-whisk that nobody in the house admits to ever buying.
 
-    -- Going Postal
+    -- "Going Postal"
        [added 15 Aug 2021]
 %
 You know they'll never really die while the Trunk is alive [...] It lives while
 the code is shifted, and they live with it, always Going Home.
 
-    -- Moist Von Lipwig, Going Postal
+    -- Moist Von Lipwig, "Going Postal"
        [added 15 Aug 2021]
 %
 Keeper:  What is the air-speed velocity of an unladen swallow?
@@ -139,7 +137,7 @@ Keeper:  What? I don't know that! Auuuuuuuugh!
 Bedemir: How do know so much about swallows?
 Arthur:  Well, you have to know these things when you're a king you know.
 
-    -- Spamalot
+    -- "Spamalot"
        [added 15 Aug 2021]
 %
 If I'm teaching 2511 and 3161, do I need separation of Church and State?
@@ -345,9 +343,17 @@ If you need to wrap a binary of a package (or a non-binary), there are a few
 ways of doing it.
 
     -- NixOS Wiki, "Nix Cookbook" page, "Wrapping packages" section
+       [added 13 Jan 2023]
 %
 It's pulled, and it's fine, but there's clearly a balance between
 "octopus merges are fine" and "Christ, that's not an octopus, that's a
 Cthulhu merge".
 
     -- Linux Torvalds, linux-kernel mailing list
+       [added 28 Jan 2023]
+%
+(12) In protocol design, perfection has been reached not when there is nothing
+     left to add, but when there is nothing left to take away.
+
+    -- RFC1952 "The Twelve Networking Truths"
+       [added 19 Feb 2023]
