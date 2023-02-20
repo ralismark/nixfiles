@@ -25,6 +25,7 @@ with config;
           vim = "${home.homeDirectory}/src/github.com/ralismark/vimfiles/result/bin/vim";
           vim-manpager = "${home.homeDirectory}/src/github.com/ralismark/vimfiles/result/bin/vim-manpager";
           "," = "${home.homeDirectory}/src/github.com/ralismark/micro/nixpkgs-run";
+          ",," = "${home.homeDirectory}/src/github.com/ralismark/micro/nixpkgs-shell";
           ",?" = "${home.homeDirectory}/src/github.com/ralismark/micro/nixpkgs-where";
         };
       in
