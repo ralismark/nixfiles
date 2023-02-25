@@ -15,4 +15,9 @@
   # match config
   home.sessionVariables.NIXPKGS_CONFIG = "${config.xdg.configHome}/nixpkgs/config.nix";
   xdg.configFile."nixpkgs/config.nix".source = ../nixpkgs-config.nix;
+
+  # pass overlays
+  xdg.configFile."nixpkgs/overlays.nix".text = ''
+    [(import ${./..}).overlays.default]
+  '';
 }

@@ -21,12 +21,15 @@ with config;
   home.packages = [
     (
       let
+        micro = "${home.homeDirectory}/src/github.com/ralismark/micro";
         links = {
           vim = "${home.homeDirectory}/src/github.com/ralismark/vimfiles/result/bin/vim";
           vim-manpager = "${home.homeDirectory}/src/github.com/ralismark/vimfiles/result/bin/vim-manpager";
-          "," = "${home.homeDirectory}/src/github.com/ralismark/micro/nixpkgs-run";
-          ",," = "${home.homeDirectory}/src/github.com/ralismark/micro/nixpkgs-shell";
-          ",?" = "${home.homeDirectory}/src/github.com/ralismark/micro/nixpkgs-where";
+          "," = "${micro}/nixpkgs-run";
+          ",," = "${micro}/nixpkgs-shell";
+          ",?" = "${micro}/nixpkgs-where";
+          tunnel-run = "${micro}/tunnel-run";
+          give = "${micro}/give";
         };
       in
       pkgs.runCommandLocal "pathlinks" { } ''
@@ -191,7 +194,7 @@ with config;
 
               toplevel=nixpkgs # nixpkgs should always be available even in NixOS
               cmd=$1
-              attrs=$(/nix/store/76hrpdp0am22l6fjkc20wikbqaf9zblw-nix-index-0.1.4/bin/nix-locate --minimal --no-group --type x --type s --top-level --whole-name --at-root "/bin/$cmd")
+              attrs=$(${pkgs.nix-index}/bin/nix-locate --minimal --no-group --type x --type s --top-level --whole-name --at-root "/bin/$cmd")
               len=$(echo -n "$attrs" | grep -c "^")
 
               case $len in
@@ -204,7 +207,8 @@ with config;
             $attrs
 
           EOF
-                      read -r -n1 -p "Would you like to run this now [yn]?" yn
+                      printf "Would you like to run this now [yn]? "
+                      read -r yn
                       if [ "$yn" = "y" ]; then
                           nix shell "$toplevel#$attrs" -c "$@"
                       fi

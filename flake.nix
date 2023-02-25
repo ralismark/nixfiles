@@ -28,11 +28,7 @@
     let
       pkgsFor = system: import nixpkgs {
         inherit system;
-
-        overlays = [
-          (import ./pkgs)
-          inputs.hyprland.overlays.default
-        ];
+        overlays = [self.overlays.default];
         config = import ./nixpkgs-config.nix;
       };
 
@@ -52,6 +48,11 @@
         formatter = pkgs.nixpkgs-fmt;
       }) //
     {
+      overlays.default = nixpkgs.lib.composeManyExtensions [
+        (import ./pkgs)
+        inputs.hyprland.overlays.default
+      ];
+
       # temmie@wattle: XPS 13 =================================================
 
       homeConfigurations."temmie@wattle" = home-manager.lib.homeManagerConfiguration {
