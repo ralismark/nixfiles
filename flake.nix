@@ -29,7 +29,7 @@
       pkgsFor = system: import nixpkgs {
         inherit system;
         overlays = [self.overlays.default];
-        config = import ./nixpkgs-config.nix;
+        config = import ../assets/nixpkgs-config.nix;
       };
 
       # Extra params to pass to modules
@@ -64,7 +64,7 @@
             home.homeDirectory = "/home/${home.username}";
             _module.args.repo-root = "${home.homeDirectory}/src/github.com/ralismark/nixfiles";
           })
-          ./hm/home.nix
+          ./hm
         ];
       };
 
@@ -77,7 +77,7 @@
           })
           inputs.nixos-hardware.nixosModules.dell-xps-13-9360
           inputs.impermanence.nixosModules.impermanence
-          ./os/configuration.nix
+          ./os
         ];
       };
 

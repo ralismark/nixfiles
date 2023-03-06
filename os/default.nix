@@ -122,7 +122,7 @@
 
   # Misc ======================================================================
 
-  environment.etc."issue".source = ./etc-issue;
+  environment.etc."issue".source = ../assets/etc-issue;
 
   services.udisks2.enable = true;
 

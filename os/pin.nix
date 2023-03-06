@@ -24,7 +24,7 @@
   #         legacyPackages = forAllSystems (system: import nixpkgs {
   #           inherit system;
   #           overlays = [ nixfiles.overlays.default ];
-  #           config = import "''${nixfiles}/nixpkgs-config.nix";
+  #           config = import "''${nixfiles}/assets/nixpkgs-config.nix";
   #         });
   #       };
   #     }
@@ -37,5 +37,5 @@
 
   # match config
   environment.variables.NIXPKGS_CONFIG = "/etc/nix/nixpkgs-config.nix";
-  environment.etc."nix/nixpkgs-config.nix".source = ../nixpkgs-config.nix;
+  environment.etc."nix/nixpkgs-config.nix".source = ../assets/nixpkgs-config.nix;
 }

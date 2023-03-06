@@ -163,9 +163,9 @@ in {
   };
 
   # fortunes
-  home.file.".local/fortunes".source = ./fortunes;
+  home.file.".local/fortunes".source = ../assets/fortunes;
   home.file.".local/fortunes.dat".source = pkgs.runCommand "fortunes.dat" { } ''
-    ${pkgs.fortune}/bin/strfile ${./fortunes} $out
+    ${pkgs.fortune}/bin/strfile ${../assets/fortunes} $out
   '';
 
   # Nix =======================================================================

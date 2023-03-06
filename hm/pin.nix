@@ -26,7 +26,7 @@
   #         legacyPackages = forAllSystems (system: import nixpkgs {
   #           inherit system;
   #           overlays = [ nixfiles.overlays.default ];
-  #           config = import "''${nixfiles}/nixpkgs-config.nix";
+  #           config = import "''${nixfiles}/assets/nixpkgs-config.nix";
   #         });
   #       };
   #     }
@@ -39,7 +39,7 @@
 
   # match config
   home.sessionVariables.NIXPKGS_CONFIG = "${config.xdg.configHome}/nixpkgs/config.nix";
-  xdg.configFile."nixpkgs/config.nix".source = ../nixpkgs-config.nix;
+  xdg.configFile."nixpkgs/config.nix".source = ../assets/nixpkgs-config.nix;
 
   # pass overlays
   xdg.configFile."nixpkgs/overlays.nix".text = ''
