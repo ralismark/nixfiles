@@ -6,50 +6,47 @@
 , ...
 }:
 with config;
-{
+let
+  pkgsFile = file: attrs: let
+    allLines = lib.splitString "\n" (builtins.readFile file);
+    lines = lib.filter (x: x != "") allLines;
+    getDrv = a: lib.getAttrFromPath (lib.splitString "." a) attrs;
+  in map getDrv lines;
+in {
   imports = [
+    ./modules/home-bin.nix
+
     ./desktop-environment
 
     ./programs/git.nix
     ./programs/tmux.nix
     ./programs/zsh
     ./toolchains/rust.nix
+    ./toolchains/go.nix
 
     ./pin.nix
+    ./sshfs.nix
   ];
 
-  home.packages = [
-    (
-      let
-        micro = "${home.homeDirectory}/src/github.com/ralismark/micro";
-        links = {
-          vim = "${home.homeDirectory}/src/github.com/ralismark/vimfiles/result/bin/vim";
-          vim-manpager = "${home.homeDirectory}/src/github.com/ralismark/vimfiles/result/bin/vim-manpager";
-          "," = "${micro}/nixpkgs-run";
-          ",," = "${micro}/nixpkgs-shell";
-          ",?" = "${micro}/nixpkgs-where";
-          tunnel-run = "${micro}/tunnel-run";
-          give = "${micro}/give";
-        };
-      in
-      pkgs.runCommandLocal "pathlinks" { } ''
-        mkdir -p $out/bin
-        ${lib.concatStringsSep "\n" (lib.mapAttrsToList (name: path: "ln -s ${lib.escapeShellArg path} $out/bin/${lib.escapeShellArg name}") links)}
-      ''
-    )
-    (
-      pkgs.python3.withPackages (ps: with ps; [
-        ipython
-      ])
-    )
-  ] ++ (
+  home.bin =
     let
-      allLines = lib.splitString "\n" (builtins.readFile ./installed-packages.txt);
-      lines = lib.filter (x: x != "") allLines;
-      getDrv = i: lib.foldl (x: y: x.${y}) pkgs (lib.splitString "." i);
-    in
-    map getDrv lines
-  );
+      micro = "${home.homeDirectory}/src/github.com/ralismark/micro";
+    in {
+      vim.source = "${home.homeDirectory}/src/github.com/ralismark/vimfiles/result/bin/vim";
+      vim-manpager.source = "${home.homeDirectory}/src/github.com/ralismark/vimfiles/result/bin/vim-manpager";
+      ",".source = "${micro}/nixpkgs-run";
+      ",,".source = "${micro}/nixpkgs-shell";
+      ",?".source = "${micro}/nixpkgs-where";
+      tunnel-run.source = "${micro}/tunnel-run";
+      give.source = "${micro}/give";
+    };
+
+  home.shellAliases.git = "tunnel-run git";
+
+  home.packages = lib.flatten [
+    (pkgs.python3.withPackages (pkgsFile ./installed-python3.txt))
+    (pkgsFile ./installed-packages.txt pkgs)
+  ];
 
   # Environment ===============================================================
 
@@ -140,8 +137,13 @@ with config;
   programs.bash.bashrcExtra = ''
     . "${config.home.profileDirectory}/etc/profile.d/hm-session-vars.sh"
   '';
-  programs.direnv.enable = true;
-  programs.direnv.nix-direnv.enable = false;
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
+    config = {
+      global.warn_timeout = "99999h";
+    };
+  };
 
   # Misc ======================================================================
 
@@ -205,7 +207,6 @@ with config;
                       >&2 cat <<EOF
           $cmd may be found in the following packages:
             $attrs
-
           EOF
                       printf "Would you like to run this now [yn]? "
                       read -r yn

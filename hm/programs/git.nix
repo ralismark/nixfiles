@@ -44,7 +44,7 @@ with lib;
       dl = "clone --recursive";
 
       # history
-      graph = "hist -n20 --branches";
+      graph = "hist -n20 --all";
 
       # TODO make these use git-foresta if that's available <2023-01-22>
       hist = "log --graph --date-order --boundary --format=tformat:'\t%C(yellow)%h %C(blue)%ad %C(bold black)%an %C(reset)%s%C(auto)%d' --date=format-local:'%_d %b %y'";

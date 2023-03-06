@@ -127,6 +127,23 @@ in
               '';
             in
             "exec ${exec} ${pkgs.writeScript "snip" snip-script}";
+          "Shift+Print" =
+            let
+              snip-script = ''
+                #!${pkgs.bash}/bin/bash
+
+                temp="$(mktemp -p /tmp XXXXXXXXXX.png)"
+                ${pkgs.grim}/bin/grim "$temp" && {
+                  ${pkgs.wl-clipboard}/bin/wl-copy -t image/png < "$temp"
+                  ${pkgs.xdragon}/bin/dragon "$temp"
+                }
+
+                # allow programs to take this file, then cleanup
+                sleep 300
+                rm "$temp"
+              '';
+            in
+            "exec ${exec} ${pkgs.writeScript "snip" snip-script}";
 
           # Layout Management --------------------------------------------------
 

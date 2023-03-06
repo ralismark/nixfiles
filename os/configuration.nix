@@ -11,6 +11,15 @@
       ./pin.nix
     ];
 
+  # Autumn Compass ============================================================
+
+  networking.hosts."54.252.155.255" = ["oldgalapagos.autumncompass.com"];
+  networking.hosts."52.62.77.124"   = ["devpi.autumncompass.com" "upsource.autumncompass.com" "jira.autumncompass.com" "confluence.autumncompass.com" "svn.autumncompass.com"];
+  networking.hosts."52.63.56.149"   = ["relay.srv.autumncompass.com" "sg.gatherer.autumncompass.com" "krs.gatherer.autumncompass.com" "krb.gatherer.autumncompass.com" "cn.gatherer.autumncompass.com" "au.gatherer.autumncompass.com" "prometheus.autumncompass.com"];
+  networking.hosts."3.137.64.81"    = ["galapagos.autumncompass.com" "gaze.autumncompass.com"];
+  networking.hosts."13.55.249.70"   = ["dev2.autumncompass.com"];
+  networking.hosts."52.62.178.137"  = ["dev4.autumncompass.com"];
+
   # General Configuration =====================================================
 
   time.timeZone = "Australia/Sydney";
@@ -86,10 +95,14 @@
 
   # make gtk work?
   programs.dconf.enable = true; # Required for some user config
+
+  # TODO are these necessary?
   environment.systemPackages = with pkgs; [
     gnome.adwaita-icon-theme
     hicolor-icon-theme
+
     shared-mime-info
+    sshfs
   ];
   environment.pathsToLink = [
     "/share/icons"
@@ -139,6 +152,7 @@
     assert (builtins.compareVersions k.kernel.version k_zfs.kernel.version) <= 0;
     k;
   boot.tmpOnTmpfs = false; # root is ephemeral so no tmpfs
+  boot.zfs.forceImportRoot = false;
   boot.zfs.allowHibernation = false; # TODO switch on true when we know things are safe
   boot.supportedFilesystems = [
     "zfs"

@@ -1,5 +1,6 @@
 atool
 authy
+dnsutils
 evince
 file
 firefox
@@ -7,6 +8,7 @@ gnome.file-roller
 gnome.gucharmap
 helvum
 htop-vim
+inetutils
 jq
 libqalculate
 mpv
@@ -17,4 +19,6 @@ ranger
 rclone
 shared-mime-info
 silver-searcher
+teams-for-linux
+wdisplays
 wl-clipboard

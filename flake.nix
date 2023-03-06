@@ -34,7 +34,7 @@
 
       # Extra params to pass to modules
       common-cfg = { lib, ... }: {
-        _module.args = rec {
+        _module.args = {
           inherit inputs;
         };
       };
