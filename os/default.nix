@@ -153,13 +153,24 @@
     k;
   boot.tmpOnTmpfs = false; # root is ephemeral so no tmpfs
   boot.zfs.forceImportRoot = false;
-  boot.zfs.allowHibernation = false; # TODO switch on true when we know things are safe
+  boot.zfs.allowHibernation = true; # TODO switch on true when we know things are safe
   boot.supportedFilesystems = [
     "zfs"
     "ntfs"
   ];
   services.zfs.autoScrub.enable = true;
 
+  systemd.services."zfs-snapshot-boot" = {
+    description = "zfs snapshot on boot";
+    unitConfig.DefaultDependencies = false;
+    serviceConfig.Type = "oneshot";
+    script = let
+      dataset = "rpool/ds1/ROOT/nixos";
+    in ''
+      ${config.boot.zfs.package}/bin/zfs snapshot -r ${dataset}@$(date +'%Y-%m-%dT%H-%M-%S')-boot
+    '';
+    wantedBy = [ "multi-user.target" ];
+  };
 
   # Users =====================================================================
 
@@ -186,6 +197,14 @@
     settings = {
       auto-optimise-store = true;
       experimental-features = [ "nix-command" "flakes" ];
+    };
+
+    gc = {
+      automatic = true;
+      options = "--delete-older-than 14d";
+      dates = "weekly";
+      randomizedDelaySec = "45min";
+      persistent = true;
     };
   };
   system.copySystemConfiguration = false; # This doesn't work with flakes

@@ -61,26 +61,30 @@ command, so I can't give you any explicit help.
 Pretend that you're Hercule Poirot: Examine all clues,
 and deduce the truth by order and method.
 
-    -- TeX (via https://twitter.com/moyix/status/1476277183257751558)
+    -- TeX
+       via https://twitter.com/moyix/status/1476277183257751558
        [added 29 Dec 2021]
 %
 I suspect you've forgotten a `}', causing me to apply this
 control sequence to too much text. How can we recover?
 My plan is to forget the whole thing and hope for the best.
 
-    -- TeX (via https://twitter.com/moyix/status/1476380466752143364)
+    -- TeX
+       via https://twitter.com/moyix/status/1476277183257751558
        [added 29 Dec 2021]
 %
 Things are pretty mixed up, but I think the worst is over.
 
-    -- TeX (via https://twitter.com/moyix/status/1476380466752143364)
+    -- TeX
+       via https://twitter.com/moyix/status/1476277183257751558
        [added 29 Dec 2021]
 %
 Sorry, Pandora. (You sneaky devil.)
 I refuse to unbox an \hbox in vertical mode or vice versa.
 And I can't open any boxes in math mode.
 
-    -- TeX (via https://twitter.com/moyix/status/1476380466752143364)
+    -- TeX
+       via https://twitter.com/moyix/status/1476277183257751558
        [added 29 Dec 2021]
 %
 Sorry, I already gave what help I could...
@@ -88,7 +92,8 @@ Maybe you should try asking a human?
 An error might have occurred before I noticed any problems.
 ``If all else fails, read the instructions.''
 
-    -- TeX (via https://twitter.com/moyix/status/1476380466752143364)
+    -- TeX
+       via https://twitter.com/moyix/status/1476277183257751558
        [added 29 Dec 2021]
 %
 I have just deleted some text, as you asked.
@@ -405,3 +410,62 @@ I'd rather construct a build graph out of my own intestines than use make
 
     -- andrewrk, https://lobste.rs/s/mtw9kb#c_bh6ijq
        [added 25 Feb 2023]
+%
+This "function" has a superficial similarity to unsafePerformIO but it is in
+fact a malevolent agent of chaos. It unpicks the seams of reality (and the IO
+monad) so that the normal rules no longer apply. It lulls you into thinking it
+is reasonable, but when you are not looking it stabs you in the back and
+aliases all of your mutable buffers. The carcass of many a seasoned Haskell
+programmer lie strewn at its feet.
+
+    -- documentation for Haskell's accursedUnutterablePerformIO
+       [added 7 Mar 2023]
+%
+Do not talk about "safe"! You do not know what is safe!
+
+    -- documentation for Haskell's accursedUnutterablePerformIO
+       [added 7 Mar 2023]
+%
+Yield not to its blasphemous call! Flee traveller! Flee or you will be
+corrupted and devoured!
+
+    -- documentation for Haskell's accursedUnutterablePerformIO
+       [added 7 Mar 2023]
+%
+If you think you know what you are doing, use 'unsafePerformIO'.
+
+If you are sure you know what you are doing, use 'unsafeDupablePerformIO'.
+
+If you enjoy sharing an address space with a malevolent agent of chaos, try
+'accursedUnutterablePerformIO'.
+
+    -- deprecation notice for Haskell's inlinePerformIO
+       [added 7 Mar 2023]
+%
+The third class, Mesotardigrada, is represented by a single species known from
+a single specimen that is now lost, and the location from which that specimen
+was collected has since been destroyed by an earthquake, so its reproductive
+anatomy has not been studied recently.
+
+    -- "Heterotardigrada", Wikipedia
+       [added 7 Mar 2023]
+%
+apasel422: Does that seem right to you, @Gankra?
+Gankra: Probably? I'm pretty high on cough-syrup and stress right now.
+        I wouldn't expect any sound advice for the next two weeks.
+
+    -- rust stdlib soundness issue
+       via https://twitter.com/Gankra_/status/1631786427687002113
+       [added 7 Mar 2023]
+%
+No Matter How
+Many Pokemons
+Are Dancing In
+This Enclosure If
+You Enter The
+Bison Will Kill You
+
+DO NOT ENTER
+
+    -- Sign at Bowmanville Zoo
+       [added 7 Mar 2023]

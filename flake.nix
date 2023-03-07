@@ -29,7 +29,7 @@
       pkgsFor = system: import nixpkgs {
         inherit system;
         overlays = [self.overlays.default];
-        config = import ../assets/nixpkgs-config.nix;
+        config = import ./assets/nixpkgs-config.nix;
       };
 
       # Extra params to pass to modules
