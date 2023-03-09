@@ -46,6 +46,8 @@
       in
       {
         formatter = pkgs.nixpkgs-fmt;
+
+        packages.nixpkgs = pkgs;
       }) //
     {
       overlays.default = nixpkgs.lib.composeManyExtensions [

@@ -61,7 +61,7 @@ with lib;
       path = "${config.xdg.dataHome}/zsh/history"; # TODO 2021-11-14 move this out of home directory
       extended = true;
       ignoreDups = true;
-      share = true;
+      share = false;
       save = 100000; # 100_000
       size = 100000;
     };
@@ -77,6 +77,9 @@ with lib;
       auto_pushd   = true;
       pushd_minus  = true;
       pushd_silent = true;
+
+      # add commands to history, but don't import them when doing completion
+      inc_append_history = true;
     };
 
     shellAliases = {
