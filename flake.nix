@@ -30,13 +30,6 @@
         config = import ./assets/nixpkgs-config.nix;
       };
 
-      # Extra params to pass to modules
-      common-cfg = { lib, ... }: {
-        _module.args = {
-          inherit inputs;
-        };
-      };
-
       forAllSystems = with nixpkgs.lib; genAttrs systems.flakeExposed;
     in
     {
@@ -55,27 +48,32 @@
       homeConfigurations."temmie@wattle" = home-manager.lib.homeManagerConfiguration {
         pkgs = pkgsFor "x86_64-linux";
         modules = [
-          common-cfg
-          ({ config, ... }: with config; {
+          rec {
             home.username = "temmie";
             home.homeDirectory = "/home/${home.username}";
             _module.args.repo-root = "${home.homeDirectory}/src/github.com/ralismark/nixfiles";
-          })
+          }
           ./hm
         ];
+        extraSpecialArgs = {
+          inherit inputs;
+          modulesTarget = "home-manager";
+          repo-root = "/home/temmie/src/github.com/ralismark/nixfiles";
+        };
       };
 
       nixosConfigurations."wattle" = nixpkgs.lib.nixosSystem {
         pkgs = pkgsFor "x86_64-linux";
         modules = [
-          common-cfg
-          ({
-            _module.args.repo-root = "/home/temmie/src/github.com/ralismark/nixfiles";
-          })
           inputs.nixos-hardware.nixosModules.dell-xps-13-9360
           inputs.impermanence.nixosModules.impermanence
           ./os
         ];
+        specialArgs = {
+          inherit inputs;
+          modulesTarget = "nixos";
+          repo-root = "/home/temmie/src/github.com/ralismark/nixfiles";
+        };
       };
 
       # =======================================================================
