@@ -2,7 +2,6 @@
 , inputs
 , lib
 , pkgs
-, repo-root
 , ...
 }:
 with config;
@@ -14,6 +13,8 @@ let
   in map getDrv lines;
 in {
   imports = [
+    ../modules/shared/pin.nix
+
     ./modules/home-bin.nix
 
     ./desktop-environment
@@ -24,7 +25,6 @@ in {
     ./toolchains/rust.nix
     ./toolchains/go.nix
 
-    ./pin.nix
     ./sshfs.nix
   ];
 
@@ -239,9 +239,6 @@ in {
       ];
     };
   };
-
-  programs.home-manager.enable = true;
-  xdg.configFile."nixpkgs/flake.nix".source = config.lib.file.mkOutOfStoreSymlink "${repo-root}/flake.nix";
 
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage

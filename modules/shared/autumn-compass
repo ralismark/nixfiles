@@ -1,0 +1,10 @@
+# vim:ft=nix:
+{ modulesTarget }:
+{
+  config = {
+    home-manager = {
+    };
+    nixos = {
+    };
+  }.${modulesTarget};
+}

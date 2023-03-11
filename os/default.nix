@@ -2,13 +2,18 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, lib, pkgs, inputs, repo-root, ... }:
+{ config
+, inputs
+, lib
+, pkgs
+, ... }:
 {
   imports =
     [
+      ../modules/shared/pin.nix
+
       ./hardware-configuration.nix # Include the results of the hardware scan.
       ./ephemeral.nix
-      ./pin.nix
     ];
 
   # Autumn Compass ============================================================
@@ -208,9 +213,6 @@
     };
   };
   system.copySystemConfiguration = false; # This doesn't work with flakes
-
-  # use persistent flake for nixos-rebuild
-  environment.etc."nixos/flake.nix".source = "${repo-root}/flake.nix";
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
