@@ -10,7 +10,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    flake-utils.url = "github:numtide/flake-utils";
     flake-compat = { url = "github:edolstra/flake-compat"; flake = false; };
 
     mafredri-zsh-async = { url = "github:mafredri/zsh-async"; flake = false; };
@@ -20,7 +19,6 @@
 
   outputs =
     { self
-    , flake-utils
     , nixpkgs
     , home-manager
     , ...
@@ -38,18 +36,15 @@
           inherit inputs;
         };
       };
-    in
-    flake-utils.lib.eachDefaultSystem
-      (system:
-      let
-        pkgs = pkgsFor system;
-      in
-      {
-        formatter = pkgs.nixpkgs-fmt;
 
-        packages.nixpkgs = pkgs;
-      }) //
+      forAllSystems = with nixpkgs.lib; genAttrs systems.flakeExposed;
+    in
     {
+      formatter = forAllSystems (s: (pkgsFor s).nixpkgs-fmt);
+      packages = forAllSystems (s: {
+        nixpkgs = pkgsFor s;
+      });
+
       overlays.default = nixpkgs.lib.composeManyExtensions [
         (import ./pkgs)
         inputs.hyprland.overlays.default
