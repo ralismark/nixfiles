@@ -29,6 +29,7 @@ with lib;
     aliases = {
       # higher-level ops
       amend = "commit --amend --no-edit";
+      reword = "commit --amend --pathspec-from-file=/dev/null";
       bleach = "!git reset --hard HEAD && git clean -xdff";
       bleach-ignored = "clean -Xff";
       shallow-clone = "clone --recursive --depth 1";

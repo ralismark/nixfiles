@@ -1,5 +1,6 @@
 atool
 authy
+chromium
 dnsutils
 evince
 file

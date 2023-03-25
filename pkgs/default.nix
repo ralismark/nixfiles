@@ -17,10 +17,10 @@ self: super: {
   });
 
   qmk-udev-rules = super.qmk-udev-rules.overrideAttrs (prev: {
-    patches = (prev.patchs or [ ]) ++ [
+    patches = (prev.patches or [ ]) ++ [
       (builtins.toFile "no-plugdev.patch" ''
-        --- a/util/udev/50-qmk.rules	1970-01-01 10:00:01.000000000 +1000
-        +++ b/util/udev/50-qmk.rules	1970-01-01 10:00:01.000000000 +1000
+        --- a/util/udev/50-qmk.rules
+        +++ b/util/udev/50-qmk.rules
         @@ -65,7 +65,7 @@
          SUBSYSTEMS=="usb", ATTRS{idVendor}=="2a03", ATTRS{idProduct}=="0037", TAG+="uaccess", ENV{ID_MM_DEVICE_IGNORE}="1"
 

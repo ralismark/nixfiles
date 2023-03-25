@@ -33,9 +33,6 @@ with lib;
     ninja = "nice -n19 -- ninja";
     make = "nice -n19 -- make";
 
-    what-is-my-ip = ''dig +short @1.1.1.1 ch txt whoami.cloudflare +time=3 | tr -d \"'';
-    cdtemp = "cd $(mktemp -d)";
-
     #
     # abbreviations
     #
@@ -45,6 +42,11 @@ with lib;
     ujc = "journalctl --user";
     ll = "ls -Al";
 
+    #
+    # commands
+    #
+
+    cdtemp = "cd $(mktemp -d)";
     isatty = ''(){ script --return --quiet --flush --command "$(printf "%q " "$@")" /dev/null } '';
   };
 

@@ -39,6 +39,11 @@ in {
       ",?".source = "${micro}/nixpkgs-where";
       tunnel-run.source = "${micro}/tunnel-run";
       give.source = "${micro}/give";
+      what-is-my-ip.text = ''
+        #!/bin/sh
+        ${pkgs.dig.dnsutils}/bin/dig +short @1.1.1.1 ch txt whoami.cloudflare +time=3 |
+          ${pkgs.coreutils}/bin/tr -d \"
+      '';
     };
 
   home.shellAliases.git = "tunnel-run git";

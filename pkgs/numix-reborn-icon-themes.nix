@@ -3,7 +3,7 @@
 , stdenv
 }:
 
-stdenv.mkDerivation rec {
+stdenv.mkDerivation {
   pname = "numix-reborn-icon-themes";
   version = "2015-10-02";
 
