@@ -16,9 +16,9 @@ mpv
 nomacs
 pantheon.elementary-files
 pavucontrol
+pdfarranger
 ranger
 rclone
-shared-mime-info
 silver-searcher
 teams-for-linux
 wdisplays

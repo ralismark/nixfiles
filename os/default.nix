@@ -12,6 +12,7 @@
   imports =
     [
       ../modules/shared/pin.nix
+      ../modules/nixos/rnnoise.nix
 
       ./hardware-configuration.nix # Include the results of the hardware scan.
       ./ephemeral.nix
@@ -51,6 +52,15 @@
   networking.hostName = "wattle";
   networking.networkmanager.enable = true;
   networking.firewall.enable = false; # personal system; don't need a firewall
+  boot.kernel.sysctl."net.ipv4.ip_unprivileged_port_start" = 0; # no privileged ports
+
+  services.cloudflared = {
+    enable = true;
+    tunnels.wattle = {
+      credentialsFile = "/persist/secrets/services.cloudflared.tunnels.wattle.credentialsFile.json";
+      default = "http://localhost:80";
+    };
+  };
 
   # Graphical =================================================================
 
@@ -107,9 +117,11 @@
   # make gtk work?
   programs.dconf.enable = true; # Required for some user config
 
-  # TODO are these necessary?
   environment.systemPackages = with pkgs; [
     sshfs
+
+    # fix "Unable to load nw-resize from the cursor theme" <https://github.com/NixOS/nixpkgs/issues/207339>
+    gnome.adwaita-icon-theme
   ];
 
   # Audio =====================================================================
@@ -121,6 +133,8 @@
     alsa.enable = true; # alsa compat
     alsa.support32Bit = true;
     pulse.enable = true; # pulseaudio compat
+
+    rnnoise.enable = true;
   };
 
   # Misc ======================================================================
