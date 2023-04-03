@@ -27,7 +27,7 @@ import ../../lib/variants-config.nix modulesTarget {
     programs.home-manager.enable = true;
 
     # use nixfiles for home-manager
-    xdg.configFile."nixpkgs/flake.nix".source =
+    xdg.configFile."home-manager/flake.nix".source =
       lib.mkIf (args ? repo-root)
         (config.lib.file.mkOutOfStoreSymlink "${args.repo-root}/flake.nix");
   };

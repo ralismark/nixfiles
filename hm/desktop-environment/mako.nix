@@ -1,9 +1,9 @@
 { config, lib, ... }:
 let
-  mako-pkg = "${config.programs.mako.package}";
+  mako-pkg = "${config.services.mako.package}";
 in
 {
-  programs.mako = {
+  services.mako = {
     enable = true;
 
     maxVisible = -1;
