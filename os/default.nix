@@ -26,6 +26,7 @@
   networking.hosts."52.62.77.124"   = ["devpi.autumncompass.com" "upsource.autumncompass.com" "jira.autumncompass.com" "confluence.autumncompass.com" "svn.autumncompass.com"];
   networking.hosts."52.63.56.149"   = ["relay.srv.autumncompass.com" "sg.gatherer.autumncompass.com" "krs.gatherer.autumncompass.com" "krb.gatherer.autumncompass.com" "cn.gatherer.autumncompass.com" "au.gatherer.autumncompass.com" "prometheus.autumncompass.com"];
   networking.hosts."54.252.155.255" = ["oldgalapagos.autumncompass.com"];
+  networking.hosts."34.214.141.55"  = ["mon1.autumncompass.com"];
 
   # General Configuration =====================================================
 
@@ -187,6 +188,8 @@
       ${config.boot.zfs.package}/bin/zfs snapshot -r ${dataset}@$(date +'%Y-%m-%dT%H-%M-%S')-boot
     '';
     wantedBy = [ "multi-user.target" ];
+    # we only want to run on boot, not any time
+    restartIfChanged = false;
   };
 
   # Users =====================================================================

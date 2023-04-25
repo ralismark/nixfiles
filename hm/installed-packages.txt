@@ -4,7 +4,6 @@ chromium
 dnsutils
 evince
 file
-firefox
 gnome.file-roller
 gnome.gucharmap
 helvum

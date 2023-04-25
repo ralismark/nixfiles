@@ -1,0 +1,95 @@
+{ lib
+, pkgs
+, ... }:
+with lib;
+{
+  programs.firefox = {
+    enable = true;
+    package = pkgs.firefox-devedition;
+
+    profiles.dev-edition-default = {
+      id = 1;
+      path = "default"; # link to default one
+    };
+
+    profiles.default = {
+      id = 0;
+      name = "dev-edition-default";
+
+      userChrome = ''
+        /*** general cleanup *************************************************/
+
+        /* remove unnecessary things from tab bar */
+        #tabs-newtab-button, #new-tab-button, /* new tab buttons */
+        #alltabs-button, /* down arrow at end of tab list */
+        end-of-list {
+          display: none !important;
+        }
+
+        /* make tabs always expand to fill the space */
+        .tabbrowser-tab[fadein]:not([pinned]) {
+          /* tabs that are doing a closing animation don't have [fadein] */
+          max-width: 100% !important;
+        }
+
+        /* only show tab close buttons when hovering */
+        .tabbrowser-tab .tab-close-button {
+          display: none;
+        }
+
+        .tabbrowser-tab:not([pinned]):hover .tab-close-button {
+          display: -moz-inline-box !important;
+        }
+
+        /*** centre things ***************************************************/
+
+        /* urlbar */
+        #urlbar-input {
+          text-align: center !important;
+        }
+
+        /* bookmark bar */
+        #PlacesToolbarItems {
+          -moz-box-pack: center;
+        }
+
+        /*** hide tabbar when only one tab open ******************************/
+
+        .tabbrowser-tab:only-of-type {
+          visibility: collapse;
+        }
+
+        #tabbrowser-tabs {
+          --tab-min-height: 0;
+        }
+
+        /*** number tabs *****************************************************/
+
+        #tabbrowser-tabs {
+          counter-reset: tab;
+        }
+
+        .tabbrowser-tab {
+          counter-increment: tab;
+        }
+
+        .tabbrowser-tab .tab-label::before {
+          content: counter(tab);
+          padding: 1px 4px;
+          border-radius: 4px;
+          background: #123;
+          color: #8cf;
+          margin-right: 4px;
+        }
+      '';
+
+      settings = {
+        # disable the webrtc sharing icon that was also causing crashes
+        "privacy.webrtc.legacyGlobalIndicator" = false;
+
+        # download to /tmp instead of ~/Downloads
+        "browser.download.start_downloads_in_tmp_dir" = true;
+      };
+    };
+  };
+}

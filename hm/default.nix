@@ -13,7 +13,7 @@ let
   in map getDrv lines;
 in {
   imports = [
-    ../modules/shared/pin.nix
+    ../modules/home-manager
 
     ./modules/home-bin.nix
 
@@ -22,11 +22,15 @@ in {
     ./programs/git.nix
     ./programs/tmux.nix
     ./programs/zsh
+    ./programs/firefox
+
     ./toolchains/rust.nix
     ./toolchains/go.nix
 
     ./sshfs.nix
   ];
+
+  # Prorgrams =================================================================
 
   home.bin =
     let
@@ -52,6 +56,14 @@ in {
     (pkgs.python3.withPackages (pkgsFile ./installed-python3.txt))
     (pkgsFile ./installed-packages.txt pkgs)
   ];
+
+  # xdg.desktopEntries = {
+  #   dfeet = {
+  #     name = "D-Feet";
+  #     genericName = "D-Bus Debugger";
+  #     exec = "nix run nixpkgs#dfeet --";
+  #   };
+  # };
 
   # Environment ===============================================================
 

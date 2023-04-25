@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 {
   # https://github.com/Alexays/Waybar/wiki/Configuration
   programs.waybar = {
@@ -11,7 +11,7 @@
       spacing = 0; # we do spacing in CSS to handle hidden items properly
       width = 32;
 
-      modules-left = [ "pulseaudio" "tray" ];
+      modules-left = [ "pulseaudio#source" "pulseaudio#sink" "tray" ];
       modules-center = [ "sway/workspaces" ];
       modules-right = [ "backlight" "battery" "clock" ];
 
@@ -57,14 +57,22 @@
         format = "mem\n{percentage}\n{used}";
       };
 
-      pulseaudio = {
+      "pulseaudio#sink" = {
         format-icons = [ "🔈" "🔉" "🔊" ];
         format = "{icon}\n{volume}";
         format-bluetooth = "{icon}\n{volume}";
+        # format-muted = "🙉";
         format-muted = "🔇\n--";
         on-click = "${pkgs.pulseaudio}/bin/pactl set-sink-mute @DEFAULT_SINK@ toggle";
         on-click-right = "${pkgs.pavucontrol}/bin/pavucontrol";
         scroll-step = 1;
+      };
+
+      "pulseaudio#source" = {
+        format = "{format_source}";
+        format-source = "🎤";
+        format-source-muted = "🙊";
+        on-click = "${pkgs.pulseaudio}/bin/pactl set-source-mute @DEFAULT_SOURCE@ toggle";
       };
 
       "sway/workspaces" = {
