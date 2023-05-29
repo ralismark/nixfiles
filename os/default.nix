@@ -45,8 +45,11 @@
 
   programs.steam.enable = true;
 
-  # QMK development
-  services.udev.packages = [ pkgs.qmk-udev-rules ];
+  services.udev.packages = [
+    pkgs.qmk-udev-rules # QMK development
+  ];
+
+  programs.adb.enable = true;
 
   # Networking ================================================================
 
@@ -62,6 +65,8 @@
       default = "http://localhost:80";
     };
   };
+
+  services.gvfs.enable = true;
 
   # Graphical =================================================================
 
@@ -146,6 +151,15 @@
 
   virtualisation.docker.enable = true;
 
+  services.udev.extraRules = ''
+    # https://wiki.archlinux.org/title/Power_management#PCI_Runtime_Power_Management
+    #SUBSYSTEM=="pci", ATTR{power/control}="auto"
+    #ACTION=="add", SUBSYSTEM=="usb", TEST=="power/control", ATTR{power/control}="auto"
+
+    # https://wiki.archlinux.org/title/Power_management/Wakeup_triggers#Event-driven_with_udev
+    ACTION=="add", SUBSYSTEM=="usb", ATTR{power/wakeup}="disabled"
+  '';
+
   # Boot & System Base ========================================================
 
   boot.resumeDevice = "/dev/disk/by-partuuid/41c69eeb-9417-4331-ad28-05c4dda54bdf";
@@ -207,6 +221,7 @@
       "wheel" # allow sudo
       "networkmanager" # allow networkmanager config without sudo
       "docker" # docker access permissions
+      "adbusers"
     ];
   };
 

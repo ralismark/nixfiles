@@ -116,7 +116,7 @@ with lib;
       # you are also shown a summary of the contents of the directory
 
       # standard meanings of keys
-      # Home.widget = "beginning-of-line";
+      Home.widget = "beginning-of-line";
       End.widget = "end-of-line";
       Insert.widget = "overwrite-mode";
       Delete.widget = "delete-char";
@@ -212,6 +212,14 @@ with lib;
       }
       autoload -U add-zsh-hook
       add-zsh-hook chpwd .hm.hook.chpwd
+
+      cdnix() {
+        if [ "$#" -ne 1 ]; then
+          echo >&2 "Usage: cdnix PACKAGE"
+          return 1
+        fi
+        cd $(nix build --no-link --print-out-paths -f '<nixpkgs>' "$1" | head -n1)
+      }
 
       ##
       ## completion options

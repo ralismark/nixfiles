@@ -31,13 +31,6 @@
       fsType = "vfat";
     };
 
-  fileSystems."/mnt/manjaro" =
-    {
-      device = "rpool/ds1/ROOT/manjaro";
-      fsType = "zfs";
-      neededForBoot = true;
-    };
-
   fileSystems."/boot" =
     {
       device = "/mnt/efi/EFI/nixos";

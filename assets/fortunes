@@ -578,3 +578,88 @@ physically. This place is best shunned and left uninhabited.
 
     -- Long-term nuclear waste warning messages
        [added 25 Apr 2023]
+%
+is "implies people" a new kind of slur for tcs nerds?
+
+    -- sadsunshower
+       [added 26 Apr 2023]
+%
+you can take the kid out of ruse but you cant take the ruse out of the kid
+
+    -- sadsunshower, quoting charan
+       [added 26 Apr 2023]
+%
+I recently visited the Semaphore Hotel with a group of friends who love to
+contemplate the complexities of life over a good meal.
+
+However, we encountered a rather puzzling situation at the dining table that
+had us scratching our heads.
+
+Let's just say that the five of us had trouble getting our hands on the
+utensils we needed for each of us to enjoy our meal, despite the fact that the
+lovely staff here had provided enough to go around.
+
+But after a bit of creative problem-solving, we were able to enjoy a delicious
+dinner and some lively philosophical discussion - by ordering pizza instead!
+
+If you're looking for a thought-provoking dining experience, the Semaphore
+Hotel definitely won't disappoint!
+
+    -- Hugh Mungbean, Review of Semaphore Hotel (South Australia)
+       [added 28 Apr 2023]
+%
+Whoever saves one life, saves the world entire.
+
+    -- Schindler's List, from the Talmud
+       [added 28 Apr 2023]
+%
+"rustconf 2022: sponsored by the world's leading provider of hrt"
+
+"because not everything should be immutable"
+
+    -- Alex Chan @alexwlchan
+       https://twitter.com/alexwlchan/status/1404940747405672458
+       [added 29 Apr 2023]
+%
+bcachefs overview, status:
+
+Features:
+ - too many to list
+
+Known bugs:
+ - too many to list
+
+    -- Kent Overstreet, "bcachefs - a new COW filesystem"
+       https://lore.kernel.org/lkml/20230509165657.1735798-1-kent.overstreet@linux.dev
+%
+> However, hiding a miniature architecture-specific compiler inside a
+> file system seems to be a rather blatent example of "premature
+> optimization".
+
+Ted, this project is _15_ years old.
+
+    -- Kent Overstreet, "bcachefs - a new COW filesystem"
+       https://lore.kernel.org/lkml/20230509165657.1735798-1-kent.overstreet@linux.dev
+%
+During a gold rush, sell shovels.
+
+    -- unknown
+       [added 13 May 2023]
+%
+Hardware support
+
+    There is no known hardware implementation of octuple precision.
+
+    -- "Octuple-precision floating-point format", Wikipedia
+       [added 26 May 2023]
+%
+> What if you used smart pointers all the way?
+
+Why stop at smart pointers?
+
+I would rather use a smarter compiler / smarter language with fewer gotchas,
+traps, caveats, pitfalls and footguns.
+
+    -- thesuperbigfrog replying to HN post "Rust Safety Is Not Superior to C++"
+       https://news.ycombinator.com/item?id=34503671
+       [added 26 May 2023]

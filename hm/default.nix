@@ -30,7 +30,7 @@ in {
     ./sshfs.nix
   ];
 
-  # Prorgrams =================================================================
+  # Installed =================================================================
 
   home.bin =
     let
@@ -47,6 +47,58 @@ in {
         #!/bin/sh
         ${pkgs.dig.dnsutils}/bin/dig +short @1.1.1.1 ch txt whoami.cloudflare +time=3 |
           ${pkgs.coreutils}/bin/tr -d \"
+      '';
+
+      xdg-open.text = ''
+        #!/bin/sh
+        # uncomment to get logs somewhere and tail -f it.
+        # exec > >(tee -i ~/dev/xdg-open-portal-log.txt)
+        # exec 2>&1
+
+        if [ "$#" -ne 1 ]; then
+          echo >&2 "Usage: xdg-open { file | url }"
+          echo >&2 ""
+          echo >&2 "This is a replacement for xdg_util's xdg-open, which is way too complicated."
+          exit 127
+        fi
+
+        targetFile=$1
+
+        openFile=OpenFile
+        # https://github.com/flatpak/xdg-desktop-portal/issues/683
+        # if [ -d "$targetFile" ]; then
+        #   openFile=OpenDirectory
+        # fi
+
+        if [ -e "$targetFile" ]; then
+          exec 3< "$targetFile"
+          ${pkgs.glib}/bin/gdbus call --session \
+            --dest org.freedesktop.portal.Desktop \
+            --object-path /org/freedesktop/portal/desktop \
+            --method org.freedesktop.portal.OpenURI.$openFile \
+            --timeout 5 \
+            "" "3" {}
+        else
+          if ! echo "$targetFile" | grep -q '://'; then
+            targetFile="https://$targetFile"
+          fi
+
+          ${pkgs.glib}/bin/gdbus call --session \
+            --dest org.freedesktop.portal.Desktop \
+            --object-path /org/freedesktop/portal/desktop \
+            --method org.freedesktop.portal.OpenURI.OpenURI \
+            --timeout 5 \
+            "" "$targetFile" {}
+        fi
+      '';
+
+      "restic.sh".text = ''
+        #!/bin/sh
+        set -a
+        RESTIC_CACHE_DIR=/tmp/restic-cache.$USER
+        source /persist/secrets/restic.env
+        set +a
+        exec ${pkgs.restic}/bin/restic "$@"
       '';
     };
 
@@ -160,6 +212,36 @@ in {
     config = {
       global.warn_timeout = "99999h";
     };
+  };
+
+  xdg.mimeApps.enable = true;
+  xdg.mimeApps.defaultApplications = let
+    assoc = app: mimes: lib.genAttrs mimes (_: app);
+  in (assoc "org.gnome.Evince.desktop" [
+    "application/pdf"
+    "application/postscript"
+    "application/x-ext-pdf"
+  ]) // (assoc "org.nomacs.ImageLounge.desktop" [
+    "image/bmp"
+    "image/gif"
+    "image/jpeg"
+    "image/png"
+    "image/tiff"
+  ]) // (assoc "firefox.desktop" [
+    "application/rdf+xml"
+    "application/rss+xml"
+    "application/xhtml+xml"
+    "application/xhtml_xml"
+    "application/xml"
+    "text/html"
+    "text/xml"
+    "x-scheme-handler/about"
+    "x-scheme-handler/http"
+    "x-scheme-handler/https"
+    "x-scheme-handler/mailto"
+    "x-scheme-handler/unknown"
+    "x-scheme-handler/webcal"
+  ]) // {
   };
 
   # Misc ======================================================================
