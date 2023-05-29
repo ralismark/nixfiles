@@ -2,10 +2,6 @@
 with lib;
 let
   mounts = {
-    "dev2" = "dev2:";
-    "dev4" = "dev4:";
-    "dev1c" = "dev1c:";
-    "relay" = "relay:";
     "cse" = "cse:";
   };
 

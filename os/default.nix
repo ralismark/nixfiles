@@ -18,16 +18,6 @@
       ./ephemeral.nix
     ];
 
-  # Autumn Compass ============================================================
-
-  networking.hosts."13.55.249.70"   = ["dev2.autumncompass.com"];
-  networking.hosts."3.137.64.81"    = ["galapagos.autumncompass.com" "gaze.autumncompass.com"];
-  networking.hosts."52.62.178.137"  = ["dev4.autumncompass.com"];
-  networking.hosts."52.62.77.124"   = ["devpi.autumncompass.com" "upsource.autumncompass.com" "jira.autumncompass.com" "confluence.autumncompass.com" "svn.autumncompass.com"];
-  networking.hosts."52.63.56.149"   = ["relay.srv.autumncompass.com" "sg.gatherer.autumncompass.com" "krs.gatherer.autumncompass.com" "krb.gatherer.autumncompass.com" "cn.gatherer.autumncompass.com" "au.gatherer.autumncompass.com" "prometheus.autumncompass.com"];
-  networking.hosts."54.252.155.255" = ["oldgalapagos.autumncompass.com"];
-  networking.hosts."34.214.141.55"  = ["mon1.autumncompass.com"];
-
   # General Configuration =====================================================
 
   time.timeZone = "Australia/Sydney";
