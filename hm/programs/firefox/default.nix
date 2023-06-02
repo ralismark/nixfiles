@@ -33,12 +33,8 @@ with lib;
         }
 
         /* only show tab close buttons when hovering */
-        .tabbrowser-tab .tab-close-button {
+        .tabbrowser-tab:not([pinned]):not(:hover) .tab-close-button {
           display: none;
-        }
-
-        .tabbrowser-tab:not([pinned]):hover .tab-close-button {
-          display: -moz-inline-box !important;
         }
 
         /*** centre things ***************************************************/
@@ -50,7 +46,7 @@ with lib;
 
         /* bookmark bar */
         #PlacesToolbarItems {
-          -moz-box-pack: center;
+          justify-content: center;
         }
 
         /*** hide tabbar when only one tab open ******************************/
@@ -81,14 +77,30 @@ with lib;
           color: #8cf;
           margin-right: 4px;
         }
+
+        /*** disable DRM disabled warning banner *****************************/
+
+        notification-message[value="drmContentDisabled"] {
+          display: none;
+        }
       '';
 
       settings = {
         # disable the webrtc sharing icon that was also causing crashes
         "privacy.webrtc.legacyGlobalIndicator" = false;
 
+        # disable builtin pocket extension
+        "extensions.pocket.enabled" = false;
+
         # download to /tmp instead of ~/Downloads
         "browser.download.start_downloads_in_tmp_dir" = true;
+
+        # recent vpn promo controversy
+        "browser.vpn_promo.enabled" = false;
+
+        # helpful features in urlbar
+        "browser.urlbar.suggest.calculator" = true;
+        "browser.urlbar.unitConversion.enabled" = true;
       };
     };
   };

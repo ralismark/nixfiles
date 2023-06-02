@@ -13,8 +13,6 @@ let
   startup = ''
     if [[ $XDG_VTNR -eq 1 ]]; then
       ${launch-wm "sway.service"}
-    elif [[ $XDG_VTNR -eq 2 ]]; then
-      ${launch-wm "hyprland.service"}
     fi
   '';
 in
@@ -25,7 +23,7 @@ in
     ./rofi.nix
     ./sway.nix
     ./waybar.nix
-    ./hyprland.nix
+    # ./hyprland.nix
   ];
 
   # Startup ===================================================================

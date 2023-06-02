@@ -13,7 +13,6 @@
     flake-compat = { url = "github:edolstra/flake-compat"; flake = false; };
 
     mafredri-zsh-async = { url = "github:mafredri/zsh-async"; flake = false; };
-    hyprland.url = "github:hyprwm/Hyprland";
     nix-index-database.url = "github:Mic92/nix-index-database";
   };
 
@@ -40,7 +39,6 @@
 
       overlays.default = nixpkgs.lib.composeManyExtensions [
         (import ./pkgs)
-        inputs.hyprland.overlays.default
       ];
 
       # temmie@wattle: XPS 13 =================================================

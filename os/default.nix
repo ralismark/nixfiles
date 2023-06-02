@@ -130,7 +130,7 @@
     alsa.support32Bit = true;
     pulse.enable = true; # pulseaudio compat
 
-    rnnoise.enable = true;
+    rnnoise.enable = false; # TODO currently broken
   };
 
   # Misc ======================================================================
@@ -173,7 +173,7 @@
     in
     assert (builtins.compareVersions k.kernel.version k_zfs.kernel.version) <= 0;
     k;
-  boot.tmpOnTmpfs = false; # root is ephemeral so no tmpfs
+  boot.tmp.useTmpfs = false; # root is ephemeral so no tmpfs
   boot.zfs.forceImportRoot = false;
   boot.zfs.allowHibernation = true; # TODO switch on true when we know things are safe
   boot.supportedFilesystems = [
