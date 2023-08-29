@@ -95,10 +95,16 @@ in {
       "restic.sh".text = ''
         #!/bin/sh
         set -a
+        RESTIC_PASSWORD=restic
+        RESTIC_COMPRESSION=max
+        RESTIC_REPOSITORY=rclone:b2:ralismark-glacier/restic
         RESTIC_CACHE_DIR=/tmp/restic-cache.$USER
-        source /persist/secrets/restic.env
         set +a
-        exec ${pkgs.restic}/bin/restic "$@"
+
+        exec ${pkgs.restic}/bin/restic \
+          -o rclone.program=${pkgs.rclone}/bin/rclone \
+          -o rclone.args="serve restic --stdio --transfers 16 --config /persist/secrets/rclone.conf" \
+          "$@"
       '';
     };
 
@@ -109,13 +115,40 @@ in {
     (pkgsFile ./installed-packages.txt pkgs)
   ];
 
-  # xdg.desktopEntries = {
-  #   dfeet = {
-  #     name = "D-Feet";
-  #     genericName = "D-Bus Debugger";
-  #     exec = "nix run nixpkgs#dfeet --";
-  #   };
-  # };
+  xdg.desktopEntries = {
+    dfeet = {
+      name = "D-Feet";
+      exec = "nix run -f \"<nixpkgs>\" dfeet --";
+      icon = pkgs.fetchurl {
+        url = "https://wiki.gnome.org/Apps/DFeet?action=AttachFile&do=get&target=d-feet-logo.png";
+        hash = "sha256-Bqt/tZdHuGndzV5pj1i6fcbUnzPuaF4n1u/A7yf/qbs=";
+      };
+    };
+    isabelle = {
+      name = "Isabelle";
+      exec = "nix run -f \"<nixpkgs>\" isabelle -- jedit";
+      icon = pkgs.fetchurl {
+        url = "https://isabelle.in.tum.de/img/isabelle.png";
+        hash = "sha256-PY/xbT94MqYACN0nY/Ci1SXHcQha+h1Dk9JBk7otOyg=";
+      };
+    };
+    musescore = {
+      name = "MuseScore";
+      exec = "nix run -f \"<nixpkgs>\" musescore --";
+      icon = pkgs.fetchurl {
+        url = "https://raw.githubusercontent.com/musescore/MuseScore/master/share/icons/AppIcon/MS4_AppIcon_64x64.png";
+        hash = "sha256-j5aZmJPTR6UeHPVKSpQFSQKGPL83d5Gwwu2SMSyGltk=";
+      };
+    };
+    ispin = {
+      name = "ISpin";
+      exec = "nix shell -f \"<nixpkgs>\" spin -c ispin";
+    };
+    audacity = {
+      name = "Audacity";
+      exec = "nix run -f \"<nixpkgs>\" audacity --";
+    };
+  };
 
   # Environment ===============================================================
 
@@ -128,6 +161,7 @@ in {
       VISUAL = "${userBin}/vim";
       MANPAGER = "${userBin}/vim-manpager";
       BROWSER = "${userBin}/firefox";
+      TZ = ":/etc/localtime";
     };
 
   # HACK until we have better sessionPath handling
@@ -243,6 +277,8 @@ in {
     "x-scheme-handler/webcal"
   ]) // {
   };
+
+  xdg.configFile."rclone/rclone.conf".source = config.lib.file.mkOutOfStoreSymlink "/persist/secrets/rclone.conf";
 
   # Misc ======================================================================
 

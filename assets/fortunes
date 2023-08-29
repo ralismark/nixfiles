@@ -663,3 +663,45 @@ traps, caveats, pitfalls and footguns.
     -- thesuperbigfrog replying to HN post "Rust Safety Is Not Superior to C++"
        https://news.ycombinator.com/item?id=34503671
        [added 26 May 2023]
+%
+BUGS
+    There are too many inconsistent error values.
+
+    -- ip(7) man page
+       [added 9 June 2023]
+%
+This list is incomplete; you can help by expanding it.
+
+    -- Wikipedia's Template:Incomplete list
+       [added 10 July 2023]
+%
+Herodotus, in about 500 BC, discusses the policy decisions of the Persian
+kings. He notes that a decision was wise, even though it led to disastrous
+consequences, if the evidence at hand indicated it as the best one to make; and
+that a decision was foolish, even though it led to the happiest possible
+consequences, if it was unreasonable to expect those consequences.
+
+    -- E. T. Jaynes, "Bayesian Methods: General Background"
+       [added 5 August 2023]
+%
+I conclude that there are two ways of constructing a software design: One way
+is to make it so simple that there are obviously no deficiencies and the other
+way is to make it so complicated that there are no obvious deficiencies.
+
+The first method is far more difficult.
+
+    -- C.A.R. Hoare, "The Emperor's Old Clothes"
+       [added 5 August 2023]
+%
+I received a telephone call one day at the graduate college at Princeton from
+Professor Wheeler, in which he said, "Feynman, I know why all electrons have
+the same charge and the same mass" "Why?" "Because, they are all the same
+electron!"
+
+    -- Richard P. Feynman
+       [added 9 August 2023]
+%
+This is to confirm I have counted COMP9242 in place of COMP1511 for you.
+
+    -- UNSW Nucleus
+       [added 16 August 2023]

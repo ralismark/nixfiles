@@ -6,6 +6,7 @@ in
 {
   options.programs.cargo = {
     enable = lib.mkEnableOption "cargo, the rust package manager and build system";
+    package = lib.mkPackageOptionMD pkgs "cargo" { };
     settings = lib.mkOption {
       type = format.type;
       default = {};

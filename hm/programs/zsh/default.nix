@@ -34,6 +34,11 @@ with lib;
     make = "nice -n19 -- make";
 
     #
+    # complete after
+    #
+    tunnel-run = "tunnel-run ";
+
+    #
     # abbreviations
     #
     sc = "systemctl";
@@ -82,6 +87,9 @@ with lib;
 
       # add commands to history, but don't import them when doing completion
       inc_append_history = true;
+
+      # apply completions even when there are aliases
+      completealiases = true;
     };
 
     shellAliases = {

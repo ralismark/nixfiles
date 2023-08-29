@@ -12,7 +12,7 @@
   imports =
     [
       ../modules/shared/pin.nix
-      ../modules/nixos/rnnoise.nix
+      ../modules/nixos/pipewire-filter.nix
 
       ./hardware-configuration.nix # Include the results of the hardware scan.
       ./ephemeral.nix
@@ -41,6 +41,23 @@
 
   programs.adb.enable = true;
 
+  # Misc ======================================================================
+
+  environment.etc."issue".source = ../assets/etc-issue;
+
+  services.udisks2.enable = true;
+
+  virtualisation.docker.enable = true;
+
+  services.udev.extraRules = ''
+    # https://wiki.archlinux.org/title/Power_management#PCI_Runtime_Power_Management
+    #SUBSYSTEM=="pci", ATTR{power/control}="auto"
+    #ACTION=="add", SUBSYSTEM=="usb", TEST=="power/control", ATTR{power/control}="auto"
+
+    # https://wiki.archlinux.org/title/Power_management/Wakeup_triggers#Event-driven_with_udev
+    ACTION=="add|change", SUBSYSTEM=="usb", ATTR{power/wakeup}="disabled"
+  '';
+
   # Networking ================================================================
 
   networking.hostName = "wattle";
@@ -57,6 +74,11 @@
   };
 
   services.gvfs.enable = true;
+
+  # Peripherals ===============================================================
+
+  hardware.bluetooth.enable = true;
+  services.blueman.enable = true;
 
   # Graphical =================================================================
 
@@ -98,6 +120,7 @@
       noto-fonts-cjk-sans
       noto-fonts-cjk-serif
       noto-fonts-emoji-blob-bin
+      merriweather
     ];
 
     fontconfig.allowType1 = true;
@@ -130,25 +153,8 @@
     alsa.support32Bit = true;
     pulse.enable = true; # pulseaudio compat
 
-    rnnoise.enable = false; # TODO currently broken
+    deepfilter.enable = true;
   };
-
-  # Misc ======================================================================
-
-  environment.etc."issue".source = ../assets/etc-issue;
-
-  services.udisks2.enable = true;
-
-  virtualisation.docker.enable = true;
-
-  services.udev.extraRules = ''
-    # https://wiki.archlinux.org/title/Power_management#PCI_Runtime_Power_Management
-    #SUBSYSTEM=="pci", ATTR{power/control}="auto"
-    #ACTION=="add", SUBSYSTEM=="usb", TEST=="power/control", ATTR{power/control}="auto"
-
-    # https://wiki.archlinux.org/title/Power_management/Wakeup_triggers#Event-driven_with_udev
-    ACTION=="add", SUBSYSTEM=="usb", ATTR{power/wakeup}="disabled"
-  '';
 
   # Boot & System Base ========================================================
 

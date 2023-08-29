@@ -1,19 +1,17 @@
 self: super: {
 
-  numix-reborn-icon-themes = self.callPackage ./numix-reborn-icon-themes.nix { };
-
   adapta-maia-theme = self.callPackage ./adapta-maia-theme.nix { };
 
+  deepfilter-ladspa = self.callPackage ./deepfilter-ladspa { };
+
   font-droid = self.callPackage ./font-droid.nix { };
+
+  numix-reborn-icon-themes = self.callPackage ./numix-reborn-icon-themes.nix { };
 
   pantheon = super.pantheon.overrideScope' (self': super': {
     elementary-files = super'.elementary-files.overrideAttrs (prev: {
       mesonFlags = (prev.mesonFlags or [ ]) ++ [ "-Dwith-zeitgeist=disabled" ];
     });
-  });
-
-  waybar = super.waybar.overrideAttrs (prev: {
-    mesonFlags = (prev.mesonFlags or [ ]) ++ [ "-Dexperimental=true" ];
   });
 
   qmk-udev-rules = super.qmk-udev-rules.overrideAttrs (prev: {
@@ -32,6 +30,10 @@ self: super: {
          ## QMK HID
       '')
     ];
+  });
+
+  waybar = super.waybar.overrideAttrs (prev: {
+    mesonFlags = (prev.mesonFlags or [ ]) ++ [ "-Dexperimental=true" ];
   });
 
 }

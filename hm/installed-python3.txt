@@ -1,3 +1,4 @@
+git-filter-repo
 ipython
 jupyter
 numpy

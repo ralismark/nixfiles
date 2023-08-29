@@ -217,7 +217,7 @@ in
 
         startup = [
           {
-            command = "/bin/sh -c '${pkgs.dbus}/bin/dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP XDG_SESSION_TYPE=wayland; ${pkgs.systemd}/bin/systemd-notify --ready'";
+            command = "/bin/sh -c '${pkgs.dbus}/bin/dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP XDG_SESSION_TYPE=wayland _JAVA_AWT_WM_NONREPARENTING=1; ${pkgs.systemd}/bin/systemd-notify --ready'";
             always = true;
           }
         ];
@@ -267,7 +267,7 @@ in
 
       # TODO also need to unset in dbus?
       ExecStopPost = [
-        "${pkgs.systemd}/bin/systemctl --user unset-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP XDG_SESSION_TYPE"
+        "${pkgs.systemd}/bin/systemctl --user unset-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP XDG_SESSION_TYPE _JAVA_AWT_WM_NONREPARENTING"
         "${pkgs.systemd}/bin/systemctl --user stop graphical-session.target"
       ];
     };

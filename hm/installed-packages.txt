@@ -8,6 +8,7 @@ file
 gimp
 gnome.file-roller
 gnome.gucharmap
+gnumake
 helvum
 htop-vim
 inetutils
@@ -22,5 +23,6 @@ prismlauncher
 ranger
 rclone
 silver-searcher
+spin
 wdisplays
 wl-clipboard

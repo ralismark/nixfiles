@@ -36,6 +36,9 @@ with lib;
         .tabbrowser-tab:not([pinned]):not(:hover) .tab-close-button {
           display: none;
         }
+        .tabbrowser-tab:not([pinned]):hover .tab-close-button {
+          display: inline-flex !important;
+        }
 
         /*** centre things ***************************************************/
 
@@ -101,6 +104,13 @@ with lib;
         # helpful features in urlbar
         "browser.urlbar.suggest.calculator" = true;
         "browser.urlbar.unitConversion.enabled" = true;
+
+        # disable disk cache
+        "browser.cache.disk.enable" = false;
+        "browser.cache.memory.enable" = true;
+
+        # disable c-q closing browser
+        "browser.quitShortcut.disable" = true;
       };
     };
   };

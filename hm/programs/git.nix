@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ config, lib, ... }:
 with lib;
 {
   imports = [
@@ -29,7 +29,7 @@ with lib;
     aliases = {
       # higher-level ops
       amend = "commit --amend --no-edit";
-      reword = "commit --amend --pathspec-from-file=/dev/null -m";
+      reword = "commit --amend --pathspec-from-file=/dev/null";
       bleach = "!git reset --hard HEAD && git clean -xdff";
       bleach-ignored = "clean -Xff";
       shallow-clone = "clone --recursive --depth 1";
@@ -113,5 +113,9 @@ with lib;
       # but not for crates.io (to avoid issues with cargo-edit)
       url."https://github.com/rust-lang/crates.io-index".insteadOf = "https://github.com/rust-lang/crates.io-index";
     };
+
+    ignores = [
+      (mkIf config.programs.direnv.enable ".direnv")
+    ];
   };
 }
