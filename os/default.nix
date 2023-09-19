@@ -112,8 +112,8 @@
   };
 
   fonts = {
-    enableDefaultFonts = false; # enable base font package set
-    fonts = with pkgs; [
+    enableDefaultPackages = false; # enable base font package set
+    packages = with pkgs; [
       cascadia-code
       font-droid
       noto-fonts

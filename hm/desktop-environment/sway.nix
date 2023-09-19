@@ -10,7 +10,7 @@ in
 
   wayland.windowManager.sway = {
     enable = true;
-    systemdIntegration = false; # We do our own custom systemd integration
+    systemd.enable = false; # We do our own custom systemd integration
 
     config =
       let
@@ -241,10 +241,10 @@ in
       Description = "SirCmpwn's Wayland window manager";
       Documentation = "man:sway(5)";
 
-      Wants = [ "graphical-session-pre.target" ];
+      Wants = [ "graphical-session-pre.target" "xdg-desktop-autostart.target" ];
       After = [ "graphical-session-pre.target" ];
       BindsTo = [ "graphical-session.target" ];
-      Before = [ "graphical-session.target" ];
+      Before = [ "graphical-session.target" "xdg-desktop-autostart.target" ];
       PropagateReloadFrom = [ "graphical-session.target" ];
     };
 

@@ -19,8 +19,8 @@ import ../../lib/variants-config.nix modulesTarget {
     xdg.configFile."nixpkgs/config.nix".source = ../../assets/nixpkgs-config.nix;
 
     # pass overlays
-    xdg.configFile."nixpkgs/overlays.nix".text = ''
-      [(import ${./../..}).overlays.default]
+    xdg.configFile."nixpkgs/overlays/pin.nix".text = ''
+      (import ${./../..}).overlays.default
     '';
 
     # make home-manager command available
