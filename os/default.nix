@@ -3,9 +3,6 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 { config
-, options
-, inputs
-, lib
 , pkgs
 , ... }:
 {
@@ -57,6 +54,13 @@
     # https://wiki.archlinux.org/title/Power_management/Wakeup_triggers#Event-driven_with_udev
     ACTION=="add|change", SUBSYSTEM=="usb", ATTR{power/wakeup}="disabled"
   '';
+
+  # Input =====================================================================
+
+  i18n.inputMethod = {
+    enabled = "fcitx5";
+    fcitx5.addons = with pkgs; [ fcitx5-chinese-addons ];
+  };
 
   # Networking ================================================================
 
@@ -116,19 +120,19 @@
     packages = with pkgs; [
       cascadia-code
       font-droid
-      noto-fonts
       noto-fonts-cjk-sans
       noto-fonts-cjk-serif
       noto-fonts-emoji-blob-bin
-      merriweather
+
+      google-fonts
     ];
 
     fontconfig.allowType1 = true;
     fontDir.decompressFonts = true;
     fontconfig.defaultFonts = {
-      serif = [ "Droid Serif" "Noto Serif" ];
-      sansSerif = [ "Droid Sans" "Noto Sans" ];
-      monospace = [ "Cascadia Code PL" "Noto Sans Mono" ];
+      serif = [ "Droid Serif" "Noto Serif CJK SC" "Noto Serif" ];
+      sansSerif = [ "Droid Sans" "Noto Sans CJK SC" "Noto Sans" ];
+      monospace = [ "Cascadia Code PL" "Noto Sans CJK SC" "Noto Sans Mono" ];
       emoji = [ "Blobmoji" ];
     };
   };
