@@ -23,6 +23,7 @@ in {
     ./programs/tmux.nix
     ./programs/zsh
     ./programs/firefox
+    ./programs/ipython
 
     ./toolchains/rust.nix
     ./toolchains/go.nix
