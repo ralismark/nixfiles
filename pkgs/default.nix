@@ -13,7 +13,7 @@ self: super: {
     ];
   });
 
-  adapta-maia-theme = self.callPackage ./adapta-maia-theme.nix { };
+  adapta-maia-theme = self.callPackage ./adapta-maia-theme { };
 
   deepfilter-ladspa = self.callPackage ./deepfilter-ladspa { };
 

@@ -1,0 +1,2062 @@
+diff --git a/gtk/sass/3.20/_3rd-party.scss b/gtk/sass/3.20/_3rd-party.scss
+--- a/gtk/sass/3.20/_3rd-party.scss
++++ b/gtk/sass/3.20/_3rd-party.scss
+@@ -1890,189 +1890,20 @@ window.background.lightdm {
+     -gtk-icon-source: -gtk-icontheme('process-working-symbolic');
+     animation: spinner 1s linear infinite;
+   }
+ 
+   .lightdm-combo {
+     border-radius: 0;
+     background-color: transparent;
+   }
+ }
+ 
+-
+-// /********
+-//  * Nemo *
+-//  ********/
+-
+-.nemo-desktop.nemo-canvas-item {
+-  @extend .nautilus-desktop.nautilus-canvas-item;
+-}
+-
+-.nemo {
+-  &-canvas-item { @extend .nautilus-canvas-item; }
+-
+-  &-list-dim-label { @extend .nautilus-list-dim-label; }
+-}
+-
+-.nemo-window {
+-  // workaround for invisible text in rename entry (Eeleditable.entry)
+-  .nemo-window-pane scrolledwindow widget > widget.entry {
+-    &, &:focus {
+-      transition: none;
+-
+-      &:selected { // FIXME: selection node doesn't work?
+-        @extend %selected_items;
+-      }
+-    }
+-  }
+-
+-  infobar.error { // Administrative privileges
+-    label {
+-      font-size: 110%;
+-      font-weight: 700;
+-    }
+-  }
+-
+-  // main tool-bar styling
+-  grid > box > box > toolbar.primary-toolbar {
+-    // draw bottom border and shadows
+-    border-bottom: 1px solid $borders_color;
+-    box-shadow: if($variant == light, $toolbar-shadow-light,
+-                                      $toolbar-shadow-dark);
+-
+-    > button.flat.toggle { // 'back/forward'?
+-      min-height: $icon_size * 2.0;
+-      min-width: $icon_size * 2.0;
+-      padding: 0;
+-      border-radius: 2px;
+-      -gtk-outline-radius: 2px;
+-    }
+-
+-    .linked.raised > button,
+-    .raised > button {
+-      // path-bar widget buttons
+-      &, &.text-button.toggle {
+-        min-height: rem(26.7px);
+-        min-width: rem(26.7px);
+-        padding-top: 0;
+-        padding-bottom: 0;
+-        border-radius: 2px;
+-        -gtk-outline-radius: 2px;
+-
+-        > widget { padding: rem(4px) 0; } // GtkArrow?
+-      }
+-
+-      &.image-button,
+-      &.image-button.toggle {
+-        min-height: $icon_size * 2.0;
+-        min-width: $icon_size * 2.0;
+-        padding: 0;
+-        border-radius: 2px;
+-        -gtk-outline-radius: 2px;
+-      }
+-    }
+-
+-    // optional buttons
+-    .raised:not(.linked) > button {
+-      &:not(.text-button):not(.toggle) {
+-        min-height: $icon_size * 2.0;
+-        min-width: $icon_size * 2.0;
+-        padding: 0;
+-        border-radius: 2px;
+-        -gtk-outline-radius: 2px;
+-      }
+-    }
+-
+-    // shrink height of entry node
+-    box.horizontal > widget > entry,
+-    button.text-button {
+-      padding-top: rem(5.3px);
+-      padding-bottom: rem(6.7px);
+-    }
+-  }
+-
+-  // tweak notebook colour
+-  grid > paned > box > paned > box > notebook {
+-    &, > stack:not(:only-child) {
+-      background-color: $base_color;
+-    }
+-  }
+-
+-  // remove double-border
+-  grid.vertical > paned.horizontal > box.vertical {
+-    > scrolledwindow.frame {
+-      border-width: 0;
+-    }
+-  }
+-
+-  // force using flat-style on bottom bar
+-  grid.vertical > widget {
+-    background-color: $secondary_dark_color;
+-    box-shadow: if($variant=='light', $inline-shadow-light,
+-                                      $inline-shadow-dark);
+-
+-    > box { padding: rem(2.7px); }
+-
+-    > box > button.image-button {
+-      @extend %button_flat_normal;
+-      min-width: rem(13.3px);
+-      min-height: rem(29.3px);
+-      border-radius: 2px;
+-      -gtk-outline-radius: 2px;
+-      padding: 0 rem(10px) 0;
+-      border-image: -gtk-gradient(radial,
+-                                  center bottom, 0,
+-                                  center bottom, 0.001,
+-                                  to($outline_track_color),
+-                                  to(transparent))
+-                                  0 0 0 / 0 0 0px;
+-      background-color: transparent;
+-      color: $secondary_fg_color;
+-      &:hover {
+-        @extend %button_flat_hover;
+-        border-image: none;
+-        background-color: transparent;
+-        color: $fg_color;
+-      }
+-      &:checked {
+-        @extend %button_flat_checked;
+-        border-image: -gtk-gradient(radial,
+-                                    center bottom, 0,
+-                                    center bottom, 0.5,
+-                                    to($selected_bg_color),
+-                                    to(transparent))
+-                                    0 0 2 / 0 0 2px;
+-        background-color: transparent;
+-        color: $fg_color;
+-        &:disabled {
+-          @extend %button_flat_checked_disabled;
+-          border-image: none;
+-          background-color: transparent;
+-          color: $insensitive_fg_color;
+-        }
+-      }
+-      &:disabled {
+-        @extend %button_flat_disabled;
+-        border-image: none;
+-        background-color: transparent;
+-        color: $insensitive_secondary_fg_color;
+-      }
+-    }
+-
+-    box > separator.vertical { // remove separator
+-      min-width: 0;
+-      color: transparent;
+-      background-color: transparent;
+-    }
+-  }
+-}
+-
+-
+ // /************
+ //  * Lollypop *
+ //  ************/
+ 
+ // header grid?
+ paned.horizontal > paned.horizontal stack grid.vertical > grid.horizontal {
+   button.image-button {
+     &, &.toggle {
+       border-radius: 2px;
+       -gtk-outline-radius: 2px;
+@@ -3043,172 +2874,20 @@ PanelToplevel.mate-panel-menu-bar > grid.horizontal > button {
+ //  * Mate-Terminal *
+ //  *****************/
+ 
+ .mate-terminal {
+   notebook > header.top { // show drop-shadows
+     @extend %ssd_notebook_shadow;
+   }
+ }
+ 
+ 
+-// /********
+-//  * Caja *
+-//  ********/
+-
+-.caja {
+-  &-canvas-item { @extend .nautilus-canvas-item; }
+-
+-  &-list-dim-label { @extend .nautilus-list-dim-label; }
+-}
+-
+-.caja-desktop { // desktop icon-grid styling
+-  &.caja-canvas-item { @extend .nautilus-desktop.nautilus-canvas-item; }
+-
+-  > widget.entry { // = EelEditableLabel.entry
+-    &, &:focus {
+-      transition: none;
+-
+-      &:selected { // FIXME: selection node doesn't work?
+-        @extend %selected_items;
+-      }
+-    }
+-  }
+-}
+-
+-.caja-navigation-window {
+-  // side-panel styling
+-  .caja-side-pane {
+-    scrolledwindow {
+-      @extend %sidebar_template;
+-
+-      treeview.view {
+-        background-color: transparent;
+-        // font-weight: 500;
+-        &:selected { @extend %selected_items; }
+-      }
+-    }
+-
+-    notebook {
+-      border-top: 1px solid $borders_color;
+-
+-      .frame { border: none; }
+-    }
+-
+-    button.flat:last-child { // 'close' button on header
+-      min-width: $icon_size;
+-      min-height: $icon_size;
+-      padding: rem(10.7px);
+-      border-radius: 2px;
+-      -gtk-outline-radius: 2px;
+-    }
+-  }
+-
+-  // main toolbar styling
+-  toolbar.primary-toolbar {
+-    border-bottom: 1px solid $borders_color;
+-    box-shadow: if($variant == light, $toolbar-shadow-light,
+-                                      $toolbar-shadow-dark);
+-
+-    button { // uniform button sizes
+-      min-width: $icon_size * 1.5;
+-      min-height: $icon_size * 1.5;
+-      padding: rem(4px);
+-    }
+-  }
+-
+-  // path-bar styling
+-  .caja-pathbar {
+-    button {
+-      &:first-child { // remove meaningless gaps
+-        &:dir(ltr) { margin-right: -2px; }
+-        &:dir(rtl) { margin-left: -2px; }
+-      }
+-      &:not(:first-child):not(:last-child) {
+-        margin: 0 -2px;
+-      }
+-      &:last-child {
+-        &:dir(ltr) { margin-left: -2px; }
+-        &:dir(rtl) { margin-right: -2px; }
+-      }
+-
+-      &.toggle,
+-      &.image-button,
+-      &.text-button,
+-      &.slider-button { // enforce square buttons
+-        border-radius: 2px;
+-        -gtk-outline-radius: 2px;
+-      }
+-
+-      &, &.slider-button { // use linked-array button styling
+-        @extend %button_array;
+-      }
+-    }
+-  }
+-
+-  button.image-button.toggle { // most-left toggle button in path-bar pane
+-    @include button(flat-normal);
+-    border-radius: 2px;
+-    -gtk-outline-radius: 2px;
+-    &:hover { @include button(flat-hover); }
+-    &:active { @include button(flat-active); }
+-    &:disabled { @include button(flat-insensitive); }
+-    &:checked { // use underline-indicator
+-      @include button(flat-checked);
+-      border-radius: 0;
+-      -gtk-outline-radius: 0;
+-      background-image: none;
+-      background-color: transparent;
+-      box-shadow: inset 0 -2px $selected_bg_color;
+-    }
+-  }
+-
+-  .caja-notebook { // remove lateral borders
+-    &, .frame {
+-      border-width: 1px 0 1px;
+-    }
+-
+-    > header.top { // revive top-border when tabs are shown
+-      border-top: 1px solid $borders_color;
+-      background-color: $secondary_dark_color;
+-      box-shadow: if($variant == light, $inline-shadow-light,
+-                                        $inline-shadow-dark);
+-    }
+-  }
+-
+-  statusbar {
+-    margin: 0 -10px; // hide weird lateral gaps
+-    padding: 0 rem(6.7px);
+-    background-color: $secondary_dark_color;
+-    box-shadow: if($variant == light, $inline-shadow-light,
+-                                      $inline-shadow-dark);
+-  }
+-
+-  // workaround for invisible text in rename entry
+-  scrolledwindow widget > widget.entry {
+-    &, &:focus {
+-      transition: none;
+-
+-      &:selected { // FIXME: selection node doesn't work?
+-        @extend %selected_items;
+-      }
+-    }
+-  }
+-}
+-
+-#caja-extra-view-widget {
+-  border-bottom: 1px solid $borders_color;
+-  background-color: $bg_color; // needs overriding
+-
+-  > box > box > label { font-weight: 700; }
+-}
+-
+-
+ // /***********************
+ //  * Mate-Control-Center *
+ //  ***********************/
+ 
+ // almost out of control, and looks ugly
+ window#MyControlCenter > frame > box.horizontal {
+   > widget > scrolledwindow.frame {
+     border: none;
+     // draw pane-separator with borders
+     // FIXME: rendering quality is quite poor
+diff --git a/gtk/sass/3.20/_misc.scss b/gtk/sass/3.20/_misc.scss
+--- a/gtk/sass/3.20/_misc.scss
++++ b/gtk/sass/3.20/_misc.scss
+@@ -339,171 +339,20 @@ list.tweak-group-startup {
+ 
+       border-radius: 0;
+       border: none;
+       background-color: transparent;
+       color: $inverted_secondary_accent_label_color;
+       box-shadow: none;
+     }
+   }
+ }
+ 
+-
+-// /************
+-//  * Nautilus *
+-//  ************/
+-
+-.nautilus-desktop-window {
+-  &,
+-  notebook,
+-  notebook > stack { background: transparent; }
+-}
+-
+-.nautilus-desktop.nautilus-canvas-item {
+-  color: $selected_fg_color;
+-  text-shadow: $z-depth-1-label; // non-sense for me
+-  &:selected { text-shadow: none; }
+-}
+-
+-.background.nautilus-window:not(.nautilus-desktop-window) {
+-  &:not(nautilus-desktop-window) {
+-    // enforce base-color backgrounds
+-    background-color: $base_color;
+-
+-    // main content pane
+-    > grid > paned > overlay > notebook {
+-      // cover up top-edge 1px line
+-      box-shadow: inset 0 1px $base_color;
+-
+-      > stack > box.vertical > grid > overlay > scrolledwindow {
+-        > .view:not(.nautilus-desktop) {
+-          // drop unneeded images
+-          background-image: none;
+-        }
+-      }
+-    }
+-  }
+-}
+-
+-.nautilus { // hide outlines
+-  &-canvas-item {
+-    border-radius: 2px;
+-    outline-width: 0;
+-  }
+-
+-  &-list-view treeview.view { outline-width: 0; }
+-}
+-
+-.nautilus-circular-button {
+-  border-radius: 9999px;
+-  -gtk-outline-radius: 9999px;
+-}
+-
+-NautilusTrashBar {
+-  @extend infobar;
+-}
+-
+-.nautilus-window {
+-  > grid.horizontal paned > separator {
+-    // do not use transparentize
+-    background-image: image($solid_light_borders_color);
+-    background-size: $separator_narrow;
+-    background-repeat: repeat-y;
+-    transition: none;
+-  }
+-
+-  > headerbar.titlebar > box.horizontal > entry { // location-entry
+-    padding-top: 0; // = revealed path-bar
+-    padding-bottom: 0;
+-  }
+-}
+-
+-.disk-space-display {
+-  border: 0 none transparent;
+-
+-  &.free {
+-    border-radius: 100px;
+-    background-color: mix($fg_color, $base_color, 10%);
+-  }
+-
+-  &.used {
+-    border-radius: 100px;
+-    background-color: $accent_color;
+-  }
+-
+-  &.unknown { background-color: mix($accent_color, $base_color, 55%); }
+-}
+-
+-// 'batch-rename' dialogs
+-.conflict-row {
+-  background-color: $warning_bg_color;
+-  color: $secondary_fixed_fg_color;
+-  &:hover,
+-  &:active {
+-    background-color: $warning_color;
+-    color: $fixed_fg_color;
+-  }
+-  &:selected { @extend %selected_items; }
+-}
+-
+-// hide unwanted frame in batch-rename dialog
+-dialog.background.csd > box.dialog-vbox > grid.horizontal {
+-  > scrolledwindow.frame {
+-    > viewport.frame { margin: -1px; }
+-  }
+-}
+-
+-.nautilus {
+-  &-canvas-item {
+-    border-radius: 2px;
+-
+-    &.dim-label {
+-      color: $tertiary_fg_color;
+-      &:selected {
+-        &, &:focus { color: mix($selected_fg_color, $selected_bg_color, 50%); }
+-      }
+-    }
+-  }
+-
+-  &-list-dim-label {
+-    color: $tertiary_fg_color;
+-    &:selected {
+-      &, &:focus { color: mix($selected_fg_color, $selected_bg_color, 50%); }
+-    }
+-  }
+-}
+-
+-// entry-tags for libgd apps
+-.documents-entry-tag {
+-  margin: 2px;
+-  padding: 4px;
+-  border-radius: 2px;
+-  border: none;
+-  background-image: image($suggested_color);
+-  color: $secondary_selected_fg_color;
+-  &:hover { color: $selected_fg_color; }
+-
+-  &.button {
+-    &,
+-    &:hover,
+-    &:active { // unset styling
+-      background-color: transparent;
+-      background-image: none;
+-      border-image: none;
+-      border: none;
+-      box-shadow: none;
+-      animation: none;
+-    }
+-    &:hover { color: $selected_fg_color; }
+-  }
+-}
+-
+-
+ // /*********
+ //  * Geary *
+ //  *********/
+ 
+ // Geary is the most ugly app for theming.
+ .geary-titlebar-left {
+   // remove unexpected "hardcoded" vertical separator
+   separator { opacity: 0; }
+ }
+ 
+diff --git a/gtk/sass/3.22/_3rd-party.scss b/gtk/sass/3.22/_3rd-party.scss
+--- a/gtk/sass/3.22/_3rd-party.scss
++++ b/gtk/sass/3.22/_3rd-party.scss
+@@ -1986,138 +1986,20 @@ window.background.lightdm {
+     animation: spinner 1s linear infinite;
+   }
+ 
+   .lightdm-combo {
+     border-radius: 0;
+     background-color: transparent;
+   }
+ }
+ 
+ 
+-// /********
+-//  * Nemo *
+-//  ********/
+-
+-.nemo-desktop.nemo-canvas-item {
+-  @extend .nautilus-desktop.nautilus-canvas-item;
+-}
+-
+-.nemo {
+-  &-canvas-item { @extend .nautilus-canvas-item; }
+-
+-  &-list-dim-label { @extend .nautilus-list-dim-label; }
+-}
+-
+-.nemo-window {
+-  // workaround for invisible text in rename entry (Eeleditable.entry)
+-  .nemo-window-pane scrolledwindow widget > widget.entry {
+-    &, &:focus {
+-      transition: none;
+-
+-      &:selected { // FIXME: selection node doesn't work?
+-        @extend %selected_items;
+-      }
+-    }
+-  }
+-
+-  infobar.error { // Administrative privileges
+-    label {
+-      font-size: 110%;
+-      font-weight: 700;
+-    }
+-  }
+-
+-  // main tool-bar styling
+-  grid > box > box > toolbar.primary-toolbar {
+-    // draw bottom border and shadows
+-    border-bottom: 1px solid $borders_color;
+-    box-shadow: if($variant == light, $toolbar-shadow-light,
+-                                      $toolbar-shadow-dark);
+-  }
+-
+-  // tweak notebook colour
+-  grid > paned > box > paned > box > notebook {
+-    &, > stack:not(:only-child) {
+-      background-color: $base_color;
+-    }
+-  }
+-
+-  // remove double-border
+-  grid.vertical > paned.horizontal > box.vertical {
+-    > scrolledwindow.frame {
+-      border-width: 0;
+-    }
+-  }
+-
+-  // force using flat-style on bottom bar
+-  grid.vertical > widget {
+-    background-color: $secondary_dark_color;
+-    box-shadow: if($variant=='light', $inline-shadow-light,
+-                                      $inline-shadow-dark);
+-
+-    > box { padding: rem(2.7px); }
+-
+-    > box > button.image-button {
+-      @extend %button_flat_normal;
+-      min-width: rem(13.3px);
+-      min-height: rem(29.3px);
+-      border-radius: 2px;
+-      -gtk-outline-radius: 2px;
+-      padding: 0 rem(10px) 0;
+-      border-image: -gtk-gradient(radial,
+-                                  center bottom, 0,
+-                                  center bottom, 0.001,
+-                                  to($outline_track_color),
+-                                  to(transparent))
+-                                  0 0 0 / 0 0 0px;
+-      background-color: transparent;
+-      color: $secondary_fg_color;
+-      &:hover {
+-        @extend %button_flat_hover;
+-        border-image: none;
+-        background-color: transparent;
+-        color: $fg_color;
+-      }
+-      &:checked {
+-        @extend %button_flat_checked;
+-        border-image: -gtk-gradient(radial,
+-                                    center bottom, 0,
+-                                    center bottom, 0.5,
+-                                    to($selected_bg_color),
+-                                    to(transparent))
+-                                    0 0 2 / 0 0 2px;
+-        background-color: transparent;
+-        color: $fg_color;
+-        &:disabled {
+-          @extend %button_flat_checked_disabled;
+-          border-image: none;
+-          background-color: transparent;
+-          color: $insensitive_fg_color;
+-        }
+-      }
+-      &:disabled {
+-        @extend %button_flat_disabled;
+-        border-image: none;
+-        background-color: transparent;
+-        color: $insensitive_secondary_fg_color;
+-      }
+-    }
+-
+-    box > separator.vertical { // remove separator
+-      min-width: 0;
+-      color: transparent;
+-      background-color: transparent;
+-    }
+-  }
+-}
+-
+-
+ // /************
+ //  * Lollypop *
+ //  ************/
+ 
+ // header grid?
+ paned.horizontal > paned.horizontal stack grid.vertical > grid.horizontal {
+   button.image-button {
+     &, &.toggle {
+       border-radius: 2px;
+       -gtk-outline-radius: 2px;
+@@ -3051,144 +2933,20 @@ PanelToplevel.mate-panel-menu-bar > grid.horizontal > button {
+ //  * Mate-Terminal *
+ //  *****************/
+ 
+ .mate-terminal {
+   notebook > header.top { // show drop-shadows
+     @extend %ssd_notebook_shadow;
+   }
+ }
+ 
+ 
+-// /********
+-//  * Caja *
+-//  ********/
+-
+-.caja {
+-  &-canvas-item { @extend .nautilus-canvas-item; }
+-
+-  &-list-dim-label { @extend .nautilus-list-dim-label; }
+-}
+-
+-.caja-desktop { // desktop icon-grid styling
+-  &.caja-canvas-item { @extend .nautilus-desktop.nautilus-canvas-item; }
+-
+-  > widget.entry { // = EelEditableLabel.entry
+-    &, &:focus {
+-      transition: none;
+-
+-      &:selected { // FIXME: selection node doesn't work?
+-        @extend %selected_items;
+-      }
+-    }
+-  }
+-}
+-
+-.caja-navigation-window {
+-  // side-panel styling
+-  .caja-side-pane {
+-    scrolledwindow {
+-      @extend %sidebar_template;
+-
+-      treeview.view {
+-        background-color: transparent;
+-        // font-weight: 500;
+-        &:selected { @extend %selected_items; }
+-      }
+-    }
+-
+-    notebook {
+-      border-top: 1px solid $borders_color;
+-
+-      .frame { border: none; }
+-    }
+-
+-    button.flat:last-child { // 'close' button on header
+-      @extend %toolitem_size;
+-    }
+-  }
+-
+-  // main toolbar styling
+-  toolbar.primary-toolbar {
+-    border-bottom: 1px solid $borders_color;
+-    box-shadow: if($variant == light, $toolbar-shadow-light,
+-                                      $toolbar-shadow-dark);
+-  }
+-
+-  // path-bar styling
+-  .caja-pathbar {
+-    button {
+-      &:first-child { // remove meaningless gaps
+-        &:dir(ltr) { margin-right: -2px; }
+-        &:dir(rtl) { margin-left: -2px; }
+-      }
+-      &:not(:first-child):not(:last-child) {
+-        margin: 0 -2px;
+-      }
+-      &:last-child {
+-        &:dir(ltr) { margin-left: -2px; }
+-        &:dir(rtl) { margin-right: -2px; }
+-      }
+-
+-      &, &.slider-button { // use linked-array button styling
+-        @extend %button_array;
+-        @extend %toolitem_size;
+-      }
+-    }
+-  }
+-
+-  button.image-button.toggle { // most-left toggle button in path-bar pane
+-    @extend %toolitem_size;
+-    border-radius: 2px;
+-    -gtk-outline-radius: 2px;
+-  }
+-
+-  .caja-notebook { // remove lateral borders
+-    &, .frame {
+-      border-width: 1px 0 1px;
+-    }
+-
+-    > header.top { // revive top-border when tabs are shown
+-      border-top: 1px solid $borders_color;
+-      background-color: $secondary_dark_color;
+-      box-shadow: if($variant == light, $inline-shadow-light,
+-                                        $inline-shadow-dark);
+-    }
+-  }
+-
+-  statusbar {
+-    margin: 0 -10px; // hide weird lateral gaps
+-    padding: 0 rem(6.7px);
+-    background-color: $secondary_dark_color;
+-    box-shadow: if($variant == light, $inline-shadow-light,
+-                                      $inline-shadow-dark);
+-  }
+-
+-  // workaround for invisible text in rename entry
+-  scrolledwindow widget > widget.entry {
+-    &, &:focus {
+-      transition: none;
+-
+-      &:selected { // FIXME: selection node doesn't work?
+-        @extend %selected_items;
+-      }
+-    }
+-  }
+-}
+-
+-#caja-extra-view-widget {
+-  border-bottom: 1px solid $borders_color;
+-  background-color: $bg_color; // needs overriding
+-
+-  > box > box > label { font-weight: 700; }
+-}
+-
+-
+ // /***********************
+ //  * Mate-Control-Center *
+ //  ***********************/
+ 
+ // almost out of control, and looks ugly
+ window#MyControlCenter > frame > box.horizontal {
+   > widget > scrolledwindow.frame {
+     border: none;
+     // draw pane-separator with borders
+     // FIXME: rendering quality is quite poor
+diff --git a/gtk/sass/3.22/_misc.scss b/gtk/sass/3.22/_misc.scss
+--- a/gtk/sass/3.22/_misc.scss
++++ b/gtk/sass/3.22/_misc.scss
+@@ -448,199 +448,20 @@ dialog.background.csd > box.dialog-vbox.vertical {
+       background-color: transparent;
+       color: $inverted_accent_label_color;
+     }
+     &:disabled {
+       @extend %button_flat_disabled;
+       color: $insensitive_inverted_fg_color;
+     }
+   }
+ }
+ 
+-
+-// /************
+-//  * Nautilus *
+-//  ************/
+-
+-.nautilus-desktop-window {
+-  &,
+-  notebook,
+-  notebook > stack { background: transparent; }
+-}
+-
+-.nautilus-desktop.nautilus-canvas-item {
+-  color: $selected_fg_color;
+-  text-shadow: $z-depth-1-label; // non-sense for me
+-  &:selected { text-shadow: none; }
+-}
+-
+-.background.nautilus-window:not(.nautilus-desktop-window) {
+-  &:not(nautilus-desktop-window) {
+-    // enforce base-color backgrounds
+-    background-color: $base_color;
+-
+-    // main content pane
+-    > grid > paned > overlay > notebook {
+-      // cover up top-edge 1px line
+-      box-shadow: inset 0 1px $base_color;
+-
+-      > stack > box.vertical > grid > overlay > scrolledwindow {
+-        > .view:not(.nautilus-desktop) {
+-          // drop unneeded images
+-          background-image: none;
+-        }
+-      }
+-    }
+-  }
+-}
+-
+-.nautilus { // hide outlines
+-  &-canvas-item {
+-    border-radius: 2px;
+-    outline-width: 0;
+-  }
+-
+-  &-list-view treeview.view { outline-width: 0; }
+-}
+-
+-.nautilus-circular-button {
+-  border-radius: 9999px;
+-  -gtk-outline-radius: 9999px;
+-}
+-
+-.nautilus-window {
+-  > grid.horizontal paned > separator {
+-    // do not use transparentize
+-    background-image: image($solid_light_borders_color);
+-    background-size: $separator_narrow;
+-    background-repeat: repeat-y;
+-    transition: none;
+-  }
+-
+-  > headerbar.titlebar > box.horizontal > entry { // location-entry
+-    padding-top: 0; // = revealed path-bar
+-    padding-bottom: 0;
+-  }
+-
+-  > headerbar.titlebar { // radial-progress widget
+-    revealer > button.popup.toggle > widget { color: $accent_color; }
+-  }
+-
+-  $child_gap: if($ref_weight < 1.0, 4px, 6px);
+-  $container_padding: $child_gap ($child_gap * 1.5);
+-  $label_margin: ($child_gap / 2) (-$child_gap * 1.5) 0;
+-  $label_padding: if($ref_weight < 1.0,
+-                  ($child_gap - 1px) $child_gap $child_gap,
+-                  ($child_gap - 3px) $child_gap ($child_gap - 2px));
+-
+-  flowboxchild { // experimental 'new view' mode
+-    margin: unset; // unset spacing first
+-    padding: unset;
+-    color: $fg_color;
+-    outline-width: 0; // unset outlines
+-
+-    * { transition-duration: 0s; } // unset child transitions
+-
+-    box.icon {
+-      &-item-background {
+-        padding: $container_padding;
+-        border: 0 none transparent;
+-
+-        label {
+-          margin: $label_margin;
+-          padding: $label_padding;
+-          border-radius: 2px;
+-          background-color: transparent;
+-        }
+-      }
+-
+-      &-background { // use solid black backgrounds
+-        border: 0 none transparent;
+-        border-radius: 2px;
+-        background-color: black;
+-      }
+-    }
+-
+-    &:selected {
+-      background-color: transparent; // unset selection colour
+-
+-      box.icon {
+-        &-item-background label {
+-          background-color: $selected_bg_color;
+-          color: $selected_fg_color;
+-        }
+-
+-        // tone up image node
+-        &-background image,
+-        &-item-background image { -gtk-icon-effect: highlight; }
+-      }
+-    }
+-  }
+-}
+-
+-.disk-space-display {
+-  border: 0 none transparent;
+-
+-  &.free {
+-    border-radius: 100px;
+-    background-color: mix($fg_color, $base_color, 10%);
+-  }
+-
+-  &.used {
+-    border-radius: 100px;
+-    background-color: $accent_color;
+-  }
+-
+-  &.unknown { background-color: mix($accent_color, $base_color, 55%); }
+-}
+-
+-// 'batch-rename' dialogs
+-.conflict-row {
+-  background-color: $warning_bg_color;
+-  color: $secondary_fixed_fg_color;
+-  &:hover,
+-  &:active {
+-    background-color: $warning_color;
+-    color: $fixed_fg_color;
+-  }
+-  &:selected { @extend %selected_items; }
+-}
+-
+-// hide unwanted frame in batch-rename dialog
+-dialog.background.csd > box.dialog-vbox > grid.horizontal {
+-  > scrolledwindow.frame {
+-    > viewport.frame { margin: -1px; }
+-  }
+-}
+-
+-.nautilus {
+-  &-canvas-item {
+-    border-radius: 2px;
+-
+-    &.dim-label {
+-      color: $tertiary_fg_color;
+-      &:selected {
+-        &, &:focus { color: mix($selected_fg_color, $selected_bg_color, 50%); }
+-      }
+-    }
+-  }
+-
+-  &-list-dim-label {
+-    color: $tertiary_fg_color;
+-    &:selected {
+-      &, &:focus { color: mix($selected_fg_color, $selected_bg_color, 50%); }
+-    }
+-  }
+-}
+-
+-.documents-entry-tag { @extend .entry-tag; }
+-
+-
+ // /*********
+ //  * Geary *
+ //  *********/
+ 
+ // Geary is the most ugly app for theming.
+ .geary-titlebar-left {
+   // remove unexpected "hardcoded" vertical separator
+   separator { opacity: 0; }
+ }
+ 
+diff --git a/gtk/sass/3.24/_3rd-party.scss b/gtk/sass/3.24/_3rd-party.scss
+--- a/gtk/sass/3.24/_3rd-party.scss
++++ b/gtk/sass/3.24/_3rd-party.scss
+@@ -1985,139 +1985,20 @@ window.background.lightdm {
+     -gtk-icon-source: -gtk-icontheme('process-working-symbolic');
+     animation: spinner 1s linear infinite;
+   }
+ 
+   .lightdm-combo {
+     border-radius: 0;
+     background-color: transparent;
+   }
+ }
+ 
+-
+-// /********
+-//  * Nemo *
+-//  ********/
+-
+-.nemo-desktop.nemo-canvas-item {
+-  @extend .nautilus-desktop.nautilus-canvas-item;
+-}
+-
+-.nemo {
+-  &-canvas-item { @extend .nautilus-canvas-item; }
+-
+-  &-list-dim-label { @extend .nautilus-list-dim-label; }
+-}
+-
+-.nemo-window {
+-  // workaround for invisible text in rename entry (Eeleditable.entry)
+-  .nemo-window-pane scrolledwindow widget > widget.entry {
+-    &, &:focus {
+-      transition: none;
+-
+-      &:selected { // FIXME: selection node doesn't work?
+-        @extend %selected_items;
+-      }
+-    }
+-  }
+-
+-  infobar.error { // Administrative privileges
+-    label {
+-      font-size: 110%;
+-      font-weight: 700;
+-    }
+-  }
+-
+-  // main tool-bar styling
+-  grid > box > box > toolbar.primary-toolbar {
+-    // draw bottom border and shadows
+-    border-bottom: 1px solid $borders_color;
+-    box-shadow: if($variant == light, $toolbar-shadow-light,
+-                                      $toolbar-shadow-dark);
+-  }
+-
+-  // tweak notebook colour
+-  grid > paned > box > paned > box > notebook {
+-    &, > stack:not(:only-child) {
+-      background-color: $base_color;
+-    }
+-  }
+-
+-  // remove double-border
+-  grid.vertical > paned.horizontal > box.vertical {
+-    > scrolledwindow.frame {
+-      border-width: 0;
+-    }
+-  }
+-
+-  // force using flat-style on bottom bar
+-  grid.vertical > widget {
+-    background-color: $secondary_dark_color;
+-    box-shadow: if($variant=='light', $inline-shadow-light,
+-                                      $inline-shadow-dark);
+-
+-    > box { padding: rem(2.7px); }
+-
+-    > box > button.image-button {
+-      @extend %button_flat_normal;
+-      min-width: rem(13.3px);
+-      min-height: rem(29.3px);
+-      border-radius: 2px;
+-      -gtk-outline-radius: 2px;
+-      padding: 0 rem(10px) 0;
+-      border-image: -gtk-gradient(radial,
+-                                  center bottom, 0,
+-                                  center bottom, 0.001,
+-                                  to($outline_track_color),
+-                                  to(transparent))
+-                                  0 0 0 / 0 0 0px;
+-      background-color: transparent;
+-      color: $secondary_fg_color;
+-      &:hover {
+-        @extend %button_flat_hover;
+-        border-image: none;
+-        background-color: transparent;
+-        color: $fg_color;
+-      }
+-      &:checked {
+-        @extend %button_flat_checked;
+-        border-image: -gtk-gradient(radial,
+-                                    center bottom, 0,
+-                                    center bottom, 0.5,
+-                                    to($selected_bg_color),
+-                                    to(transparent))
+-                                    0 0 2 / 0 0 2px;
+-        background-color: transparent;
+-        color: $fg_color;
+-        &:disabled {
+-          @extend %button_flat_checked_disabled;
+-          border-image: none;
+-          background-color: transparent;
+-          color: $insensitive_fg_color;
+-        }
+-      }
+-      &:disabled {
+-        @extend %button_flat_disabled;
+-        border-image: none;
+-        background-color: transparent;
+-        color: $insensitive_secondary_fg_color;
+-      }
+-    }
+-
+-    box > separator.vertical { // remove separator
+-      min-width: 0;
+-      color: transparent;
+-      background-color: transparent;
+-    }
+-  }
+-}
+-
+-
+ // /************
+ //  * Lollypop *
+ //  ************/
+ 
+ // header grid?
+ paned.horizontal > paned.horizontal stack grid.vertical > grid.horizontal {
+   button.image-button {
+     &, &.toggle {
+       border-radius: 2px;
+       -gtk-outline-radius: 2px;
+@@ -3048,146 +2929,20 @@ PanelToplevel.mate-panel-menu-bar > grid.horizontal > button {
+ 
+ // /*****************
+ //  * Mate-Terminal *
+ //  *****************/
+ 
+ .mate-terminal {
+   notebook > header.top { // show drop-shadows
+     @extend %ssd_notebook_shadow;
+   }
+ }
+-
+-
+-// /********
+-//  * Caja *
+-//  ********/
+-
+-.caja {
+-  &-canvas-item { @extend .nautilus-canvas-item; }
+-
+-  &-list-dim-label { @extend .nautilus-list-dim-label; }
+-}
+-
+-.caja-desktop { // desktop icon-grid styling
+-  &.caja-canvas-item { @extend .nautilus-desktop.nautilus-canvas-item; }
+-
+-  > widget.entry { // = EelEditableLabel.entry
+-    &, &:focus {
+-      transition: none;
+-
+-      &:selected { // FIXME: selection node doesn't work?
+-        @extend %selected_items;
+-      }
+-    }
+-  }
+-}
+-
+-.caja-navigation-window {
+-  // side-panel styling
+-  .caja-side-pane {
+-    scrolledwindow {
+-      @extend %sidebar_template;
+-
+-      treeview.view {
+-        background-color: transparent;
+-        // font-weight: 500;
+-        &:selected { @extend %selected_items; }
+-      }
+-    }
+-
+-    notebook {
+-      border-top: 1px solid $borders_color;
+-
+-      .frame { border: none; }
+-    }
+-
+-    button.flat:last-child { // 'close' button on header
+-      @extend %toolitem_size;
+-    }
+-  }
+-
+-  // main toolbar styling
+-  toolbar.primary-toolbar {
+-    border-bottom: 1px solid $borders_color;
+-    box-shadow: if($variant == light, $toolbar-shadow-light,
+-                                      $toolbar-shadow-dark);
+-  }
+-
+-  // path-bar styling
+-  .caja-pathbar {
+-    button {
+-      &:first-child { // remove meaningless gaps
+-        &:dir(ltr) { margin-right: -2px; }
+-        &:dir(rtl) { margin-left: -2px; }
+-      }
+-      &:not(:first-child):not(:last-child) {
+-        margin: 0 -2px;
+-      }
+-      &:last-child {
+-        &:dir(ltr) { margin-left: -2px; }
+-        &:dir(rtl) { margin-right: -2px; }
+-      }
+-
+-      &, &.slider-button { // use linked-array button styling
+-        @extend %button_array;
+-        @extend %toolitem_size;
+-      }
+-    }
+-  }
+-
+-  button.image-button.toggle { // most-left toggle button in path-bar pane
+-    @extend %toolitem_size;
+-    border-radius: 2px;
+-    -gtk-outline-radius: 2px;
+-  }
+-
+-  .caja-notebook { // remove lateral borders
+-    &, .frame {
+-      border-width: 1px 0 1px;
+-    }
+-
+-    > header.top { // revive top-border when tabs are shown
+-      border-top: 1px solid $borders_color;
+-      background-color: $secondary_dark_color;
+-      box-shadow: if($variant == light, $inline-shadow-light,
+-                                        $inline-shadow-dark);
+-    }
+-  }
+-
+-  statusbar {
+-    margin: 0 -10px; // hide weird lateral gaps
+-    padding: 0 rem(6.7px);
+-    background-color: $secondary_dark_color;
+-    box-shadow: if($variant == light, $inline-shadow-light,
+-                                      $inline-shadow-dark);
+-  }
+-
+-  // workaround for invisible text in rename entry
+-  scrolledwindow widget > widget.entry {
+-    &, &:focus {
+-      transition: none;
+-
+-      &:selected { // FIXME: selection node doesn't work?
+-        @extend %selected_items;
+-      }
+-    }
+-  }
+-}
+-
+-#caja-extra-view-widget {
+-  border-bottom: 1px solid $borders_color;
+-  background-color: $bg_color; // needs overriding
+-
+-  > box > box > label { font-weight: 700; }
+-}
+-
+-
+ // /***********************
+ //  * Mate-Control-Center *
+ //  ***********************/
+ 
+ // almost out of control, and looks ugly
+ window#MyControlCenter > frame > box.horizontal {
+   > widget > scrolledwindow.frame {
+     border: none;
+     // draw pane-separator with borders
+     // FIXME: rendering quality is quite poor
+diff --git a/gtk/sass/3.24/_misc.scss b/gtk/sass/3.24/_misc.scss
+--- a/gtk/sass/3.24/_misc.scss
++++ b/gtk/sass/3.24/_misc.scss
+@@ -448,232 +448,20 @@ dialog.background.csd > box.dialog-vbox.vertical {
+       background-color: transparent;
+       color: $inverted_accent_label_color;
+     }
+     &:disabled {
+       @extend %button_flat_disabled;
+       color: $insensitive_inverted_fg_color;
+     }
+   }
+ }
+ 
+-
+-// /************
+-//  * Nautilus *
+-//  ************/
+-
+-.nautilus-desktop-window {
+-  &,
+-  notebook,
+-  notebook > stack { background: transparent; }
+-}
+-
+-.nautilus-desktop.nautilus-canvas-item {
+-  color: $selected_fg_color;
+-  text-shadow: $z-depth-1-label; // non-sense for me
+-  &:selected { text-shadow: none; }
+-}
+-
+-.background.nautilus-window:not(.nautilus-desktop-window) {
+-  &:not(nautilus-desktop-window) {
+-    // enforce base-color backgrounds
+-    background-color: $base_color;
+-
+-    // main content pane
+-    > grid > paned > overlay > notebook {
+-      // cover up top-edge 1px line
+-      box-shadow: inset 0 1px $base_color;
+-
+-      > stack > box.vertical > grid > overlay > scrolledwindow {
+-        > .view:not(.nautilus-desktop) {
+-          // drop unneeded images
+-          background-image: none;
+-        }
+-      }
+-    }
+-  }
+-}
+-
+-.nautilus { // hide outlines
+-  &-canvas-item {
+-    border-radius: 2px;
+-    outline-width: 0;
+-  }
+-
+-  &-list-view treeview.view { outline-width: 0; }
+-}
+-
+-.nautilus-circular-button {
+-  border-radius: 9999px;
+-  -gtk-outline-radius: 9999px;
+-}
+-
+-.nautilus-window {
+-  > grid.horizontal paned > separator {
+-    // do not use transparentize
+-    background-image: image($solid_light_borders_color);
+-    background-size: $separator_narrow;
+-    background-repeat: repeat-y;
+-    transition: none;
+-  }
+-
+-  > headerbar.titlebar > box.horizontal {
+-    widget > stack { // >= 3.29.90
+-      // we no longer need to keep zero t/b padding for switchable entry node
+-      // anymore
+-      .linked.path-bar button {
+-        &.toggle,
+-        &.popup { // set full-height spacing
+-          min-height: $icon_size * 1.5;
+-          padding-top: if($ref_weight < 1.0,
+-                       rem(($widget_size - $icon_size * 1.5 - 2px) / 2),
+-                       rem(($widget_size - $icon_size * 1.5) / 2));
+-          padding-bottom: if($ref_weight < 1.0,
+-                          rem(($widget_size - $icon_size * 1.5 - 2px) / 2),
+-                          rem(($widget_size - $icon_size * 1.5) / 2));
+-        }
+-      }
+-    }
+-
+-    > box.linked > button.disclosure-button.popup.toggle { // >= 3.29.90
+-      // down-arrow button
+-      min-width: $icon_size;
+-      padding-left: 0;
+-      padding-right: 0;
+-      border-radius: 2px;
+-      -gtk-outline-radius: 2px;
+-    }
+-
+-    > entry { // location-entry (legacy)
+-      padding-top: 0; // = revealed path-bar
+-      padding-bottom: 0;
+-    }
+-  }
+-
+-  > headerbar.titlebar { // radial-progress widget
+-    revealer > button.popup.toggle > widget { color: $accent_color; }
+-  }
+-
+-  $child_gap: if($ref_weight < 1.0, 4px, 6px);
+-  $container_padding: $child_gap ($child_gap * 1.5);
+-  $label_margin: ($child_gap / 2) (-$child_gap * 1.5) 0;
+-  $label_padding: if($ref_weight < 1.0,
+-                  ($child_gap - 1px) $child_gap $child_gap,
+-                  ($child_gap - 3px) $child_gap ($child_gap - 2px));
+-
+-  flowboxchild { // experimental 'new view' mode
+-    margin: unset; // unset spacing first
+-    padding: unset;
+-    color: $fg_color;
+-    outline-width: 0; // unset outlines
+-
+-    * { transition-duration: 0s; } // unset child transitions
+-
+-    box.icon {
+-      &-item-background {
+-        padding: $container_padding;
+-        border: 0 none transparent;
+-
+-        label {
+-          margin: $label_margin;
+-          padding: $label_padding;
+-          border-radius: 2px;
+-          background-color: transparent;
+-        }
+-      }
+-
+-      &-background { // use solid black backgrounds
+-        border: 0 none transparent;
+-        border-radius: 2px;
+-        background-color: black;
+-      }
+-    }
+-
+-    &:selected {
+-      background-color: transparent; // unset selection colour
+-
+-      box.icon {
+-        &-item-background label {
+-          background-color: $selected_bg_color;
+-          color: $selected_fg_color;
+-        }
+-
+-        // tone up image node
+-        &-background image,
+-        &-item-background image { -gtk-icon-effect: highlight; }
+-      }
+-    }
+-  }
+-}
+-
+-.disk-space-display {
+-  border: 0 none transparent;
+-
+-  &.free {
+-    border-radius: 100px;
+-    background-color: mix($fg_color, $base_color, 10%); // legacy
+-    color: mix($fg_color, $base_color, 10%); // >= 3.29.90
+-  }
+-
+-  &.used {
+-    border-radius: 100px;
+-    background-color: $accent_color;
+-    color: $accent_color;
+-  }
+-
+-  &.unknown {
+-    background-color: mix($accent_color, $base_color, 55%);
+-    color: mix($accent_color, $base_color, 55%);
+-  }
+-}
+-
+-// 'batch-rename' dialogs
+-.conflict-row {
+-  background-color: $warning_bg_color;
+-  color: $secondary_fixed_fg_color;
+-  &:hover,
+-  &:active {
+-    background-color: $warning_color;
+-    color: $fixed_fg_color;
+-  }
+-  &:selected { @extend %selected_items; }
+-}
+-
+-// hide unwanted frame in batch-rename dialog
+-dialog.background.csd > box.dialog-vbox > grid.horizontal {
+-  > scrolledwindow.frame {
+-    > viewport.frame { margin: -1px; }
+-  }
+-}
+-
+-.nautilus {
+-  &-canvas-item {
+-    border-radius: 2px;
+-
+-    &.dim-label {
+-      color: $tertiary_fg_color;
+-      &:selected {
+-        &, &:focus { color: mix($selected_fg_color, $selected_bg_color, 50%); }
+-      }
+-    }
+-  }
+-
+-  &-list-dim-label {
+-    color: $tertiary_fg_color;
+-    &:selected {
+-      &, &:focus { color: mix($selected_fg_color, $selected_bg_color, 50%); }
+-    }
+-  }
+-}
+-
+-.documents-entry-tag { @extend .entry-tag; }
+-
+-
+ // /*********
+ //  * Geary *
+ //  *********/
+ 
+ // Geary is the most ugly app for theming.
+ .geary-titlebar-left {
+   // remove unexpected "hardcoded" vertical separator
+   separator { opacity: 0; }
+ }
+ 
+diff --git a/gtk/sass/4.0/_3rd-party.scss b/gtk/sass/4.0/_3rd-party.scss
+--- a/gtk/sass/4.0/_3rd-party.scss
++++ b/gtk/sass/4.0/_3rd-party.scss
+@@ -1969,134 +1969,20 @@ window.background.lightdm {
+     animation: spinner 1s linear infinite;
+   }
+ 
+   .lightdm-combo {
+     border-radius: 0;
+     background-color: transparent;
+   }
+ }
+ 
+ 
+-// /********
+-//  * Nemo *
+-//  ********/
+-
+-.nemo-desktop.nemo-canvas-item {
+-  @extend .nautilus-desktop.nautilus-canvas-item;
+-}
+-
+-.nemo {
+-  &-canvas-item { @extend .nautilus-canvas-item; }
+-
+-  &-list-dim-label { @extend .nautilus-list-dim-label; }
+-}
+-
+-.nemo-window {
+-  // workaround for invisible text in rename entry (Eeleditable.entry)
+-  .nemo-window-pane scrolledwindow widget > widget.entry {
+-    &, &:focus {
+-      transition: none;
+-
+-      &:selected { // FIXME: selection node doesn't work?
+-        @extend %selected_items;
+-      }
+-    }
+-  }
+-
+-  infobar.error { // Administrative privileges
+-    label {
+-      font-size: 110%;
+-      font-weight: 700;
+-    }
+-  }
+-
+-  // main tool-bar styling
+-  grid > box > box > toolbar.primary-toolbar {
+-    // draw bottom border and shadows
+-    border-bottom: 1px solid $borders_color;
+-    box-shadow: if($variant == light, $toolbar-shadow-light,
+-                                      $toolbar-shadow-dark);
+-  }
+-
+-  // tweak notebook colour
+-  grid > paned > box > paned > box > notebook {
+-    &, > box > stack:not(:only-child) {
+-      background-color: $base_color;
+-    }
+-  }
+-
+-  // remove double-border
+-  grid.vertical > paned.horizontal > box.vertical {
+-    > scrolledwindow.frame {
+-      border-width: 0;
+-    }
+-  }
+-
+-  // force using flat-style on bottom bar
+-  grid.vertical > widget {
+-    background-color: $secondary_dark_color;
+-    box-shadow: if($variant=='light', $inline-shadow-light,
+-                                      $inline-shadow-dark);
+-
+-    > box { padding: rem(2.7px); }
+-
+-    > box > button.image-button {
+-      @extend %button_flat_normal;
+-      min-width: rem(13.3px);
+-      min-height: rem(29.3px);
+-      border-radius: 2px;
+-      -gtk-outline-radius: 2px;
+-      padding: 0 rem(10px) 0;
+-      border-image: radial-gradient(circle farthest-corner at center,
+-                                    $outline_track_color 0%,
+-                                    transparent)
+-                                    0 0 0 / 0 0 0px;
+-      background-color: transparent;
+-      color: $secondary_fg_color;
+-      &:hover {
+-        @extend %button_flat_hover;
+-        border-image: none;
+-        background-color: transparent;
+-        color: $fg_color;
+-      }
+-      &:checked {
+-        @extend %button_flat_checked;
+-        border-image: radial-gradient(circle farthest-corner at center,
+-                                      $selected_bg_color 100%,
+-                                      transparent)
+-                                      0 0 2 / 0 0 2px;
+-        background-color: transparent;
+-        color: $fg_color;
+-        &:disabled {
+-          @extend %button_flat_checked_disabled;
+-          border-image: none;
+-          background-color: transparent;
+-          color: $insensitive_fg_color;
+-        }
+-      }
+-      &:disabled {
+-        @extend %button_flat_disabled;
+-        border-image: none;
+-        background-color: transparent;
+-        color: $insensitive_secondary_fg_color;
+-      }
+-    }
+-
+-    box > separator.vertical { // remove separator
+-      min-width: 0;
+-      color: transparent;
+-      background-color: transparent;
+-    }
+-  }
+-}
+-
+-
+ // /************
+ //  * Lollypop *
+ //  ************/
+ 
+ // header grid?
+ paned.horizontal > paned.horizontal stack grid.vertical > grid.horizontal {
+   button.image-button {
+     &, &.toggle {
+       border-radius: 2px;
+       -gtk-outline-radius: 2px;
+@@ -3029,144 +2915,20 @@ PanelToplevel.mate-panel-menu-bar > grid.horizontal > button {
+ //  * Mate-Terminal *
+ //  *****************/
+ 
+ .mate-terminal {
+   notebook > box > header.top { // show drop-shadows
+     @extend %ssd_notebook_shadow;
+   }
+ }
+ 
+ 
+-// /********
+-//  * Caja *
+-//  ********/
+-
+-.caja {
+-  &-canvas-item { @extend .nautilus-canvas-item; }
+-
+-  &-list-dim-label { @extend .nautilus-list-dim-label; }
+-}
+-
+-.caja-desktop { // desktop icon-grid styling
+-  &.caja-canvas-item { @extend .nautilus-desktop.nautilus-canvas-item; }
+-
+-  > widget.entry { // = EelEditableLabel.entry
+-    &, &:focus {
+-      transition: none;
+-
+-      &:selected { // FIXME: selection node doesn't work?
+-        @extend %selected_items;
+-      }
+-    }
+-  }
+-}
+-
+-.caja-navigation-window {
+-  // side-panel styling
+-  .caja-side-pane {
+-    scrolledwindow {
+-      @extend %sidebar_template;
+-
+-      treeview.view {
+-        background-color: transparent;
+-        &:selected { @extend %selected_items; }
+-      }
+-    }
+-
+-    notebook {
+-      border-top: 1px solid $borders_color;
+-
+-      .frame { border: none; }
+-    }
+-
+-    button.flat:last-child { // 'close' button on header
+-      @extend %toolitem_size;
+-    }
+-  }
+-
+-  // main toolbar styling
+-  toolbar.primary-toolbar {
+-    border-bottom: 1px solid $borders_color;
+-    box-shadow: if($variant == light, $toolbar-shadow-light,
+-                                      $toolbar-shadow-dark);
+-  }
+-
+-  // path-bar styling
+-  .caja-pathbar {
+-    button {
+-      &:first-child { // remove meaningless gaps
+-        &:dir(ltr) { margin-right: -2px; }
+-        &:dir(rtl) { margin-left: -2px; }
+-      }
+-      &:not(:first-child):not(:last-child) {
+-        margin: 0 -2px;
+-      }
+-      &:last-child {
+-        &:dir(ltr) { margin-left: -2px; }
+-        &:dir(rtl) { margin-right: -2px; }
+-      }
+-
+-      &, &.slider-button { // use linked-array button styling
+-        @extend %button_array;
+-        @extend %toolitem_size;
+-      }
+-    }
+-  }
+-
+-  button.image-button.toggle { // most-left toggle button in path-bar pane
+-    @extend %toolitem_size;
+-    @include button(flat-normal);
+-    border-radius: 2px;
+-    -gtk-outline-radius: 2px;
+-  }
+-
+-  .caja-notebook { // remove lateral borders
+-    &, .frame {
+-      border-width: 1px 0 1px;
+-    }
+-
+-    > box > header.top { // revive top-border when tabs are shown
+-      border-top: 1px solid $borders_color;
+-      background-color: $secondary_dark_color;
+-      box-shadow: if($variant == light, $inline-shadow-light,
+-                                        $inline-shadow-dark);
+-    }
+-  }
+-
+-  statusbar {
+-    margin: 0 -10px; // hide weird lateral gaps
+-    padding: 0 rem(6.7px);
+-    background-color: $secondary_dark_color;
+-    box-shadow: if($variant == light, $inline-shadow-light,
+-                                      $inline-shadow-dark);
+-  }
+-
+-  // workaround for invisible text in rename entry
+-  scrolledwindow widget > widget.entry {
+-    &, &:focus {
+-      transition: none;
+-
+-      &:selected { // FIXME: selection node doesn't work?
+-        @extend %selected_items;
+-      }
+-    }
+-  }
+-}
+-
+-#caja-extra-view-widget {
+-  border-bottom: 1px solid $borders_color;
+-  background-color: $bg_color; // needs overriding
+-
+-  > box > box > label { font-weight: 700; }
+-}
+-
+-
+ // /***********************
+ //  * Mate-Control-Center *
+ //  ***********************/
+ 
+ // almost out of control, and looks ugly
+ window#MyControlCenter > frame > box.horizontal {
+   > widget > scrolledwindow.frame {
+     border: none;
+     // draw pane-separator with borders
+     // FIXME: rendering quality is quite poor
+diff --git a/gtk/sass/4.0/_misc.scss b/gtk/sass/4.0/_misc.scss
+--- a/gtk/sass/4.0/_misc.scss
++++ b/gtk/sass/4.0/_misc.scss
+@@ -447,218 +447,20 @@ dialog.background.csd > box.dialog-vbox.vertical {
+       background-color: transparent;
+       color: $inverted_accent_label_color;
+     }
+     &:disabled {
+       @extend %button_flat_disabled;
+       color: $insensitive_inverted_fg_color;
+     }
+   }
+ }
+ 
+-
+-// /************
+-//  * Nautilus *
+-//  ************/
+-
+-.nautilus-desktop-window {
+-  &,
+-  notebook,
+-  notebook > box > stack { background: transparent; }
+-}
+-
+-.nautilus-desktop.nautilus-canvas-item {
+-  color: $selected_fg_color;
+-  text-shadow: $z-depth-1-label; // non-sense for me
+-  &:selected { text-shadow: none; }
+-}
+-
+-.background.nautilus-window:not(.nautilus-desktop-window) {
+-  &:not(nautilus-desktop-window) {
+-    // enforce base-color backgrounds
+-    background-color: $base_color;
+-
+-    // main content pane
+-    > grid > paned > overlay > notebook {
+-      // cover up top-edge 1px line
+-      box-shadow: inset 0 1px $base_color;
+-
+-      > box > stack > box.vertical > grid > overlay > scrolledwindow {
+-        > .view:not(.nautilus-desktop) {
+-          // drop unneeded images
+-          background-image: none;
+-        }
+-      }
+-    }
+-  }
+-}
+-
+-.nautilus-circular-button {
+-  border-radius: 9999px;
+-  -gtk-outline-radius: 9999px;
+-}
+-
+-.nautilus-window {
+-  > grid.horizontal paned > separator {
+-    // do not use transparentize
+-    background-image: image($solid_light_borders_color);
+-    background-size: $separator_narrow;
+-    background-repeat: repeat-y;
+-    transition: none;
+-  }
+-
+-  > headerbar.titlebar > box.horizontal {
+-    widget > stack { // >= 3.29.90
+-      // we no longer need to keep zero t/b padding for switchable entry node
+-      // anymore
+-      .linked.path-bar button {
+-        &.toggle,
+-        &.popup { // set full-height spacing
+-          min-height: $icon_size * 1.5;
+-          padding-top: if($ref_weight < 1.0,
+-                       rem(($widget_size - $icon_size * 1.5 - 2px) / 2),
+-                       rem(($widget_size - $icon_size * 1.5) / 2));
+-          padding-bottom: if($ref_weight < 1.0,
+-                          rem(($widget_size - $icon_size * 1.5 - 2px) / 2),
+-                          rem(($widget_size - $icon_size * 1.5) / 2));
+-        }
+-      }
+-    }
+-
+-    > box.linked > button.disclosure-button.popup.toggle { // >= 3.29.90
+-      // down-arrow button
+-      min-width: $icon_size;
+-      padding-left: 0;
+-      padding-right: 0;
+-      border-radius: 2px;
+-      -gtk-outline-radius: 2px;
+-    }
+-  }
+-
+-  > headerbar.titlebar { // radial-progress widget
+-    revealer > button.popup.toggle > widget { color: $accent_color; }
+-  }
+-
+-  $child_gap: if($ref_weight < 1.0, 4px, 6px);
+-  $container_padding: $child_gap ($child_gap * 1.5);
+-  $label_margin: ($child_gap / 2) (-$child_gap * 1.5) 0;
+-  $label_padding: if($ref_weight < 1.0,
+-                  ($child_gap - 1px) $child_gap $child_gap,
+-                  ($child_gap - 3px) $child_gap ($child_gap - 2px));
+-
+-  flowboxchild { // experimental 'new view' mode
+-    margin: unset; // unset spacing first
+-    padding: unset;
+-    color: $fg_color;
+-    &:focus(visible) { outline-width: 0; } // unset outlines
+-
+-    * { transition-duration: 0s; } // unset child transitions
+-
+-    box.icon {
+-      &-item-background {
+-        padding: $container_padding;
+-        border: 0 none transparent;
+-
+-        label {
+-          margin: $label_margin;
+-          padding: $label_padding;
+-          border-radius: 2px;
+-          background-color: transparent;
+-        }
+-      }
+-
+-      &-background { // use solid black backgrounds
+-        border: 0 none transparent;
+-        border-radius: 2px;
+-        background-color: black;
+-      }
+-    }
+-
+-    &:selected {
+-      background-color: transparent; // unset selection colour
+-
+-      box.icon {
+-        &-item-background label {
+-          background-color: $selected_bg_color;
+-          color: $selected_fg_color;
+-        }
+-
+-        // tone up image node
+-        &-background image,
+-        &-item-background image { -gtk-icon-filter: brightness(1.2); }
+-      }
+-    }
+-  }
+-}
+-
+-.disk-space-display {
+-  border: 0 none transparent;
+-
+-  &.free {
+-    border-radius: 100px;
+-    background-color: mix($fg_color, $base_color, 10%); // legacy
+-    color: mix($fg_color, $base_color, 10%); // >= 3.29.90
+-  }
+-
+-  &.used {
+-    border-radius: 100px;
+-    background-color: $accent_color;
+-    color: $accent_color;
+-  }
+-
+-  &.unknown {
+-    background-color: mix($accent_color, $base_color, 55%);
+-    color: mix($accent_color, $base_color, 55%);
+-  }
+-}
+-
+-// 'batch-rename' dialogs
+-.conflict-row {
+-  background-color: $warning_bg_color;
+-  color: $secondary_fixed_fg_color;
+-  &:hover,
+-  &:active {
+-    background-color: $warning_color;
+-    color: $fixed_fg_color;
+-  }
+-  &:selected { @extend %selected_items; }
+-}
+-
+-// hide unwanted frame in batch-rename dialog
+-dialog.background.csd > box.dialog-vbox > grid.horizontal {
+-  > scrolledwindow.frame {
+-    > viewport.frame { margin: -1px; }
+-  }
+-}
+-
+-.nautilus {
+-  &-canvas-item {
+-    border-radius: 2px;
+-
+-    &.dim-label {
+-      color: $tertiary_fg_color;
+-      &:selected {
+-        &, &:focus { color: mix($selected_fg_color, $selected_bg_color, 50%); }
+-      }
+-    }
+-  }
+-
+-  &-list-dim-label {
+-    color: $tertiary_fg_color;
+-    &:selected {
+-      &, &:focus { color: mix($selected_fg_color, $selected_bg_color, 50%); }
+-    }
+-  }
+-}
+-
+-.documents-entry-tag { @extend .entry-tag; }
+-
+-
+ // /*********
+ //  * Geary *
+ //  *********/
+ 
+ // Geary is the most ugly app for theming.
+ .geary-titlebar-left {
+   // remove unexpected "hardcoded" vertical separator
+   separator { opacity: 0; }
+ }
+ 
