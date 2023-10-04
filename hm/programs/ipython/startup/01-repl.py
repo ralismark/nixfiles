@@ -1,7 +1,8 @@
+import IPython
 from IPython import get_ipython
 ipython = get_ipython()
 
-ipython.run_line_magic("autoreload", "2")
+IPython.get_ipython().run_line_magic("autoreload", "2")
 
 import logging
 logging.basicConfig(
