@@ -145,6 +145,10 @@ in {
       name = "Audacity";
       exec = "nix run -f \"<nixpkgs>\" audacity --";
     };
+    xournalpp = {
+      name= "Xournal++";
+      exec = "nix run -f \"<nixpkgs>\" xournalpp --";
+    };
   };
 
   # Environment ===============================================================
