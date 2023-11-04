@@ -111,6 +111,9 @@ with lib;
 
         # disable c-q closing browser
         "browser.quitShortcut.disable" = true;
+
+        # enable :has
+        "layout.css.has-selector.enabled" = true;
       };
     };
   };

@@ -16,7 +16,21 @@ in
       let
         # we use systemd to move the processes out of sway.service
         # TODO why double systemd-run?
-        exec = "${pkgs.systemd}/bin/systemd-run --user -- ${pkgs.systemd}/bin/systemd-run --user --scope --slice=app-graphical.slice";
+        exec = "${pkgs.systemd}/bin/systemd-run --user -- ${pkgs.systemd}/bin/systemd-run --user --scope --slice=app-graphical.slice --";
+
+        screenshot = region-cmd: let
+          script = ''
+            #!${pkgs.bash}/bin/bash
+
+            out="$(${pkgs.coreutils}/bin/date +'/tmp/screenshot-%Y%m%d-%H%M%S.png')"
+            {
+              ${region-cmd}
+            } | ${pkgs.grim}/bin/grim -g- "$out" && {
+              ${pkgs.wl-clipboard}/bin/wl-copy -t image/png < "$out"
+              ${pkgs.xdragon}/bin/dragon "$out"
+            }
+          '';
+        in "exec ${exec} ${pkgs.writeScript "sway-screenshot" script}";
 
         per-workspace = fn:
           # key name
@@ -110,41 +124,15 @@ in
           XF86MonBrightnessDown = "exec ${pkgs.brightnessctl}/bin/brightnessctl set 5%-";
           XF86MonBrightnessUp = "exec ${pkgs.brightnessctl}/bin/brightnessctl set 5%+";
 
-          # TODO make this work
-          Print =
-            let
-              snip-script = ''
-                #!${pkgs.bash}/bin/bash
-
-                temp="$(mktemp -p /tmp XXXXXXXXXX.png)"
-                ${pkgs.grim}/bin/grim -g "$(${pkgs.slurp}/bin/slurp || exit)" "$temp" && {
-                  ${pkgs.wl-clipboard}/bin/wl-copy -t image/png < "$temp"
-                  ${pkgs.xdragon}/bin/dragon "$temp"
-                }
-
-                # allow programs to take this file, then cleanup
-                sleep 300
-                rm "$temp"
-              '';
-            in
-            "exec ${exec} ${pkgs.writeScript "snip" snip-script}";
-          "Shift+Print" =
-            let
-              snip-script = ''
-                #!${pkgs.bash}/bin/bash
-
-                temp="$(mktemp -p /tmp XXXXXXXXXX.png)"
-                ${pkgs.grim}/bin/grim "$temp" && {
-                  ${pkgs.wl-clipboard}/bin/wl-copy -t image/png < "$temp"
-                  ${pkgs.xdragon}/bin/dragon "$temp"
-                }
-
-                # allow programs to take this file, then cleanup
-                sleep 300
-                rm "$temp"
-              '';
-            in
-            "exec ${exec} ${pkgs.writeScript "snip" snip-script}";
+          Print = screenshot "${pkgs.slurp}/bin/slurp";
+          "Shift+Print" = screenshot ''
+            ${cfg.package}/bin/swaymsg --raw -t get_tree |
+              ${pkgs.jq}/bin/jq -r '
+                recurse(.nodes[]) |
+                select(.focused) |
+                @text "\(.rect.x),\(.rect.y) \(.rect.width)x\(.rect.height)"
+              '
+          '';
 
           # Layout Management --------------------------------------------------
 

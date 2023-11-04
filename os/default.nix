@@ -46,15 +46,6 @@
 
   virtualisation.docker.enable = true;
 
-  services.udev.extraRules = ''
-    # https://wiki.archlinux.org/title/Power_management#PCI_Runtime_Power_Management
-    #SUBSYSTEM=="pci", ATTR{power/control}="auto"
-    #ACTION=="add", SUBSYSTEM=="usb", TEST=="power/control", ATTR{power/control}="auto"
-
-    # https://wiki.archlinux.org/title/Power_management/Wakeup_triggers#Event-driven_with_udev
-    ACTION=="add|change", SUBSYSTEM=="usb", ATTR{power/wakeup}="disabled"
-  '';
-
   # Input =====================================================================
 
   i18n.inputMethod = {
@@ -130,9 +121,11 @@
     fontconfig.allowType1 = true;
     fontDir.decompressFonts = true;
     fontconfig.defaultFonts = {
-      serif = [ "Droid Serif" "Noto Serif CJK SC" "Noto Serif" ];
-      sansSerif = [ "Droid Sans" "Noto Sans CJK SC" "Noto Sans" ];
-      monospace = [ "Cascadia Code PL" "Noto Sans CJK SC" "Noto Sans Mono" ];
+      # TODO i've put blobmoji near the top to prioritise it over noto; is this necessary?
+      # TODO find droid fallback full fonts
+      serif = [ "Droid Serif" "emoji" "Noto Serif CJK SC" "Noto Serif" ];
+      sansSerif = [ "Droid Sans" "emoji" "Noto Sans CJK SC" "Noto Sans" ];
+      monospace = [ "Cascadia Code PL" "emoji" "Noto Sans CJK SC" "Noto Sans Mono" ];
       emoji = [ "Blobmoji" ];
     };
   };
@@ -160,18 +153,27 @@
     deepfilter.enable = true;
   };
 
-  # Boot & System Base ========================================================
+  # Boot & Filesystem =========================================================
 
   boot.resumeDevice = "/dev/disk/by-partuuid/41c69eeb-9417-4331-ad28-05c4dda54bdf";
-  swapDevices = [
-    {
-      device = config.boot.resumeDevice;
-    }
+  swapDevices = [ {
+    device = config.boot.resumeDevice;
+  } ];
+  systemd.tmpfiles.rules = [
+    "w /sys/devices/pci0000:00/0000:00:14.0/power/wakeup - - - - disabled" # USB xHCI controller
   ];
+  # services.udev.extraRules = ''
+  #   ACTION=="add|change", SUBSYSTEM=="usb", ATTR{power/wakeup}="disabled"
+  # '';
+
+  boot.loader.efi.efiSysMountPoint = "/efi";
+  fileSystems."/efi" = {
+    device = "/dev/disk/by-partuuid/6cce0e24-d05c-469c-bf80-a48ed1fb637a";
+    fsType = "vfat";
+  };
 
   # Use the systemd-boot EFI boot loader.
   # TODO replace with rEFInd
-  boot.loader.efi.efiSysMountPoint = "/mnt/efi";
   boot.loader.systemd-boot.enable = true;
 
   # ZFS
@@ -194,16 +196,18 @@
 
   systemd.services."zfs-snapshot-boot" = {
     description = "zfs snapshot on boot";
-    unitConfig.DefaultDependencies = false;
-    serviceConfig.Type = "oneshot";
     script = let
       dataset = "rpool/ds1/ROOT/nixos";
     in ''
       ${config.boot.zfs.package}/bin/zfs snapshot -r ${dataset}@$(date +'%Y-%m-%dT%H-%M-%S')-boot
     '';
     wantedBy = [ "multi-user.target" ];
-    # we only want to run on boot, not any time
+
+    # run only on startup:
     restartIfChanged = false;
+    unitConfig.DefaultDependencies = false;
+    serviceConfig.Type = "oneshot";
+    serviceConfig.RemainAfterExit = "yes"; # make nixos see it as active and so restart
   };
 
   # Users =====================================================================

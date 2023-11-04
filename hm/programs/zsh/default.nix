@@ -98,8 +98,8 @@ with lib;
       "@" = "tunnel-run ";
       "@@" = ''tunnel-run sh -c "exec \$SHELL --login"'';
 
-      dcc = "clang $DFLAGS";
-      "d++" = "clang++ -std=c++14 $DFLAGS";
+      dcc = "gcc $DFLAGS";
+      "d++" = "g++ -std=c++14 $DFLAGS";
     };
 
     localVariables = {
@@ -109,7 +109,7 @@ with lib;
         -Wall -Wextra -pedantic -O2 -Wshadow -Wformat=2 -Wfloat-equal
         -Wconversion -Wshift-overflow -Wcast-qual -Wcast-align -D_GLIBCXX_DEBUG
         -D_GLIBCXX_DEBUG_PEDANTIC -D_FORTIFY_SOURCE=2 -fsanitize=address
-        -fsanitize=undefined -fno-sanitize-recover=undefined,integer -fstack-protector
+        -fsanitize=undefined -fno-sanitize-recover=undefined -fstack-protector
         -Wno-unused-result -DL -g
       '';
     };

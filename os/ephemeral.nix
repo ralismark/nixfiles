@@ -1,6 +1,10 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, ... }:
 {
   # Ephemeral root
+  fileSystems."/" = {
+    device = "rpool/ephemeral/nixos";
+    fsType = "zfs";
+  };
   boot.initrd.postDeviceCommands =
     assert config.boot.resumeDevice != "";
     lib.mkAfter ''
@@ -9,6 +13,19 @@
         zfs rollback rpool/ephemeral/nixos@blank
       fi
     '';
+
+  # Selective persistence
+  fileSystems."/persist" = {
+    device = "rpool/ds1/ROOT/nixos";
+    fsType = "zfs";
+    neededForBoot = true;
+  };
+
+  fileSystems."/var/tmp" = {
+    device = "rpool/var";
+    fsType = "zfs";
+  };
+
 
   environment.persistence."/persist" = {
     hideMounts = true; # ux only -- make them not show up in gvfs
