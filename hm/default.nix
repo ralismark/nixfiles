@@ -141,10 +141,6 @@ in {
         hash = "sha256-j5aZmJPTR6UeHPVKSpQFSQKGPL83d5Gwwu2SMSyGltk=";
       };
     };
-    ispin = {
-      name = "ISpin";
-      exec = "nix shell -f \"<nixpkgs>\" spin -c ispin";
-    };
     audacity = {
       name = "Audacity";
       exec = "nix run -f \"<nixpkgs>\" audacity --";

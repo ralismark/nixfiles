@@ -23,6 +23,5 @@ prismlauncher
 ranger
 rclone
 silver-searcher
-spin
 wdisplays
 wl-clipboard
