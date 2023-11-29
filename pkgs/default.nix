@@ -49,4 +49,18 @@ self: super: {
     mesonFlags = (prev.mesonFlags or [ ]) ++ [ "-Dexperimental=true" ];
   });
 
+  ranger = super.ranger.overrideAttrs (prev: {
+    patches = (prev.patches or [ ]) ++ [
+      # https://github.com/ranger/ranger/issues/2583#issuecomment-1097438886
+      (self.fetchurl {
+        url = "https://github.com/ranger/ranger/commit/642d594b8328880d73d151852e4e41e7675ded6c.diff";
+        hash = "sha256-rPM0jKm1ONI0ld+Cfu6/QnoIwdPDyTeOG0Fr01E9Q0s=";
+      })
+      (self.fetchurl {
+        url = "https://github.com/ranger/ranger/commit/82eef55b1664a66c774df969673435eb7bc82091.diff";
+        hash = "sha256-6ibvZvL8GyU4S9SNR3IXcjM2K1QVRBRESBP4vjQ8I2o=";
+      })
+    ];
+  });
+
 }

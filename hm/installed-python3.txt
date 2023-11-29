@@ -1,7 +1,9 @@
+click
 git-filter-repo
 ipython
 jupyter
 numpy
 pandas
 plotly
+requests
 tqdm

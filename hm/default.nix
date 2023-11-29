@@ -144,10 +144,22 @@ in {
     audacity = {
       name = "Audacity";
       exec = "nix run -f \"<nixpkgs>\" audacity --";
+      icon = pkgs.fetchurl {
+        url = "https://upload.wikimedia.org/wikipedia/commons/e/e2/Audacity_Logo_nofilter.svg";
+        hash = "sha256-k7yNcL7rAC8dqVdmrPyQZU0kx6OqkSpAQ6SjIcQNuLE=";
+      };
     };
     xournalpp = {
-      name= "Xournal++";
+      name = "Xournal++";
       exec = "nix run -f \"<nixpkgs>\" xournalpp --";
+      icon = pkgs.fetchurl {
+        url = "https://raw.githubusercontent.com/xournalpp/xournalpp/c5ddca935d23883288251a970ee1a16c27e02a5f/ui/pixmaps/com.github.xournalpp.xournalpp.svg";
+        hash = "sha256-q19BBkVFjs+CxX8Q/4WJJZnRz2cM4ag84P5c5jZV1e8=";
+      };
+    };
+    gimp = {
+      name = "Gimp";
+      exec = "systemd-run --user --scope -pMemoryMax=1G -pMemorySwapMax=0 -- nix run -f \"<nixpkgs>\" gimp --";
     };
   };
 

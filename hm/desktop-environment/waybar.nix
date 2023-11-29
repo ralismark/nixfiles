@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 {
   # https://github.com/Alexays/Waybar/wiki/Configuration
   programs.waybar = {
@@ -179,6 +179,12 @@
       #temperature { color: #b58900; }
       #cpu { color: #6c71c4; }
     '';
+  };
+
+  systemd.user.services.waybar = {
+    # patch unit to run only once env vars get loaded
+    Unit.After = lib.mkForce [ "graphical-sesion.target" ];
+    Unit.AssertEnvironment = [ "WAYLAND_DISPLAY" ];
   };
 
   xdg.configFile."waybar/config".onChange = ''

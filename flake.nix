@@ -13,7 +13,10 @@
     flake-compat = { url = "github:edolstra/flake-compat"; flake = false; };
 
     mafredri-zsh-async = { url = "github:mafredri/zsh-async"; flake = false; };
-    nix-index-database.url = "github:Mic92/nix-index-database";
+    nix-index-database = {
+      url = "github:Mic92/nix-index-database";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
