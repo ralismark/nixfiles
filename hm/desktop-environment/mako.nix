@@ -39,7 +39,6 @@ in
     Service = {
       Type = "dbus";
       BusName = "org.freedesktop.Notifications";
-      ExecCondition = "/bin/sh -c '[ -n \"$WAYLAND_DISPLAY\" ]'"; # TODO nixify path?
       ExecStart = "${mako-pkg}/bin/mako";
       ExecReload = "${mako-pkg}/bin/makoctl reload";
     };

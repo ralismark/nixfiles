@@ -229,7 +229,7 @@ in
       Description = "SirCmpwn's Wayland window manager";
       Documentation = "man:sway(5)";
 
-      Wants = [ "graphical-session-pre.target" "xdg-desktop-autostart.target" ];
+      Wants = [ "graphical-session-pre.target" "xdg-desktop-autostart.target" "graphical-session.target" ];
       After = [ "graphical-session-pre.target" ];
       BindsTo = [ "graphical-session.target" ];
       Before = [ "graphical-session.target" "xdg-desktop-autostart.target" ];

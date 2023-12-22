@@ -184,7 +184,6 @@
   systemd.user.services.waybar = {
     # patch unit to run only once env vars get loaded
     Unit.After = lib.mkForce [ "graphical-sesion.target" ];
-    Unit.AssertEnvironment = [ "WAYLAND_DISPLAY" ];
   };
 
   xdg.configFile."waybar/config".onChange = ''
