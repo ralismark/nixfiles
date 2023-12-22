@@ -23,7 +23,6 @@ in
     ./rofi.nix
     ./sway.nix
     ./waybar.nix
-    # ./hyprland.nix
   ];
 
   # Startup ===================================================================
