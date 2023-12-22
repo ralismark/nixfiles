@@ -5,6 +5,7 @@ chromium
 dnsutils
 evince
 file
+gimp
 gnome.file-roller
 gnome.gucharmap
 gnumake
@@ -15,6 +16,7 @@ jq
 libqalculate
 mpv
 nomacs
+pandoc
 pantheon.elementary-files
 pavucontrol
 pdfarranger
@@ -22,5 +24,6 @@ prismlauncher
 ranger
 rclone
 silver-searcher
+tectonic
 wdisplays
 wl-clipboard

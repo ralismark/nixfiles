@@ -52,9 +52,6 @@ in {
 
       xdg-open.text = ''
         #!/bin/sh
-        # uncomment to get logs somewhere and tail -f it.
-        # exec > >(tee -i ~/dev/xdg-open-portal-log.txt)
-        # exec 2>&1
 
         if [ "$#" -ne 1 ]; then
           echo >&2 "Usage: xdg-open { file | url }"
@@ -65,20 +62,14 @@ in {
 
         targetFile=$1
 
-        openFile=OpenFile
-        # https://github.com/flatpak/xdg-desktop-portal/issues/683
-        # if [ -d "$targetFile" ]; then
-        #   openFile=OpenDirectory
-        # fi
-
         if [ -e "$targetFile" ]; then
           exec 3< "$targetFile"
           ${pkgs.glib}/bin/gdbus call --session \
             --dest org.freedesktop.portal.Desktop \
             --object-path /org/freedesktop/portal/desktop \
-            --method org.freedesktop.portal.OpenURI.$openFile \
+            --method org.freedesktop.portal.OpenURI.OpenFile \
             --timeout 5 \
-            "" "3" {}
+            "" "3" '{}'
         else
           if ! echo "$targetFile" | grep -q '://'; then
             targetFile="https://$targetFile"
@@ -89,7 +80,7 @@ in {
             --object-path /org/freedesktop/portal/desktop \
             --method org.freedesktop.portal.OpenURI.OpenURI \
             --timeout 5 \
-            "" "$targetFile" {}
+            "" "$targetFile" '{}'
         fi
       '';
 
@@ -117,6 +108,14 @@ in {
   ];
 
   xdg.desktopEntries = {
+    vim = {
+      name = "Vim";
+      exec = "vim";
+      terminal = true;
+      mimeType = [
+        "text/plain"
+      ];
+    };
     dfeet = {
       name = "D-Feet";
       exec = "nix run -f \"<nixpkgs>\" dfeet --";
@@ -156,10 +155,11 @@ in {
         url = "https://raw.githubusercontent.com/xournalpp/xournalpp/c5ddca935d23883288251a970ee1a16c27e02a5f/ui/pixmaps/com.github.xournalpp.xournalpp.svg";
         hash = "sha256-q19BBkVFjs+CxX8Q/4WJJZnRz2cM4ag84P5c5jZV1e8=";
       };
-    };
-    gimp = {
-      name = "Gimp";
-      exec = "systemd-run --user --scope -pMemoryMax=1G -pMemorySwapMax=0 -- nix run -f \"<nixpkgs>\" gimp --";
+      mimeType = [
+        "application/pdf"
+        "application/postscript"
+        "application/x-ext-pdf"
+      ];
     };
   };
 
