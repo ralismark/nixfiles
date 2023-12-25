@@ -16,8 +16,7 @@ let
     inherit (inputs.nixpkgs) lastModified narHash rev;
   };
 in
-import ../../lib/variants-config.nix modulesTarget {
-
+import ../lib/variants-config.nix modulesTarget {
 
   home-manager = {
     # match nixpkgs
@@ -29,12 +28,12 @@ import ../../lib/variants-config.nix modulesTarget {
 
     # match config
     home.sessionVariables.NIXPKGS_CONFIG = "${config.xdg.configHome}/nixpkgs/config.nix";
-    xdg.configFile."nixpkgs/config.nix".source = ../../assets/nixpkgs-config.nix;
+    xdg.configFile."nixpkgs/config.nix".source = ./nixpkgs-config.nix;
 
     # pass overlays
     # lib.cleanSource to make use of nixpkgs not complain about dirty sources
     xdg.configFile."nixpkgs/overlays/pin.nix".text = ''
-      (import ${lib.cleanSource ../..}).overlays.default
+      (import ${lib.cleanSource ../.}).overlays.default
     '';
 
     # make home-manager command available
@@ -56,7 +55,7 @@ import ../../lib/variants-config.nix modulesTarget {
 
     # match config
     environment.variables.NIXPKGS_CONFIG = "/etc/nix/nixpkgs-config.nix";
-    environment.etc."nix/nixpkgs-config.nix".source = ../../assets/nixpkgs-config.nix;
+    environment.etc."nix/nixpkgs-config.nix".source = ./nixpkgs-config.nix;
 
     # use nixfiles for nixos-rebuild
     environment.etc."nixos/flake.nix".source =

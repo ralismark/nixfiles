@@ -2,7 +2,7 @@
 with lib;
 {
   imports = [
-    ../modules/git-identity.nix
+    ../../modules/programs-git-identity.nix
   ];
 
   programs.git = {

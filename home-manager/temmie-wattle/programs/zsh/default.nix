@@ -2,8 +2,8 @@
 with lib;
 {
   imports = [
-    ./module-setopt.nix
-    ../../modules/zsh-bindkey.nix
+    ../../../modules/programs-zsh-bindkey.nix
+    ../../../modules/programs-zsh-options.nix
   ];
 
   home.packages = [(
@@ -76,7 +76,7 @@ with lib;
 
     options = {
       correct              = true;
-      prompt_subst          = true;
+      prompt_subst         = true;
       interactive_comments = true;
       nomatch              = false;
       sh_word_split        = true; # for closer to posix
@@ -99,7 +99,7 @@ with lib;
       "@@" = ''tunnel-run sh -c "exec \$SHELL --login"'';
 
       dcc = "gcc $DFLAGS";
-      "d++" = "g++ -std=c++14 $DFLAGS";
+      "d++" = "g++ -std=c++17 $DFLAGS";
     };
 
     localVariables = {

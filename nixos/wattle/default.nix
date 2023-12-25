@@ -8,8 +8,8 @@
 {
   imports =
     [
-      ../modules/shared/pin.nix
-      ../modules/nixos/pipewire-filter.nix
+      ../../assets/pin-nixpkgs.nix
+      ../modules/services-pipewire-filters.nix
 
       ./hardware-configuration.nix # Include the results of the hardware scan.
       ./ephemeral.nix
@@ -40,7 +40,7 @@
 
   # Misc ======================================================================
 
-  environment.etc."issue".source = ../assets/etc-issue;
+  environment.etc."issue".source = ../../assets/etc-issue;
 
   services.udisks2.enable = true;
 
@@ -236,6 +236,7 @@
     settings = {
       auto-optimise-store = true;
       experimental-features = [ "nix-command" "flakes" ];
+      trusted-users = [ "temmie" ];
     };
 
     gc = {

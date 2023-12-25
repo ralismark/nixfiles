@@ -13,9 +13,8 @@ let
   in map getDrv lines;
 in {
   imports = [
-    ../modules/home-manager
-
-    ./modules/home-bin.nix
+    ../../assets/pin-nixpkgs.nix
+    ../modules/home-bin.nix
 
     ./desktop-environment
 
@@ -375,9 +374,9 @@ in {
   };
 
   # fortunes
-  home.file.".local/fortunes".source = ../assets/fortunes;
+  home.file.".local/fortunes".source = ../../assets/fortunes;
   home.file.".local/fortunes.dat".source = pkgs.runCommand "fortunes.dat" { } ''
-    ${pkgs.fortune}/bin/strfile ${../assets/fortunes} $out
+    ${pkgs.fortune}/bin/strfile ${../../assets/fortunes} $out
   '';
 
   # Nix =======================================================================

@@ -1,5 +1,4 @@
 { lib, pkgs, ... }:
-with lib;
 {
   programs.alacritty = {
     enable = true;

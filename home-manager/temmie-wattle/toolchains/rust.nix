@@ -1,5 +1,10 @@
 { pkgs, ... }:
 {
+  imports = [
+    ../../modules/programs-cargo.nix
+    ../../modules/programs-sccache.nix
+  ];
+
   home.packages = with pkgs; [
     clippy
     # TODO why do we need gcc?

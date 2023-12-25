@@ -40,9 +40,7 @@
         nixpkgs = pkgsFor s;
       });
 
-      overlays.default = nixpkgs.lib.composeManyExtensions [
-        (import ./pkgs)
-      ];
+      overlays.default = import ./pkgs;
 
       # temmie@wattle: XPS 13 =================================================
 
@@ -54,7 +52,7 @@
             home.homeDirectory = "/home/${home.username}";
             _module.args.repo-root = "${home.homeDirectory}/src/github.com/ralismark/nixfiles";
           }
-          ./hm
+          ./home-manager/temmie-wattle
         ];
         extraSpecialArgs = {
           inherit inputs;
@@ -68,7 +66,7 @@
         modules = [
           inputs.nixos-hardware.nixosModules.dell-xps-13-9360
           inputs.impermanence.nixosModules.impermanence
-          ./os
+          ./nixos/wattle
         ];
         specialArgs = {
           inherit inputs;
