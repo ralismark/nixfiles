@@ -20,7 +20,8 @@ with lib;
     ls = "ls --color=auto -FhH";
     sudo = "sudo -E ";
     less = "less -SR";
-    rm = "rm -I";
+    rm = "rm -dI";
+    cp = "cp -r";
     tree = "tree -CF";
     rclone = "rclone --progress --transfers 16";
 
@@ -244,10 +245,43 @@ with lib;
       ##
       ## prompt
       ##
+      .prompt.git.script() {
+        local data=$(bash < ${./git-status-script.sh})
+        echo "_prompt_git_script=''${(q)data}; zle reset-prompt"
+      }
+
+      .async.eval() {
+        if [[ "$2" = 0 ]]; then
+          eval "$3"
+        elif [[ "$1" != "[async]" ]]; then
+          printf '\e7\e[H\e[41;30m'
+          printf '\e[2K%s\n' \
+            "$1: returned $2" \
+            "stdout: $3" \
+            "stderr: $5"
+          printf %b '\e[0m\e8'
+        fi
+      }
+
+      .prompt.git() {
+        if [[ "$_prompt_git_script" = "undefined" ]]; then
+          _prompt_git_script=""
+          async_job .prompt.git .prompt.git.script
+        fi
+        echo "$_prompt_git_script"
+      }
+
       VIRTUAL_ENV_DISABLE_PROMPT=1
       .prompt.venv() {
         [[ -z "$VIRTUAL_ENV" ]] && return
         echo " %F{blue}venv%f"
+      }
+
+      add-zsh-hook precmd .prompt.git.precmd() {
+        _prompt_git_script=undefined
+        async_stop_worker .prompt.git
+        async_start_worker .prompt.git
+        async_register_callback .prompt.git .async.eval
       }
 
       .prompt.cwd() {
@@ -264,7 +298,7 @@ with lib;
         local jobline='%(1j,%F{green}$(jobs -r | wc -l | sed "s/0//")&$(jobs -s | wc -l | sed "s/0//")%f ,)'
 
         PS1="
-      $leader$errno\$(.prompt.cwd)\$(.prompt.venv)
+      $leader$errno\$(.prompt.cwd)\$(.prompt.venv)\$(.prompt.git)
       $leader$jobline%(!,%F{red}#%f,$) "
 
         PS2="... "

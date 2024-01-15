@@ -22,7 +22,10 @@
 
   xdg.portal = {
     enable = true;
+    config.common.default = [ "gtk" "wlr" ];
+
     extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+
     wlr.enable = true;
     wlr.settings.screencast = {
       chooser_type = "simple";
@@ -56,7 +59,11 @@
   # Networking ================================================================
 
   networking.hostName = "wattle";
-  networking.networkmanager.enable = true;
+  networking.networkmanager = {
+    enable = true;
+    wifi.scanRandMacAddress = false;
+    wifi.macAddress = "permanent";
+  };
   networking.firewall.enable = false; # personal system; don't need a firewall
   boot.kernel.sysctl."net.ipv4.ip_unprivileged_port_start" = 0; # no privileged ports
 
@@ -232,7 +239,8 @@
   # Nix =======================================================================
 
   nix = {
-    package = pkgs.nixUnstable;
+    # 2024-01-06: pinned to 2.17 to avoid https://github.com/NixOS/nix/issues/9579
+    package = pkgs.nixVersions.nix_2_17;
     settings = {
       auto-optimise-store = true;
       experimental-features = [ "nix-command" "flakes" ];

@@ -45,10 +45,6 @@ self: super: {
     ];
   });
 
-  waybar = super.waybar.overrideAttrs (prev: {
-    mesonFlags = (prev.mesonFlags or [ ]) ++ [ "-Dexperimental=true" ];
-  });
-
   ranger = super.ranger.overrideAttrs (prev: {
     patches = (prev.patches or [ ]) ++ [
       # https://github.com/ranger/ranger/issues/2583#issuecomment-1097438886
