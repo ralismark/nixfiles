@@ -23,6 +23,9 @@ in
     ./rofi.nix
     ./sway.nix
     ./waybar.nix
+
+    ../../modules/xdg-portal-wlr.nix
+    ../../modules/xdg-portal-gtk.nix
   ];
 
   systemd.user.targets.graphical-session = {
@@ -62,5 +65,17 @@ in
     };
 
     Install.WantedBy = [ "graphical-session.target" ];
+  };
+
+  xdg.portal = {
+    enable = true;
+    config.common.default = [ "wlr" "gtk" ];
+
+    gtk.enable = true;
+    wlr.enable = true;
+    wlr.settings.screencast = {
+      chooser_type = "simple";
+      chooser_cmd = "${pkgs.slurp}/bin/slurp -f %o -or";
+    };
   };
 }

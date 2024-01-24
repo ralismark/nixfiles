@@ -20,19 +20,6 @@
   time.timeZone = "Australia/Sydney";
   i18n.defaultLocale = "en_AU.UTF-8";
 
-  xdg.portal = {
-    enable = true;
-    config.common.default = [ "gtk" "wlr" ];
-
-    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-
-    wlr.enable = true;
-    wlr.settings.screencast = {
-      chooser_type = "simple";
-      chooser_cmd = "${pkgs.slurp}/bin/slurp -f %o -or";
-    };
-  };
-
   programs.steam.enable = true;
 
   services.udev.packages = [
