@@ -28,22 +28,6 @@ in
     ../../modules/xdg-portal-gtk.nix
   ];
 
-  systemd.user.targets.graphical-session = {
-    # copied from systemd's graphical-session.target, because home-manager doesn't support drop-ins
-    Unit = {
-      Description = "Current graphical user session";
-      Documentation = "man:systemd.special(7)";
-      Requires = [ "basic.target" ];
-      RefuseManualStart = true;
-      StopWhenUnneeded = true;
-
-      # added
-      DefaultDependencies = false; # don't add After= for each Wants/Requires
-      Conflicts = "shutdown.target";
-      Before = "shutdown.target";
-    };
-  };
-
   # Startup ===================================================================
 
   programs.bash.enable = true;
@@ -57,7 +41,6 @@ in
     Unit = {
       Description = "Network manager applet";
       PartOf = [ "graphical-session.target" ];
-      After = [ "graphical-session.target" ];
     };
 
     Service = {

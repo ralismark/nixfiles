@@ -181,11 +181,6 @@
     '';
   };
 
-  systemd.user.services.waybar = {
-    # patch unit to run only once env vars get loaded
-    Unit.After = lib.mkForce [ "graphical-sesion.target" ];
-  };
-
   xdg.configFile."waybar/config".onChange = ''
     ${pkgs.systemd}/bin/systemctl --user try-restart waybar.service
   '';

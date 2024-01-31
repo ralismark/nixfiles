@@ -205,7 +205,14 @@ in
 
         startup = [
           {
-            command = "/bin/sh -c '${pkgs.dbus}/bin/dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP XDG_SESSION_TYPE=wayland _JAVA_AWT_WM_NONREPARENTING=1; ${pkgs.systemd}/bin/systemd-notify --ready'";
+            command = let
+              script = ''
+                #!/bin/sh
+                ${pkgs.dbus}/bin/dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP XDG_SESSION_TYPE=wayland _JAVA_AWT_WM_NONREPARENTING=1
+                ${pkgs.systemd}/bin/systemd-notify --ready
+                ${pkgs.systemd}/bin/systemctl --user start sway-session.target
+              '';
+              in builtins.toString (pkgs.writeScript "sway-ready-systemd" script);
             always = true;
           }
         ];
@@ -224,15 +231,22 @@ in
       };
   };
 
+  systemd.user.targets.sway-session = {
+    # need this because graphical-session.target and xdg-desktop-autostart.target both have RefuseManualStart=true
+    Unit = {
+      Description = "graphical-session.target for sway";
+      BindsTo = [ "graphical-session.target" "xdg-desktop-autostart.target" ];
+    };
+  };
+
   systemd.user.services.sway = {
     Unit = {
       Description = "SirCmpwn's Wayland window manager";
       Documentation = "man:sway(5)";
 
-      Wants = [ "graphical-session-pre.target" "xdg-desktop-autostart.target" "graphical-session.target" ];
+      Wants = [ "graphical-session-pre.target" ];
       After = [ "graphical-session-pre.target" ];
-      BindsTo = [ "graphical-session.target" ];
-      Before = [ "graphical-session.target" "xdg-desktop-autostart.target" ];
+      PartOf = [ "sway-session.target" "graphical-session.target" ];
       PropagateReloadFrom = [ "graphical-session.target" ];
     };
 
