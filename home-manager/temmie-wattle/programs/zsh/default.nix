@@ -309,7 +309,9 @@ with lib;
       ##
       () {
         echo
-        ${pkgs.fortune}/bin/fortune "$HOME/.local/fortunes" | ${pkgs.cowsay}/bin/cowsay -n
+        if ! [ -n "$NOCOWS" ]; then
+          ${pkgs.fortune}/bin/fortune "$HOME/.local/fortunes" | ${pkgs.cowsay}/bin/cowsay -n
+        fi
       }
     '';
 

@@ -3,6 +3,7 @@ with lib;
 let
   mounts = {
     "cse" = "cse:";
+    "ts" = "login.trustworthy.systems:";
   };
 
   mountBase = "${config.home.homeDirectory}/.local/mount/";

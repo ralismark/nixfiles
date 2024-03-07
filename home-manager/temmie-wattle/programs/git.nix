@@ -57,6 +57,7 @@ with lib;
       bls = "branch --list -vv";
       blog = "hist HEAD ^origin/HEAD";
       bdiff = "diff --merge-base origin/HEAD";
+      bmv = "rebase HEAD --onto";
 
       # diff
       sdiff = "diff --cached";
@@ -97,13 +98,15 @@ with lib;
       pull.rebase = true; # better than the default of doing a merge
 
       push.autoSetupRemote = true; # auto do -u <branch> on git push
-      push.default = "simple";
+      push.default = "upstream";
 
       rebase.autoSquash = true; # handle fixup! and others
       rebase.autoStash = true; # stash local changes before rebasing
 
       status.short = true;
       status.branch = true;
+
+      rerere.enabled = true;
 
       # URL Subtitution =======================================================
 

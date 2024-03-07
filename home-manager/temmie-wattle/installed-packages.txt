@@ -25,5 +25,6 @@ ranger
 rclone
 silver-searcher
 tectonic
+wavemon
 wdisplays
 wl-clipboard

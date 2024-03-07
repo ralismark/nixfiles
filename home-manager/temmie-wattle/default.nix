@@ -168,6 +168,10 @@ in {
         "application/x-ext-pdf"
       ];
     };
+    wireshark = {
+      name = "wireshark";
+      exec = "nix run -f \"<nixpkgs>\" wireshark --";
+    };
   };
 
   # Environment ===============================================================

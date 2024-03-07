@@ -33,6 +33,10 @@ in
       bind-key -T copy-mode-vi MouseDragEnd1Pane send-keys -X copy-pipe-and-cancel "${gui-clip.copy}"
       bind-key -T copy-mode MouseDragEnd1Pane send-keys -X copy-pipe-and-cancel "${gui-clip.copy}"
 
+      # when multiple windows open to same session, shrink to smallest window
+      setw -g aggressive-resize on
+      setw -g window-size smallest
+
       # Term support
       # TODO what does this do?
       set -ag terminal-overrides ',*:Ss=\E[%p1%d q:Se=\E[2 q'

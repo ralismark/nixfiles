@@ -1,3 +1,33 @@
+Date: 2024-03-02
+
+All fortunes in this database should have an attribution that follows these
+rules:
+
+- For fiction, it should be: `<character>, "<title>" by <author>`, possibly
+  without the character. Video games are similar, but can omit the author.
+- For non-fiction, blog posts, and other long-form content, it should look like
+  `<author>, "<title>"` or `<author>, "<title>" from <series>`. Videos also fall
+  into this category.
+- Man pages use `<title>(<section>) man page`.
+- Comments and posts from microblogging platforms should be like `<author> on
+  <platform>`.
+
+Sources which don't (yet) have a well-defined format include:
+
+- Overheard, or words said by individual people in real life on on a chat
+  platform
+- Wikipedia
+- Other official documents
+
+I also haven't decided how additional context in these attributions work, e.g.
+specifying a certain scene in a video game, or the role/hat a person is wearing
+when saying something.
+
+To specify a URL that the quote was taken from, it's done on a separate line by
+prefixing the URL with `via`.
+
+    -- Temmie
+%
 Date: 2021-08-14
 
 vi-caps-lock-panic
@@ -19,12 +49,13 @@ Anyone who never understood limits will flunk calculus. It's not you, it's the
 bug.
 
     -- celandine13
+       via https://celandine13.livejournal.com/33599.html
 %
 Date: 2021-08-14
 
 The singularity is my retirement plan.
 
-    -- tocomment, in a Hacker News post
+    -- tocomment on Hacker News
 %
 Date: 2021-08-14
 
@@ -137,7 +168,7 @@ Stay These Messengers About Their Sacred Business.
 Do Not Ask Us About Sabre-Tooth Tigers, Tar Pits, Big Green Things With Teeth
 Or The Goddess Czol.
 
-    -- Anghammarad, "Going Postal"
+    -- Anghammarad, "Going Postal" by Terry Pratchett
 %
 Date: 2021-08-15
 
@@ -145,14 +176,14 @@ Anoia, a minor goddess of Things That Stick In Drawers. Often, but not
 uniquely, a ladle, but sometimes a metal spatula or, rarely, a mechanical
 egg-whisk that nobody in the house admits to ever buying.
 
-    -- "Going Postal"
+    -- "Going Postal" by Terry Pratchett
 %
 Date: 2021-08-15
 
 You know they'll never really die while the Trunk is alive [...] It lives while
 the code is shifted, and they live with it, always Going Home.
 
-    -- Moist Von Lipwig, "Going Postal"
+    -- Moist Von Lipwig, "Going Postal" by Terry Pratchett
 %
 Date: 2021-08-15
 
@@ -164,26 +195,26 @@ Arthur:  Well, you have to know these things when you're a king you know.
 
     -- "Spamalot"
 %
-Date: 2021-08-16
+Date: 2020-09-09
 
 If I'm teaching 2511 and 3161, do I need separation of Church and State?
 
-    -- Tom Kunc, 9 Sep 2020
+    -- Tom Kunc
 %
-Date: 2021-08-16
+Date: 2020-09-09
 
 If I teach COMP2511, do I have to become a methodist?
 
-    -- unknown, 9 Sep 2021
+    -- unknown
 %
-Date: 2022-01-11
+Date: 2022-01-09
 
 *goes out without umbrella*
 *starts raining*
 
 This is what we call a branch misprediction
 
-    -- Waleed, 9 Jan 2022
+    -- Waleed
 %
 Date: 2022-02-08
 
@@ -220,7 +251,8 @@ Date: 2022-06-01
 
 Just because you two are arguing, doesn't mean one of you is right.
 
-    -- Maurog: http://forums.xkcd.com/viewtopic.php?f=9t=14222
+    -- Maurog
+       via http://forums.xkcd.com/viewtopic.php?f=9&t=14222
 %
 Date: 2022-06-01
 
@@ -234,34 +266,28 @@ Date: 2022-06-01
 Mister Mar-keee, I'm real. If you cut me, do I not bleed? And if you do, I
 bleeding well cuts you too, no offence meant.
 
-    -- Of the Twilight the Darkness, "Raising Steam"
+    -- Of the Twilight the Darkness, "Raising Steam" by Terry Pratchett
 %
 Date: 2022-06-02
 
 Programmers, much like compilers, read things until they reach point they
 disagree with then stop there to write a comment.
 
-    -- dixego on HN (via Amos)
-%
-Date: 2022-06-02
-
-There are decades where nothing happens; and there are weeks where decades
-happen.
-
-    -- Vladimir Ilyich Lenin
+    -- dixego on Hacker News (via Amos)
 %
 Date: 2022-06-02
 
 I usually start by saying, "Ooo look at me I'm a database! I could be replaced
 with a text file, but I'm oh so important," in a really sarcastic way.
 
-    -- naunga on HN (via Amos)
+    -- naunga on Hacker News (via Amos)
 %
 Date: 2022-06-03
 
 The real crime is that I'm not allowed to marry my database.
 
-    -- qntm, http://web.archive.org/web/20170914014648/qntm.org/gay
+    -- qntm, "Gay marriage: the database engineering perspective"
+       via http://web.archive.org/web/20170914014648/qntm.org/gay
 %
 Date: 2022-08-02
 
@@ -270,24 +296,24 @@ give more time to this proposal?
 
     -- Bryce Adelstein Lelbah (LEWG Chair, WG21)
 %
-Date: 2022-09-17
+Date: 2022-09-14
 
 I'll show you moral harm in the carpark!
 
-    -- Sebastian Sequoiah-Grayson, COMP4920 lecture, 14 Sep 2022
+    -- Sebastian Sequoiah-Grayson, COMP4920 lecture
 %
 Date: 2022-09-21
 
 Truth is never a popularity contest.
 
-    -- Sebastian Sequoiah-Grayson, COMP4920 lecture, 21 Sep 2022
+    -- Sebastian Sequoiah-Grayson, COMP4920 lecture
 %
-Date: 2022-09-22
+Date: 2022-09-24
 
 "Do unto others as you would have them do unto you"?
 That wasn't Kant that's Jesus!
 
-    -- Sebastian Sequoiah-Grayson, COMP4920 lecture, 24 Sep 2022
+    -- Sebastian Sequoiah-Grayson, COMP4920 lecture
 %
 Date: 2022-09-25
 
@@ -372,7 +398,7 @@ You can't put out fires by weightlifting, but when the time comes to actually
 rush into a fire, bust through some walls, and drag people out, you really
 should have been hitting the gym consistently for the past several months.
 
-    -- ialdabaoth, commenting on a LessWrong post
+    -- ialdabaoth on LessWrong
 %
 Date: 2022-10-23
 
@@ -386,7 +412,7 @@ Date: 2022-11-01
 
 The future belongs to a different loop [...]
 
-    -- python asyncio, via Daniel Marks
+    -- python asyncio (via Daniel Marks)
 %
 Date: 2022-11-08
 
@@ -407,7 +433,9 @@ It's pulled, and it's fine, but there's clearly a balance between
 "octopus merges are fine" and "Christ, that's not an octopus, that's a
 Cthulhu merge".
 
-    -- Linux Torvalds, linux-kernel mailing list
+    -- Linux Torvalds, "Re: [GIT PULL] regulator updates for v3.13-rc1" from
+       linux-kernel mailing list
+       via https://lkml.org/lkml/2014/1/21/361
 %
 Date: 2023-02-19
 
@@ -433,27 +461,27 @@ Date: 2023-02-20
 
 (2) Patient has chest pain if she lies on her left side for over a year.
 
-    -- COMP3131, slide titled "Quotes from Actual Medical Records"
+    -- slide titled "Quotes from Actual Medical Records", COMP3131
 %
 Date: 2023-02-20
 
 (3) On the second day the knee was better and on the third day it had
 completely disappeared.
 
-    -- COMP3131, slide titled "Quotes from Actual Medical Records"
+    -- slide titled "Quotes from Actual Medical Records", COMP3131
 %
 Date: 2023-02-20
 
 (5) Discharge status: Alive but without permission. The patient will need
 disposition, and therefore we will get Dr. Blank to dispose of him.
 
-    -- COMP3131, slide titled "Quotes from Actual Medical Records"
+    -- slide titled "Quotes from Actual Medical Records", COMP3131
 %
 Date: 2023-02-20
 
 (7) The patient refused an autopsy.
 
-    -- COMP3131, slide titled "Quotes from Actual Medical Records"
+    -- slide titled "Quotes from Actual Medical Records", COMP3131
 %
 Date: 2023-02-25
 
@@ -466,13 +494,15 @@ Date: 2023-02-25
 Why does everyone hate being punched in the face? I find it far more pleasant
 than being ritually disemboweled
 
-    -- david_chisnall on CMake v Makefiles, https://lobste.rs/s/fdcpy3#c_bpiwtu
+    -- david_chisnall on Lobste.rs ("CMake v Makefiles")
+       via https://lobste.rs/s/fdcpy3#c_bpiwtu
 %
 Date: 2023-02-25
 
 I'd rather construct a build graph out of my own intestines than use make
 
-    -- andrewrk, https://lobste.rs/s/mtw9kb#c_bh6ijq
+    -- andrewrk on Lobste.rs
+       via https://lobste.rs/s/mtw9kb#c_bh6ijq
 %
 Date: 2023-03-07
 
@@ -554,7 +584,7 @@ MANN:  Why?
 WATER: It wanted to achieve rapid weight loss!
 
     -- Scott Alexander, "Turing Test"
-       <https://astralcodexten.substack.com/p/turing-test>
+       via https://astralcodexten.substack.com/p/turing-test
 %
 Date: 2023-04-04
 
@@ -587,7 +617,8 @@ OP, this is very dangerous. Please do not continue to use this, do not charge
 this, do not discharge this, do not pass go, just please safely get rid of this
 thing.
 
-    -- Reply to "Recycled Laptop 18650 EBike", https://redd.it/12uc5dv
+    -- Reply to "Recycled Laptop 18650 EBike"
+       via https://redd.it/12uc5dv
        via https://twitter.com/atomicthumbs/status/1650592868443242497
 %
 Date: 2023-04-25
@@ -598,7 +629,7 @@ WE WILL NOT MAKE ONE.
 WE WILL NOT AID OR ABET THE MAKING OF ONE.
 
     -- Warning about male-to-male plugs
-       https://twitter.com/kobunheat/status/1336134415336964096/photo/2
+       via https://twitter.com/kobunheat/status/1336134415336964096/photo/2
 %
 Date: 2023-04-25
 
@@ -700,7 +731,7 @@ Date: 2023-04-28
 
 Whoever saves one life, saves the world entire.
 
-    -- Schindler's List, from the Talmud
+    -- "Schindler's List" (originally from the Talmud)
 %
 Date: 2023-04-29
 
@@ -708,7 +739,7 @@ Date: 2023-04-29
 
 "because not everything should be immutable"
 
-    -- Alex Chan @alexwlchan
+    -- alexwlchan on Twitter
        via https://twitter.com/alexwlchan/status/1404940747405672458
 %
 Date: 2023-05-09
@@ -772,7 +803,7 @@ Date: 2023-07-10
 
 This list is incomplete; you can help by expanding it.
 
-    -- Wikipedia's Template:Incomplete list
+    -- "Template:Incomplete list", Wikipedia
 %
 Date: 2023-08-05
 
@@ -873,7 +904,7 @@ Date: 2023-11-30
 
 In this house, we obey the laws of thermodynamics!
 
-    -- Homer Simpson, "The Simpsons" S6E21 "The PTA Disbands"
+    -- Homer Simpson, "The PTA Disbands" of "The Simpsons"
 %
 Date: 2023-12-12
 
@@ -914,5 +945,45 @@ Date: 2024-01-03
 @s0 you are at risk of total ecosystem collapse due to lack of species
 diversity. the situation is DIRE
 
-    -- @Iridaceae@weirder.earth
+    -- Iridaceae on weirder.earth
        via https://weirder.earth/@Iridaceae/111686544602840203
+%
+Date: 2024-01-19
+
+intuitionistic? i find it quite confusing actually
+
+    -- Tunan
+%
+Date: 2024-01-19
+
+constructivist? i find it quite nonconducive to mathematical proof actually
+
+    -- Albert
+%
+Date: 2024-02-06
+
+Klingon therapist: the battle against mental illness cannot be won decisively.
+It is a long campaign against an enemy who never tires, whose forces swell to
+twice their size whenever you look away. Battle against a foe of such magnitude,
+who occupies your very mind... every moment you survive is a triumph against all
+odds. There is no more honorable combat.
+
+    -- asimovsideburns on Tumblr
+       via https://www.tumblr.com/comfyb/710346369635942400
+%
+Date: 2024-03-02
+
+Now, of course, 2GB might hold a stripped-down "hello world" binary or a
+low-budget car-warranty spam email, but not much more.
+
+    -- Jonathan Corbet, "Debian looks forward to 2038" from LWN
+       via https://lwn.net/Articles/938149/
+%
+Date: 2024-03-03
+
+ask yourself: have YOU tried elevating your identity to a level
+unconceptualizable to humans, therefore becoming a WILD LIGHT-class conceptual
+weapon?
+
+    -- lunabee on cathode.church
+       via https://cathode.church/@lunabee/112030406546965674
