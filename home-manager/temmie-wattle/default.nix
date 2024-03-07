@@ -11,6 +11,8 @@ let
     lines = lib.filter (x: x != "") allLines;
     getDrv = a: lib.getAttrFromPath (lib.splitString "." a) attrs;
   in map getDrv lines;
+
+  python-env = pkgs.python3.withPackages (pkgsFile ./installed-python3.txt);
 in {
   imports = [
     ../../assets/pin-nixpkgs.nix
@@ -23,6 +25,7 @@ in {
     ./programs/zsh
     ./programs/firefox
     ./programs/ipython
+    ./programs/jupyter.nix
 
     ./toolchains/rust.nix
     ./toolchains/go.nix
@@ -102,9 +105,14 @@ in {
   home.shellAliases.git = "tunnel-run git";
 
   home.packages = lib.flatten [
-    (pkgs.python3.withPackages (pkgsFile ./installed-python3.txt))
+    python-env
     (pkgsFile ./installed-packages.txt pkgs)
   ];
+
+  services.jupyter-notebook = {
+    enable = true;
+    env = python-env;
+  };
 
   xdg.desktopEntries = {
     vim = {
