@@ -114,7 +114,7 @@ in
         "filter.graph".nodes = [ {
           type = "ladspa";
           name = "DeepFilter Mono";
-          plugin = "${pkgs.deepfilter-ladspa}/lib/ladspa/libdeep_filter_ladspa.so";
+          plugin = "${pkgs.deepfilternet}/lib/ladspa/libdeep_filter_ladspa.so";
           label = "deep_filter_mono";
           control = {
             "Attenuation Limit (dB)" = pwcfg.deepfilter.attenuationLimit;

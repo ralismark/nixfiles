@@ -1,27 +1,35 @@
 self: super: {
 
-  sway-unwrapped = super.sway-unwrapped.overrideAttrs (prev: {
-    patches = (prev.patches or [ ]) ++ [
-      (self.fetchurl {
-        url = "https://aur.archlinux.org/cgit/aur.git/plain/0001-text_input-Implement-input-method-popups.patch?h=9bba3fb267a088cca6fc59391ab45ebee654ada1";
-        hash = "sha256-kqr9sHnk2wgfkC7so1y0EVVPd9kII3Oys/t2zmF2Q2c=";
-      })
-      (self.fetchurl {
-        url = "https://aur.archlinux.org/cgit/aur.git/plain/0002-backport-sway-im-to-v1.8.patch?h=9bba3fb267a088cca6fc59391ab45ebee654ada1";
-        hash = "sha256-MAKXW2StUX6ZqNtmwJhg5d39CiN4FMsi0m3H8uSp2B8=";
-      })
-    ];
-  });
+  sway-unwrapped = (super.sway-unwrapped.overrideAttrs (prev: {
+    version = "1.10-dev";
+    src = self.fetchFromGitHub {
+      owner = "swaywm";
+      repo = "sway";
+      rev = "59f629238309e230b0e353e73d4f37a7de7fe820";
+      hash = "sha256-AQor/lF83q3up1B3Eizcfm7bmhDkqHgf4ljoqsXXgrw=";
+    };
+  })).override {
+    # note that sway-unwrapped uses the wlroots_0_17 package by default
+    wlroots = super.wlroots.overrideAttrs (prev: {
+      version = "0.18.0-dev";
+      src = self.fetchFromGitLab {
+        domain = "gitlab.freedesktop.org";
+        owner = "wlroots";
+        repo = "wlroots";
+        rev = "22178451f7f5f0ad152e1dedf39b244500f24afb";
+        hash = "sha256-rQuDnnmJHZB2ozErj1yUuYubVAozSl7Pyojr+ezzMIc=";
+      };
+    });
+  };
 
   adapta-maia-theme = self.callPackage ./adapta-maia-theme { };
 
-  deepfilter-ladspa = self.callPackage ./deepfilter-ladspa { };
 
   font-droid = self.callPackage ./font-droid.nix { };
 
   numix-reborn-icon-themes = self.callPackage ./numix-reborn-icon-themes.nix { };
 
-  pantheon = super.pantheon.overrideScope' (self': super': {
+  pantheon = super.pantheon.overrideScope (self': super': {
     elementary-files = super'.elementary-files.overrideAttrs (prev: {
       mesonFlags = (prev.mesonFlags or [ ]) ++ [ "-Dwith-zeitgeist=disabled" ];
     });

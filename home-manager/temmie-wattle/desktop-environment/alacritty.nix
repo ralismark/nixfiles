@@ -18,6 +18,8 @@
         normal.magenta = "#deb887";
         normal.cyan = "#b0c4de";
         normal.white = "#dbdcdc";
+
+        draw_bold_text_with_bright_colors = true;
       };
 
       window.padding = {
@@ -36,11 +38,10 @@
           y = 1;
         };
       };
-      draw_bold_text_with_bright_colors = true;
 
       selection.save_to_clipboard = false; # Explicitly require copy command
 
-      cursor.shape = "Block";
+      cursor.style.shape = "Block";
 
       # List with all available hints
       #
@@ -93,7 +94,7 @@
       ];
 
       # NOTE: We don't use or support vim mode
-      key_bindings = [
+      keyboard.bindings = [
         # clipboard things
         { key = "Copy"; action = "Copy"; }
         { mods = "Control|Alt"; key = "C"; action = "Copy"; }
