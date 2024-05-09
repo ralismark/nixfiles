@@ -59,7 +59,7 @@ with lib;
   programs.zsh = {
     enable = true;
 
-    enableAutosuggestions = true;
+    autosuggestion.enable = true;
     enableCompletion = true;
 
     syntaxHighlighting.enable = true;

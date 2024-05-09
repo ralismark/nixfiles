@@ -12,6 +12,7 @@ in
     enable = true;
     systemd.enable = false; # We do our own custom systemd integration
 
+    checkConfig = false; # Check fails because we use ~/Documents/walls/WALL as wallpaper
     config =
       let
         # we use systemd to move the processes out of sway.service

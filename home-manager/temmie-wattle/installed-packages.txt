@@ -1,6 +1,5 @@
 anki
 atool
-authy
 chromium
 dnsutils
 evince

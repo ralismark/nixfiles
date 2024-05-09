@@ -230,7 +230,7 @@ in {
 
   qt = {
     enable = true;
-    platformTheme = "gtk";
+    platformTheme.name = "gtk";
   };
 
   # fonts.fontconfig.enable = true; # "enable fontconfig", not sure what it entails...
@@ -288,7 +288,7 @@ in {
     "image/jpeg"
     "image/png"
     "image/tiff"
-  ]) // (assoc "firefox.desktop" [
+  ]) // (assoc "firefox-devedition.desktop" [
     "application/rdf+xml"
     "application/rss+xml"
     "application/xhtml+xml"
