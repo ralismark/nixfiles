@@ -6,13 +6,13 @@
 }:
 with config;
 let
-  pkgsFile = file: attrs: let
-    allLines = lib.splitString "\n" (builtins.readFile file);
-    lines = lib.filter (x: x != "") allLines;
-    getDrv = a: lib.getAttrFromPath (lib.splitString "." a) attrs;
-  in map getDrv lines;
+  pkgsFile = pkgs.callPackage ../../lib/attrs-file.nix { };
 
-  python-env = pkgs.python3.withPackages (pkgsFile ./installed-python3.txt);
+  python-env = pkgs.python3.withPackages
+    (ps: pkgsFile {
+      keys = ./installed-python3.txt;
+      pkgs = ps;
+    });
 in {
   imports = [
     ../../assets/pin-nixpkgs.nix
@@ -106,7 +106,10 @@ in {
 
   home.packages = lib.flatten [
     python-env
-    (pkgsFile ./installed-packages.txt pkgs)
+    (pkgsFile {
+      keys = ./installed-packages.txt;
+      pkgs = pkgs;
+    })
   ];
 
   services.jupyter-notebook = {
@@ -385,12 +388,6 @@ in {
     Install.WantedBy = [ "graphical-session.target" ];
   };
 
-  # fortunes
-  home.file.".local/fortunes".source = ../../assets/fortunes;
-  home.file.".local/fortunes.dat".source = pkgs.runCommand "fortunes.dat" { } ''
-    ${pkgs.fortune}/bin/strfile ${../../assets/fortunes} $out
-  '';
-
   # Nix =======================================================================
 
   # nix-index
@@ -454,7 +451,7 @@ in {
           # we just pass it to the bash handler above
           # apparently they work identically
           command_not_found_handler () {
-              command_not_found_handle $@
+              command_not_found_handle "$@"
               return $?
           }
         '')

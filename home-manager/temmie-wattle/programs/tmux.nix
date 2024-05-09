@@ -39,6 +39,7 @@ in
 
       # Term support
       # TODO what does this do?
+      set -g default-terminal "tmux-256color"
       set -ag terminal-overrides ',*:Ss=\E[%p1%d q:Se=\E[2 q'
       set -as terminal-features ",*:Tc,*:RGB"
 

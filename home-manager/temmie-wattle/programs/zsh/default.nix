@@ -67,12 +67,12 @@ with lib;
     defaultKeymap = "emacs";
 
     history = {
-      path = "${config.xdg.dataHome}/zsh/history"; # TODO 2021-11-14 move this out of home directory
+      path = "${config.xdg.dataHome}/zsh/history";
       extended = true;
       ignoreDups = true;
       share = false;
-      save = 100000; # 100_000
-      size = 100000;
+      save = 999999999999;
+      size = 999999999999;
     };
 
     options = {
@@ -202,7 +202,13 @@ with lib;
       '';
     };
 
-    initExtra = ''
+    initExtra = let
+      fortunes = (pkgs.runCommand "fortunes" { } ''
+        mkdir $out
+        cp ${../../../../assets/fortunes} $out/fortunes
+        ${pkgs.fortune}/bin/strfile $out/fortunes $out/fortunes.dat
+      '') + "/fortunes";
+    in ''
       # Make sure the terminal is in application mode, when zle is
       # active. Only then are the values from $terminfo valid.
       if echoti smkx >&/dev/null; then
@@ -224,11 +230,14 @@ with lib;
       add-zsh-hook chpwd .hm.hook.chpwd
 
       cdnix() {
-        if [ "$#" -ne 1 ]; then
+        set -o pipefail
+
+        if [ "$#" -ne 1 ] || [ "$1" = "--help" ]; then
           echo >&2 "Usage: cdnix PACKAGE"
           return 1
         fi
-        cd $(nix build --no-link --print-out-paths -f '<nixpkgs>' "$1" | head -n1)
+        local drv
+        drv=$(nix build --no-link --print-out-paths -f '<nixpkgs>' "$1" | head -n1) && cd "$drv"
       }
 
       ##
@@ -310,7 +319,7 @@ with lib;
       () {
         echo
         if ! [ -n "$NOCOWS" ]; then
-          ${pkgs.fortune}/bin/fortune "$HOME/.local/fortunes" | ${pkgs.cowsay}/bin/cowsay -n
+          ${pkgs.fortune}/bin/fortune ${fortunes} | ${pkgs.cowsay}/bin/cowsay -n
         fi
       }
     '';

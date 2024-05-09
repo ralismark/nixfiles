@@ -7,10 +7,82 @@
       (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
+  # Boot ======================================================================
+
   boot.initrd.availableKernelModules = [ "xhci_pci" "nvme" "usb_storage" "sd_mod" "rtsx_pci_sdmmc" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
+
+  boot.resumeDevice = "/dev/disk/by-partuuid/41c69eeb-9417-4331-ad28-05c4dda54bdf";
+  swapDevices = [
+    {
+      device = config.boot.resumeDevice;
+    }
+  ];
+
+  # Persist machine-id
+  # TODO this causes this error during boot, which corresponds to ": >> /etc/machine-id":
+  # stage-2-init: /nix/store/a5ikk2k4js252mc3pm3lh1kds4d2lb4l-nixos-system-nixos-23.05.20221216.757b822/init: line 130: /etc/machine-id: Read-only file system
+  environment.etc.machine-id.text = "aa3464d9f5e84295a56905d47133b587\n";
+
+  networking.hostId = "8425e349"; # i think this is important for zfs?
+
+  # Ephemeral =================================================================
+
+  # Ephemeral root
+  fileSystems."/" = {
+    device = "rpool/ephemeral/nixos";
+    fsType = "zfs";
+  };
+  boot.initrd.postDeviceCommands =
+    assert config.boot.resumeDevice != "";
+    lib.mkAfter ''
+      if [ "swsuspend" != "$(udevadm info -q property --property=ID_FS_TYPE --value "${config.boot.resumeDevice}")" ]; then
+        echo "rolling back rpool/ephemeral/nixos@blank..."
+        zfs rollback rpool/ephemeral/nixos@blank
+      fi
+    '';
+
+  # Selective persistence
+  fileSystems."/persist" = {
+    device = "rpool/ds1/ROOT/nixos";
+    fsType = "zfs";
+    neededForBoot = true;
+  };
+
+  fileSystems."/var/tmp" = {
+    device = "rpool/var";
+    fsType = "zfs";
+  };
+
+
+  environment.persistence."/persist" = {
+    hideMounts = true; # ux only -- make them not show up in gvfs
+    directories = [
+      "/nix"
+      "/home"
+      "/etc/NetworkManager/system-connections" # save network connections
+      "/var/lib/systemd/timers" # make timers work across reboots
+    ];
+    files = [
+    ];
+  };
+
+  # Additional Mounts =========================================================
+
+  boot.loader.efi.efiSysMountPoint = "/efi";
+  fileSystems."/efi" = {
+    device = "/dev/disk/by-partuuid/6cce0e24-d05c-469c-bf80-a48ed1fb637a";
+    fsType = "vfat";
+  };
+
+  # Misc ======================================================================
+
+  systemd.tmpfiles.rules = [
+    # Don't wake up the system accidentally
+    "w /sys/devices/pci0000:00/0000:00:14.0/power/wakeup - - - - disabled"
+  ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's

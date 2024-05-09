@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ config, lib, pkgs, ... }:
 with lib;
 {
   imports = [
@@ -9,11 +9,6 @@ with lib;
     enable = true;
 
     identity = {
-      ac = {
-        origins = [ "git@gitlab.com:autumn-compass*/**" ];
-        userName = "Temmie Yao";
-        userEmail = "temmie@autumncompass.com";
-      };
       cse = {
         origins = [ "gitlab@gitlab.cse.unsw.edu.au:*/**" ];
         userName = "Temmie Yao";
@@ -42,7 +37,7 @@ with lib;
       ap = "add -p";
       unap = "reset -p";
       co = "checkout";
-      dl = "clone --recursive";
+      dl = "clone --recurse-submodules --filter=blob:none";
 
       # history
       graph = "hist -n20 --all";
@@ -59,7 +54,7 @@ with lib;
       bdiff = "diff --merge-base origin/HEAD";
       bmv = "rebase HEAD --onto";
 
-      # diff
+      # misc
       sdiff = "diff --cached";
 
     };
@@ -80,11 +75,27 @@ with lib;
 
       user.useConfigOnly = true;
 
+      # Diff/Mergetool ========================================================
+
+      difftool.meld.path = "${pkgs.meld}/bin/meld";
+      mergetool.meld.path = "${pkgs.meld}/bin/meld";
+      difftool.meld.hasOutput = true;
+      mergetool.meld.hasOutput = true;
+      diff.guitool = "meld";
+      merge.guitool = "meld";
+      difftool.guiDefault = "auto";
+      mergetool.guiDefault = "auto";
+
       # Operation-Specific ====================================================
+
+      clone.rejectShallow = true;
+      clone.filterSubmodules = true;
 
       diff.algorithm = "patience";
       diff.context = 10;
       diff.wordRegex = "[^[:punct:][:space:]]+|[[:punct:][:space:]]";
+
+      difftool.prompt = false;
 
       fetch.prune = true; # remove remote references that no longer exist
       fetch.pruneTags = true; # remove remote tags that no longer exist
@@ -103,10 +114,10 @@ with lib;
       rebase.autoSquash = true; # handle fixup! and others
       rebase.autoStash = true; # stash local changes before rebasing
 
+      rerere.enabled = true;
+
       status.short = true;
       status.branch = true;
-
-      rerere.enabled = true;
 
       # URL Subtitution =======================================================
 

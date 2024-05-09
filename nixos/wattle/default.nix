@@ -10,9 +10,9 @@
     [
       ../../assets/pin-nixpkgs.nix
       ../modules/services-pipewire-filters.nix
+      ../modules/networking-regulatorydomain.nix
 
       ./hardware-configuration.nix # Include the results of the hardware scan.
-      ./ephemeral.nix
     ];
 
   # General Configuration =====================================================
@@ -34,6 +34,8 @@
   ];
 
   environment.pathsToLink = [ "/share/zsh" ];
+
+  boot.kernel.sysctl."fs.inotify.max_user_instances" = 512; # from default of 128, since lua-language-server uses hundreds...
 
   # Services & Programs =======================================================
 
@@ -101,6 +103,8 @@
     ];
   };
 
+  # Avoid getting the sudo lecture on every boot
+  security.sudo.extraConfig = "Defaults lecture=never";
 
   # Input =====================================================================
 
@@ -111,6 +115,7 @@
 
   # Networking ================================================================
 
+  networking.regulatoryDomain = "AU"; # we're only in AU for now...
   networking.hostName = "wattle";
   networking.networkmanager = {
     enable = true;
@@ -142,22 +147,22 @@
     font = ""; # hope this is okay
     colors = [
       # Solarised w/ corrected bright colours
-      "002b36"
+      "002b36" # base03
       "dc322f"
       "859900"
       "b58900"
       "268bd2"
       "d33682"
       "2aa198"
-      "eee8d5"
-      "586e75"
+      "eee8d5" # base2
+      "586e75" # base01
       "e35d5b"
       "b1cc00"
       "e8b000"
       "4ca2df"
       "dc609c"
       "35c9be"
-      "fdf6e3"
+      "fdf6e3" # base3
     ];
     keyMap = pkgs.runCommand "personal.map" {} ''
       ${pkgs.gzip}/bin/gzip --decompress --stdout ${pkgs.kbd}/share/keymaps/i386/qwerty/us.map.gz > $out
@@ -207,29 +212,11 @@
 
   # Boot & Filesystem =========================================================
 
-  boot.resumeDevice = "/dev/disk/by-partuuid/41c69eeb-9417-4331-ad28-05c4dda54bdf";
-  swapDevices = [ {
-    device = config.boot.resumeDevice;
-  } ];
-  systemd.tmpfiles.rules = [
-    "w /sys/devices/pci0000:00/0000:00:14.0/power/wakeup - - - - disabled" # USB xHCI controller
-  ];
-  # services.udev.extraRules = ''
-  #   ACTION=="add|change", SUBSYSTEM=="usb", ATTR{power/wakeup}="disabled"
-  # '';
-
-  boot.loader.efi.efiSysMountPoint = "/efi";
-  fileSystems."/efi" = {
-    device = "/dev/disk/by-partuuid/6cce0e24-d05c-469c-bf80-a48ed1fb637a";
-    fsType = "vfat";
-  };
-
   # Use the systemd-boot EFI boot loader.
   # TODO replace with rEFInd
   boot.loader.systemd-boot.enable = true;
 
   # ZFS
-  networking.hostId = "8425e349";
   boot.kernelPackages =
     let
       k = pkgs.linuxPackages;
@@ -299,8 +286,6 @@
   };
 
   nix = {
-    # 2024-01-06: pinned to 2.17 to avoid https://github.com/NixOS/nix/issues/9579
-    package = pkgs.nixVersions.nix_2_17;
     settings = {
       auto-optimise-store = true;
       experimental-features = [ "nix-command" "flakes" ];

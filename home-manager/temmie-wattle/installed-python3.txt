@@ -2,10 +2,11 @@ click
 git-filter-repo
 ipython
 jupyter
+nixpkgs
 numpy
 pandas
+pandas
 plotly
+pyarrow
 requests
 tqdm
-pandas
-nixpkgs
