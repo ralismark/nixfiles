@@ -26,6 +26,7 @@ in {
     ./programs/firefox
     ./programs/ipython
     ./programs/jupyter.nix
+    ./programs/ssh.nix
 
     ./toolchains/rust.nix
     ./toolchains/go.nix

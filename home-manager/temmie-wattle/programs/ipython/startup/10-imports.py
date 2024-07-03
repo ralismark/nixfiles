@@ -32,5 +32,18 @@ else:
 
 try:
     import plotly.express as px
+    import plotly.graph_objects as go
+
+    import plotly.io
+    plotly.io.renderers["jupyterlab"].config = {
+        "toImageButtonOptions": {
+            # svg output is more useful than the default of png
+            "format": "svg", # one of png, svg, jpeg, webp
+            "filename": "plot",
+            "height": 350,
+            "width": 700,
+            "scale": 1 # Multiply title/legend/axis/canvas sizes by this factor
+        }
+    }
 except ImportError:
     pass

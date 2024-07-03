@@ -75,7 +75,21 @@
         };
       };
 
-      # =======================================================================
+      # temmie@waratah: Framework 13 ==========================================
+
+      nixosConfigurations."waratah" = nixpkgs.lib.nixosSystem {
+        pkgs = pkgsFor "x86_64-linux";
+        modules = [
+          inputs.nixos-hardware.nixosModules.framework-13-7040-amd
+          inputs.impermanence.nixosModules.impermanence
+          ./nixos/waratah
+        ];
+        specialArgs = {
+          inherit inputs;
+          modulesTarget = "nixos";
+          repo-root = "/persist/nixfiles";
+        };
+      };
 
     };
 }

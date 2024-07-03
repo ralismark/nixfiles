@@ -137,10 +137,9 @@ in
 
           # Layout Management --------------------------------------------------
 
-          # maybe binds that make more sense?
-          "${modifier}+a" = "floating disable";
-          "${modifier}+s" = "layout toggle all";
-          "${modifier}+d" = "floating enable";
+          "${modifier}+a" = "layout toggle all";
+          "${modifier}+s" = "sticky toggle";
+          "${modifier}+d" = "floating toggle";
           "${modifier}+f" = "fullscreen toggle";
 
           "${modifier}+Left" = "move workspace to output left";

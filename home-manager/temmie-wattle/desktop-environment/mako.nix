@@ -15,6 +15,11 @@ in
     backgroundColor = "#191311";
 
     format = ''<span font_family="monospace" size="12000">%a</span>\n<b>%s</b>\n%b'';
+
+    extraConfig = ''
+      [mode=do-not-disturb]
+      invisible=1
+    '';
   };
 
   # See home-manager#3266 <https://github.com/nix-community/home-manager/pull/3266>
