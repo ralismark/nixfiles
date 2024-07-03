@@ -87,7 +87,7 @@
         specialArgs = {
           inherit inputs;
           modulesTarget = "nixos";
-          repo-root = "/persist/nixfiles";
+          repo-root = "/home/temmie/src/github.com/ralismark/nixfiles";
         };
       };
 

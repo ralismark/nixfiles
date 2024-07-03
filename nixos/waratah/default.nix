@@ -16,9 +16,13 @@
     # ../shared
   ];
 
+  # System Identity ===========================================================
+
   networking.hostName = "waratah";
   networking.hostId = "23a31df2"; # i think this is important for zfs?
   environment.etc.machine-id.text = "cd7249bdbacd8a07e93669c0884d1d9e\n";
+
+  # Locale ====================================================================
 
   time.timeZone = "Australia/Sydney";
   i18n.defaultLocale = "en_AU.UTF-8";
@@ -57,14 +61,22 @@
   };
   boot.initrd.postDeviceCommands =
     assert config.fileSystems."/".fsType == "zfs";
-    lib.mkAfter ''
-      echo "rolling back tank/ephemeral/rootfs@blank..."
-      zfs rollback tank/ephemeral/rootfs@blank
-    '';
+    let
+      rollbackScript = ''
+        echo "rolling back ${config.fileSystems."/".device}@blank..."
+        zfs rollback ${config.fileSystems."/".device}@blank
+      '';
+    in
+    lib.mkAfter (if config.boot.resumeDevice == "" then rollbackScript else ''
+      if [ "swsuspend" != "$(udevadm info -q property --property=ID_FS_TYPE --value "${config.boot.resumeDevice}")" ]; then
+        ${rollbackScript}
+      fi
+    '');
+  boot.tmp.useTmpfs = false; # root is ephemeral so no need for tmpfs /tmp
 
   # selective persist
   fileSystems."/persist" = {
-    device = "tank/waratah/bootstrap_persist";
+    device = "tank/waratah/nixos_persist";
     fsType = "zfs";
     neededForBoot = true;
   };
@@ -73,9 +85,32 @@
     hideMounts = true; # ux only -- make them not show up in gvfs
     directories = [
       "/nix"
+      "/home"
+      "/etc/NetworkManager/system-connections" # save network connections
+      "/var/lib/systemd/timers" # make timers work across reboots
     ];
     files = [
     ];
+  };
+
+  # Services ==================================================================
+
+  services.zfs.autoScrub.enable = true;
+
+  systemd.services."zfs-snapshot-boot" = {
+    description = "zfs snapshot on boot";
+    script = let
+      dataset = "rpool/ds1/ROOT/nixos";
+    in ''
+      ${config.boot.zfs.package}/bin/zfs snapshot -r ${dataset}@$(date +'%Y-%m-%dT%H-%M-%S')-boot
+    '';
+    wantedBy = [ "multi-user.target" ];
+
+    # run only on startup:
+    restartIfChanged = false;
+    unitConfig.DefaultDependencies = false;
+    serviceConfig.Type = "oneshot";
+    serviceConfig.RemainAfterExit = "yes"; # make nixos see it as active and so restart
   };
 
   # Users =====================================================================
@@ -84,28 +119,52 @@
   users.users.root = {
     initialHashedPassword = "$6$m9rBWlrK.LpIrWvt$GKV.usVCCp/Ye65Llh4OjFcp0r74MOJPKO4DPVl9D5N5mJPt71gN1yieQOHHiLoVlqMXdOakaJFz1CspvnqvG.";
   };
+  users.users.temmie = {
+    uid = 1000;
+    isNormalUser = true;
+    shell = "/home/temmie/.nix-profile/bin/x-default-shell";
+    initialHashedPassword = "$6$duE2AEUJWJRR7mHF$fmn9Zo7RVnRJDkyhfE/TqMzMaRLCAK6mDZJ2DyRO6xt0ycuf.TZ0G57QJDFKBHour2Z2P2diHrLKRBNJDW2HT0";
+    extraGroups = [
+      "users"
+      "wheel" # allow sudo
+    ];
+  };
 
-  # Networking ================================================================
+  # Hardware & Networking =====================================================
 
+  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+  hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+
+  # Bluetooth
+  # hardware.bluetooth.enable = true;
+
+  # Internet
   networking.useDHCP = lib.mkDefault true;
 
-  # Wifi
   networking.networkmanager = {
     enable = true;
     wifi.scanRandMacAddress = false;
     wifi.macAddress = "permanent";
   };
-
-  # Hardware ==================================================================
-
-  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  users.groups.networkmanager.members = config.users.groups.users.members;
 
   # Nix =======================================================================
 
   nix = {
     settings = {
+      auto-optimise-store = true;
       experimental-features = [ "nix-command" "flakes" ];
+      trusted-users = [ "temmie" ];
+      builders-use-substitutes = true;
+      sandbox = "relaxed"; # sorry.... i just need to make things work
+    };
+
+    gc = {
+      automatic = true;
+      options = "--delete-older-than 14d";
+      dates = "weekly";
+      randomizedDelaySec = "45min";
+      persistent = true;
     };
   };
 
