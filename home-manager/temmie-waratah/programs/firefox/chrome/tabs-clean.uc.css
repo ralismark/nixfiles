@@ -1,0 +1,10 @@
+#tabs-newtab-button, /* new tab button */
+#alltabs-button, /* down arrow at end of tab list */
+#new-tab-button, /* scrolling tabs */
+end-of-list {
+	display: none !important;
+}
+
+.tabbrowser-tab[fadein]:not([pinned]) {
+	max-width: 100% !important;
+}

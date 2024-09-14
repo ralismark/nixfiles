@@ -1,0 +1,35 @@
+@import url("/home/timmy/.cache/wal/colors.css");
+/* @import url("duality-theme.css"); */
+
+@import url("tabs-clean.uc.css");
+@import url("tabs-collapse.uc.css");
+@import url("tabs-hideclose.uc.css");
+@import url("tabs-numbered.uc.css");
+@import url("urlbar-clean.uc.css");
+@import url("urlbar-collapse.uc.css");
+/* @import url("colours.uc.css"); */
+
+/* Reduce the "white flash" in new tabs */
+browser[type="content-primary"],
+browser[type="content"] {
+	background: var(--background, #778899) !important;
+}
+
+/* Disables mic icon at top when mic is turned on */
+#webrtcIndicator {
+	display: none !important;
+}
+
+/* Hide things */
+#pageActionSeparator, /* Gap before 3 dots */
+end-of-list
+{
+	display: none !important;
+}
+
+/* Fix tabs becoming very tall */
+.tab-label-container {
+	max-height: 2em;
+	height: 2em;
+    line-height: 2em;
+}

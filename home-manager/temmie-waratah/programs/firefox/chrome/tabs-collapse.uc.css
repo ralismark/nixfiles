@@ -1,0 +1,17 @@
+/* hide tabbar when only one tab */
+#tabbrowser-tabs,
+#tabbrowser-tabs > #tabbrowser-arrowscrollbox {
+	min-height: 0 !important;
+}
+
+#tabbrowser-tabs tab[first-visible-tab="true"][last-visible-tab="true"] {
+	visibility: collapse;
+}
+
+#tabbrowser-tabs tab {
+	min-height: var(--tab-min-height);
+}
+
+#window-controls {
+	visibility: collapse;
+}

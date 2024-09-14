@@ -161,7 +161,7 @@ in
             repeat_rate = "70";
           };
           "1:1:AT_Translated_Set_2_keyboard" = {
-            xkb_options = "caps:escape";
+            xkb_file = "${./keymap.xkb}";
           };
           "type:mouse" = {
             left_handed = "enabled";
@@ -184,20 +184,14 @@ in
             adaptive_sync = "on";
           };
 
-          # laptop monitor
+          # laptop monitor (xps 13)
           "Sharp Corporation 0x1420 Unknown".pos = "1920 1440";
+          # laptop monitor (framework 13)
+          "BOE 0x0BCA Unknown" = {
+            scale = "1.333333";
+          };
           # home monitor
           "BNQ BenQ G2420HD V7905125SL0".pos = "0 1440";
-          # left work monitor
-          "Dell Inc. DELL U2719D 5ZWQPS2" = {
-            mode = "2560x1440@59.951Hz";
-            pos = "0 0";
-          };
-          # right work monitor
-          "Dell Inc. DELL U2719D 6N6LLS2" = {
-            mode = "2560x1440@59.951Hz";
-            pos = "2560 0";
-          };
         };
 
         window.border = 1;

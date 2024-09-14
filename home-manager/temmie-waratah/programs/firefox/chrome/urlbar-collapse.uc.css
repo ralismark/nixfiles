@@ -1,0 +1,12 @@
+/* collapsing URL bar */
+#nav-bar toolbarbutton {
+	transition: all 150ms ease;
+}
+
+#nav-bar:not(:hover):not([customizing=true]):not([urlbar-exceeds-toolbar-bounds=true])
+	toolbarbutton
+{
+	margin-left: -28px !important;
+	--toolbarbutton-outer-padding: 0;
+	opacity: 0 !important;
+}

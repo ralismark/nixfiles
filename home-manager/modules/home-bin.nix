@@ -14,22 +14,25 @@ in
       { name, config, ... }: {
         options = {
           text = mkOption {
-            type = types.nullOr types.str;
-            default = null;
+            type = types.str;
             example = "cd $(mktemp -d)";
             description = "Shell script content";
           };
 
           source = mkOption {
-            type = types.str;
+            type = types.nullOr types.str;
+            default = null;
             example = "\${home.homeDirectory}/bin/do_thing";
             description = "Path to link";
           };
         };
 
         config = mkMerge [
-          (mkIf (config.text != null) {
-            source = "${pkgs.writeScript name config.text}";
+          (mkIf (config.source != null) {
+            text = ''
+              #!/bin/sh
+              exec "${config.source}" "$@"
+            '';
           })
         ];
       }
@@ -43,7 +46,7 @@ in
       mkdir -p $out/bin
       ${concatStringsSep "\n"
         (mapAttrsToList
-          (name: c: "ln -s ${escapeShellArg c.source} $out/bin/${escapeShellArg name}")
+          (name: c: "cp ${pkgs.writeScript "script" c.text} $out/bin/${escapeShellArg name}")
           cfg)}
     ''))
   ];

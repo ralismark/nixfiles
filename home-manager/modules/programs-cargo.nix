@@ -6,7 +6,7 @@ in
 {
   options.programs.cargo = {
     enable = lib.mkEnableOption "cargo, the rust package manager and build system";
-    package = lib.mkPackageOptionMD pkgs "cargo" { };
+    package = lib.mkPackageOption pkgs "cargo" { };
     settings = lib.mkOption {
       type = format.type;
       default = {};
@@ -24,7 +24,7 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    home.packages = [ pkgs.cargo ];
+    home.packages = [ pkgs.cargo pkgs.rustfmt ];
     home.file.".cargo/config.toml".source = format.generate "cargo-config.toml" cfg.settings;
   };
 }

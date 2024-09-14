@@ -16,6 +16,10 @@
 
   # ssh agent -----------------------------------------------------------------
 
+  programs.ssh.addKeysToAgent = "yes";
+
+  home.sessionVariables.SSH_AUTH_SOCK = "\${XDG_RUNTIME_DIR}/ssh-agent";
+
   programs.ssh.extraConfig = ''
     IdentityAgent ''${XDG_RUNTIME_DIR}/ssh-agent
   '';
@@ -43,7 +47,8 @@
 
     Service = {
       Environment = [ "SSH_AUTH_SOCK=%t/ssh-agent" ];
-      ExecStart = "${pkgs.openssh}/bin/ssh-agent -D -a %t/ssh-agent";
+      Type = "forking";
+      ExecStart = "${pkgs.openssh}/bin/ssh-agent -a %t/ssh-agent";
       ExecStartPost = "${pkgs.openssh}/bin/ssh-add";
     };
 

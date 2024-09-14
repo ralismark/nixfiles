@@ -21,7 +21,7 @@ in
     ./alacritty.nix
     ./mako.nix
     ./rofi.nix
-    ./sway.nix
+    ./sway
     ./waybar.nix
 
     ../../modules/xdg-portal-wlr.nix

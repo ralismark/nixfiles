@@ -9,7 +9,6 @@
   imports =
     [
       ../../assets/pin-nixpkgs.nix
-      ../modules/services-pipewire-filters.nix
       ../modules/networking-regulatorydomain.nix
 
       ./hardware-configuration.nix # Include the results of the hardware scan.

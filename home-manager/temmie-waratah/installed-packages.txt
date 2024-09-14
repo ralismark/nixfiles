@@ -5,8 +5,8 @@ dnsutils
 evince
 file
 gimp
-gnome.file-roller
-gnome.gucharmap
+file-roller
+gucharmap
 gnumake
 helvum
 htop-vim

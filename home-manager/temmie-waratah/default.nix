@@ -392,7 +392,7 @@ in {
   # Nix =======================================================================
 
   # nix-index
-  home.file.".cache/nix-index/files".source = inputs.nix-index-database.legacyPackages.${nixpkgs.system}.database;
+  home.file.".cache/nix-index/files".source = inputs.nix-index-database.packages.${nixpkgs.system}.nix-index-database;
   programs.nix-index = {
     enable = true;
     package = pkgs.symlinkJoin {

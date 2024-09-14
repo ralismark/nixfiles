@@ -44,19 +44,20 @@
 
       # temmie@wattle: XPS 13 =================================================
 
+      # This is kinda rip atm since I'm not using the laptop for anything
+      /*
       homeConfigurations."temmie@wattle" = home-manager.lib.homeManagerConfiguration {
         pkgs = pkgsFor "x86_64-linux";
         modules = [
           rec {
             home.username = "temmie";
             home.homeDirectory = "/home/${home.username}";
-            _module.args.repo-root = "${home.homeDirectory}/src/github.com/ralismark/nixfiles";
           }
           ./home-manager/temmie-wattle
         ];
         extraSpecialArgs = {
           inherit inputs;
-          modulesTarget = "home-manager";
+          target = { kind = "home-manager"; user = "temmie"; host = "wattle"; };
           repo-root = "/home/temmie/src/github.com/ralismark/nixfiles";
         };
       };
@@ -70,12 +71,29 @@
         ];
         specialArgs = {
           inherit inputs;
-          modulesTarget = "nixos";
+          target = { kind = "nixos"; host = "wattle"; };
           repo-root = "/home/temmie/src/github.com/ralismark/nixfiles";
         };
       };
+      */
 
       # temmie@waratah: Framework 13 ==========================================
+
+      homeConfigurations."temmie@waratah" = home-manager.lib.homeManagerConfiguration {
+        pkgs = pkgsFor "x86_64-linux";
+        modules = [
+          rec {
+            home.username = "temmie";
+            home.homeDirectory = "/home/${home.username}";
+          }
+          ./home-manager/temmie-waratah
+        ];
+        extraSpecialArgs = {
+          inherit inputs;
+          target = { kind = "home-manager"; user = "temmie"; host = "waratah"; };
+          repo-root = "/home/temmie/src/github.com/ralismark/nixfiles";
+        };
+      };
 
       nixosConfigurations."waratah" = nixpkgs.lib.nixosSystem {
         pkgs = pkgsFor "x86_64-linux";
@@ -86,7 +104,7 @@
         ];
         specialArgs = {
           inherit inputs;
-          modulesTarget = "nixos";
+          target = { kind = "nixos"; host = "waratah"; };
           repo-root = "/home/temmie/src/github.com/ralismark/nixfiles";
         };
       };

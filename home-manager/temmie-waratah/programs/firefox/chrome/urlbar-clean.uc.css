@@ -1,0 +1,21 @@
+#pageActionButton, /* 3 dots in url bar */
+#star-button:not([starred="true"]), /* Bookmarks, when not bookmarked */
+end-of-list
+{
+	display: none !important;
+}
+
+#urlbar {
+	border: none !important;
+}
+
+#urlbar #urlbar-input {
+	text-align: center !important;
+}
+
+/* remove borders and stuff from url bar */
+#urlbar-background, #urlbar-input-container {
+	--urlbar-separator-color: transparent;
+	border: none !important;
+	box-shadow: none !important;
+}

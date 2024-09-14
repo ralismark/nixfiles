@@ -1,0 +1,17 @@
+/* Number tabs */
+tabs {
+	counter-reset: tab;
+}
+
+tab {
+	counter-increment: tab;
+}
+
+tab .tab-label::before {
+	content: counter(tab);
+	padding: 1px 4px;
+	border-radius: 4px;
+	background: #123;
+	color: var(--color4);
+	margin-right: 4px;
+}

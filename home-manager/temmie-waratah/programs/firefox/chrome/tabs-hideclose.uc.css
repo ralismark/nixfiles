@@ -1,0 +1,14 @@
+.tabbrowser-tab .tab-close-button {
+/*  -moz-box-ordinal-group: 0 !important;*/
+/* 	margin: 0px 2px 0px -5px !important;*/
+ 	display: none;
+}
+
+/*.tabbrowser-tab:not([pinned="true"]):hover .tab-icon-image,
+.tabbrowser-tab:not([pinned="true"]):hover .tab-throbber {
+  display: none;
+}*/
+
+.tabbrowser-tab:not([pinned="true"]):hover .tab-close-button {
+  display: -moz-box !important;
+}

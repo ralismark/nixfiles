@@ -5,11 +5,14 @@
   ...
 }:
 {
+  imports = [
+    ../modules/services-pipewire-filters.nix
+  ];
 
   environment.systemPackages = with pkgs; [
     sshfs # for use with systemd
 
-    pkgs.gnome.adwaita-icon-theme  # fix "Unable to load nw-resize from the cursor theme" <https://github.com/NixOS/nixpkgs/issues/207339>
+    pkgs.adwaita-icon-theme  # fix "Unable to load nw-resize from the cursor theme" <https://github.com/NixOS/nixpkgs/issues/207339>
   ];
 
   # Misc Config ===============================================================
@@ -87,9 +90,8 @@
 
   # Graphical Environment =====================================================
 
-  hardware.opengl.enable = true;
+  hardware.graphics.enable = true;
 
-  sound.enable = false; # <https://nixos.wiki/wiki/PipeWire>: "Remove sound.enable or turn it off if you had it set previously, it seems to cause conflicts with pipewire"
   security.rtkit.enable = true; # realtime support; recommended for pipewire
   services.pipewire = {
     enable = true;
@@ -97,7 +99,7 @@
     alsa.support32Bit = true;
     pulse.enable = true; # pulseaudio compat
 
-    deepfilter.enable = true;
+    deepfilter.enable = false;
   };
 
   # enable this here since system-level changes are required for users to run steam
@@ -156,7 +158,9 @@
   environment.etc."issue".source = ../../assets/etc-issue;
 
   console = {
-    font = ""; # I want the default font, but I don't know what to put here for that, but this seems to work
+    font = lib.mkDefault ""; # I want the default font, but I don't know what to put here for that, but this seems to work
+
+    earlySetup = config.console.font != ""; # apply font in early initrd
 
     colors = [
       # Solarised w/ corrected bright colours
@@ -168,6 +172,7 @@
       "d33682"
       "2aa198"
       "eee8d5" # base2
+
       "586e75" # base01
       "e35d5b"
       "b1cc00"
@@ -178,6 +183,5 @@
       "fdf6e3" # base3
     ];
   };
-
 
 }

@@ -9,25 +9,28 @@
       layer = "top";
       position = "left";
       spacing = 0; # we do spacing in CSS to handle hidden items properly
-      width = 32;
+      fixed-center = true;
 
       modules-left = [ "pulseaudio#source" "pulseaudio#sink" "tray" ];
       modules-center = [ "sway/workspaces" ];
       modules-right = [ "backlight" "battery" "clock" ];
 
-      backlight = {
+      backlight = let
+        default-brightness = 50;
+      in {
+        on-click = "${pkgs.brightnessctl}/bin/brightnessctl set ${builtins.toString default-brightness}%";
+
         format = "☀\n{percent}";
-        format-baseline = "";
-        on-click = "${pkgs.brightnessctl}/bin/brightnessctl set 100%";
+        format-hidden = "";
+        format-max = "☀\n1ꚙ";
+
         states = {
-          hidden = 100;
-          visible = 99;
+          hidden = default-brightness;
+          visible = default-brightness + 1;
         };
       };
 
       battery = {
-        adapter = "AC";
-        bat = "BAT0";
         format = "{icon}\n{capacity}";
         format-charging = "🔌\n{capacity}";
         format-icons = [ "🌑" "🌘" "🌗" "🌖" "🌕" "🌕" ];
@@ -79,7 +82,7 @@
         all-outputs = true;
         disable-scroll = true;
         format = "{name}";
-        persistent_workspaces = {
+        persistent-workspaces = {
           "1" = [ ];
           "2" = [ ];
           "3" = [ ];
@@ -115,7 +118,6 @@
         background: transparent;
         color: #fdf6e3;
         font-family: "Droid Sans Mono", "Blobmoji";
-        font-size: 14px;
       }
 
       .modules-left > * > *:not(.hidden),
@@ -148,7 +150,7 @@
       #workspaces > button:nth-child(10) { border-color: #f6906d; }
 
       #workspaces > button {
-        min-height: 70px;
+        min-height: 50px;
         padding: 0;
         margin: 2px 0;
         border-left: 2px solid rgba(127, 127, 127, 0.5);

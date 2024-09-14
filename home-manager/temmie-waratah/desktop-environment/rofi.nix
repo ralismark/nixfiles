@@ -1,8 +1,6 @@
 { pkgs, ... }:
 let
   rofi-theme = ''
-    /* vim:set ft=css: */
-
     * {
         s-bg: #000000;
         s-bg50: #00000080;
@@ -139,7 +137,7 @@ in
             fi
           '';
         in
-        "drun,files:${rofi-files}";
+        "drun";
     };
   };
 }

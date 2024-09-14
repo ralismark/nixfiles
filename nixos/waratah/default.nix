@@ -13,8 +13,10 @@
 
     (modulesPath + "/installer/scan/not-detected.nix")
 
-    # ../shared
+    ../shared
   ];
+
+  # console.font = "LatGrkCyr-12x22";
 
   # System Identity ===========================================================
 
@@ -45,6 +47,13 @@
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
+
+  boot.resumeDevice = "/dev/disk/by-partuuid/9066e811-c45b-4c8f-bebc-f6da52974b63";
+  swapDevices = [
+    {
+      device = config.boot.resumeDevice;
+    }
+  ];
 
   # Filesystems ===============================================================
 
@@ -88,6 +97,7 @@
       "/home"
       "/etc/NetworkManager/system-connections" # save network connections
       "/var/lib/systemd/timers" # make timers work across reboots
+      "/var/lib/fprint"
     ];
     files = [
     ];
@@ -100,7 +110,7 @@
   systemd.services."zfs-snapshot-boot" = {
     description = "zfs snapshot on boot";
     script = let
-      dataset = "rpool/ds1/ROOT/nixos";
+      dataset = "tank/waratah/nixos_persist";
     in ''
       ${config.boot.zfs.package}/bin/zfs snapshot -r ${dataset}@$(date +'%Y-%m-%dT%H-%M-%S')-boot
     '';
@@ -111,6 +121,11 @@
     unitConfig.DefaultDependencies = false;
     serviceConfig.Type = "oneshot";
     serviceConfig.RemainAfterExit = "yes"; # make nixos see it as active and so restart
+  };
+
+  services.resolved = {
+    enable = true;
+    fallbackDns = [ "1.1.1.1" "1.0.0.1" ];
   };
 
   # Users =====================================================================
@@ -130,10 +145,12 @@
     ];
   };
 
-  # Hardware & Networking =====================================================
+  # Hardware ==================================================================
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+
+  services.fwupd.enable = true;
 
   # Bluetooth
   # hardware.bluetooth.enable = true;
@@ -148,16 +165,61 @@
   };
   users.groups.networkmanager.members = config.users.groups.users.members;
 
+  # Wakeup
+  systemd.tmpfiles.rules = [
+    # disable wakeup from keyboard
+    "w /sys/devices/pci0000:00/0000:00:02.2/power/wakeup - - - - disabled"
+    # disable wakeup from USB devices
+    "w /sys/devices/pci0000:00/0000:c1:00.3/power/wakeup - - - - disabled"
+    "w /sys/devices/pci0000:00/0000:c1:00.4/power/wakeup - - - - disabled"
+    "w /sys/devices/pci0000:00/0000:c3:00.0/power/wakeup - - - - disabled"
+    "w /sys/devices/pci0000:00/0000:c3:00.5/power/wakeup - - - - disabled"
+    "w /sys/devices/pci0000:00/0000:c3:00.3/power/wakeup - - - - disabled"
+    "w /sys/devices/pci0000:00/0000:c3:00.6/power/wakeup - - - - disabled"
+    "w /sys/devices/pci0000:00/0000:c3:00.4/power/wakeup - - - - disabled"
+  ];
+
+  services.logind = {
+    lidSwitch = "suspend";
+    lidSwitchDocked = "suspend";
+    lidSwitchExternalPower = "suspend";
+  };
+
   # Nix =======================================================================
+
+  programs.ssh =  {
+    extraConfig = ''
+      Host nixbld-julia
+        User temmie
+        Hostname 152.67.106.24
+        Port 6666
+        IdentityFile /persist/secrets/root_ed25519
+    '';
+    knownHostsFiles = [
+      (pkgs.writeText "nixbld-julia.known_hosts" ''
+        [152.67.106.24]:6666 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBip6fJ2pc0fTEEEnKu2daqsRm6bshloamPiFR8Lh7D8
+        [152.67.106.24]:6666 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC1iHepGoYStcxTMmqyawKDrdO/iMvxDpj7U5PeamDoxI482hst/d/g6YN6ntGxxJ074/0FbhAVvNF/oNX1n5b7QBSAtj0XTsfsYtXUcw0pXNKWeClgXDS7EcnUnA2J5Xcx3m+CXtSpR3DX2qZ7WEU7GSgXqvaBh2k+zm47drk2cr+q2HxYhUMd3MJwKqCZX4EAgd7xvdiCcotr+/fVs0IDsJO3QkpxRv8OrOhVWvBi57+eOrad8x51xD5PVMaDNT/HP916b8kVJnpgRFzZVd4HsO9yFNwpbvE9115YNXxcmVTiJG1/zec3mqL/cQkIwGN7Z50maUqUWgYxieTHsC9Lbo6+fhuwB4I9vK2P/McilX0l4ayVUS7QLX2CQsjU6ViPVq1zJvIW40ecLcCAl5MO0ryFBe+yY/LaQUKEgfa+5+AJqV79ds9msfHJro2RM1jLoMajXh2wmYhCtctMX+ea8wZ7MNN2fEHyrbCFFSz9K5JrT5eQVrsoUijMdSjPUsaMNPUOcC4Qr2/SW1KJmy9DliDtztf7pkENxU0ymVYbohnL/Y+kR81IzqB+DAeTT/GMAIgruPNT0yb5OI7DIGhAWyeAxJgPuPrqejAGQCc+L/wAkH5KIUmVfGcbBlg+rrbosgGIK+5iK0ZtWT8VvmWxhXmhfi/1YJPkxYRZ8ee9rw==
+      '')
+    ];
+  };
 
   nix = {
     settings = {
       auto-optimise-store = true;
       experimental-features = [ "nix-command" "flakes" ];
-      trusted-users = [ "temmie" ];
+      trusted-users = [ "@wheel" ];
       builders-use-substitutes = true;
       sandbox = "relaxed"; # sorry.... i just need to make things work
     };
+
+    distributedBuilds = true;
+    buildMachines = [
+      {
+        protocol = "ssh-ng";
+        hostName = "nixbld-julia";
+        system = "x86_64-linux";
+      }
+    ];
 
     gc = {
       automatic = true;

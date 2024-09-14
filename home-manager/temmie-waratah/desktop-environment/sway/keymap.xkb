@@ -1,0 +1,26 @@
+xkb_keymap {
+   xkb_keycodes {
+       include "evdev+aliases(qwerty)"
+   };
+
+   xkb_types {
+       include "complete"
+   };
+
+   xkb_compat {
+       include "complete"
+   };
+
+   xkb_symbols {
+       include "pc+us+inet(evdev)"
+       // xkb rules
+       include "capslock(escape)+shift(both_capslock)"
+
+       key <HENK> {[ Shift_R ]};
+       key <HKTG> {[ BackSpace, BackSpace ]};
+   };
+
+   xkb_geometry {
+       include "pc(pc105)"
+   };
+};

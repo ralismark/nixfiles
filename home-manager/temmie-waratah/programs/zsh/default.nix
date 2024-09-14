@@ -75,6 +75,8 @@ with lib;
       size = 999999999999;
     };
 
+    completionInit = "autoload -U compinit && compinit -i";
+
     options = {
       correct              = true;
       prompt_subst         = true;

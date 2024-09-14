@@ -1,26 +1,27 @@
 self: super: {
 
-  sway-unwrapped = (super.sway-unwrapped.overrideAttrs (prev: {
-    version = "1.10-dev";
-    src = self.fetchFromGitHub {
-      owner = "swaywm";
-      repo = "sway";
-      rev = "59f629238309e230b0e353e73d4f37a7de7fe820";
-      hash = "sha256-AQor/lF83q3up1B3Eizcfm7bmhDkqHgf4ljoqsXXgrw=";
-    };
-  })).override {
-    # note that sway-unwrapped uses the wlroots_0_17 package by default
-    wlroots = super.wlroots.overrideAttrs (prev: {
-      version = "0.18.0-dev";
-      src = self.fetchFromGitLab {
-        domain = "gitlab.freedesktop.org";
-        owner = "wlroots";
-        repo = "wlroots";
-        rev = "22178451f7f5f0ad152e1dedf39b244500f24afb";
-        hash = "sha256-rQuDnnmJHZB2ozErj1yUuYubVAozSl7Pyojr+ezzMIc=";
-      };
-    });
-  };
+  # Broken 2024-08-01. This is only really needed for IME popups
+  # sway-unwrapped = (super.sway-unwrapped.overrideAttrs (prev: {
+  #   version = "1.10-dev";
+  #   src = self.fetchFromGitHub {
+  #     owner = "swaywm";
+  #     repo = "sway";
+  #     rev = "7e74a4914261cf32c45017521960adf7ff6dac8f";
+  #     hash = "sha256-rQuDnnmJHZB2ozErj1yUuYubVAozSl7Pyojr+ezzMIc=";
+  #   };
+  # })).override {
+  #   # note that sway-unwrapped uses the wlroots_0_17 package by default
+  #   wlroots = super.wlroots.overrideAttrs (prev: {
+  #     version = "0.18.0-dev";
+  #     src = self.fetchFromGitLab {
+  #       domain = "gitlab.freedesktop.org";
+  #       owner = "wlroots";
+  #       repo = "wlroots";
+  #       rev = "42673a282137ad4dc39b6a70c011dba4d822b85c";
+  #       hash = "sha256-EnNYOYAl+e7LD1i2HocfFwc0az4vHthobWmadafuAso=";
+  #     };
+  #   });
+  # };
 
   adapta-maia-theme = self.callPackage ./adapta-maia-theme { };
 

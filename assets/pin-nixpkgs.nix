@@ -1,7 +1,7 @@
 { config
 , lib
 , inputs
-, modulesTarget
+, target
 , ...
 }@args:
 let
@@ -16,7 +16,7 @@ let
     inherit (inputs.nixpkgs) lastModified narHash rev;
   };
 in
-import ../lib/variants-config.nix modulesTarget {
+import ../lib/variants-config.nix target.kind {
 
   home-manager = {
     # match nixpkgs
@@ -24,7 +24,8 @@ import ../lib/variants-config.nix modulesTarget {
 
     # NOTE ~/.config/nix/path is a concept we made up
     xdg.configFile."nix/path/nixpkgs".source = inputs.nixpkgs;
-    home.sessionVariables.NIX_PATH = "${config.xdg.configHome}/nix/path\${NIX_PATH:+:}\$NIX_PATH"; # TODO this isn't passed to sway?
+    nix.nixPath = [ "${config.xdg.configHome}/nix/path" ];
+    nix.keepOldNixPath = true;
 
     # match config
     home.sessionVariables.NIXPKGS_CONFIG = "${config.xdg.configHome}/nixpkgs/config.nix";
