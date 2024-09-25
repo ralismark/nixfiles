@@ -2,23 +2,16 @@
 with lib;
 {
   imports = [
-    ../../modules/programs-git-identity.nix
+    ../modules/programs-git-identity.nix
   ];
 
   programs.git = {
     enable = true;
 
-    identity = {
-      cse = {
-        origins = [ "gitlab@gitlab.cse.unsw.edu.au:*/**" ];
-        userName = "Temmie Yao";
-        userEmail = "t.yao@unsw.edu.au";
-      };
-      github = {
-        origins = [ "git@github.com:*/**" ];
-        userName = "ralismark";
-        userEmail = "13449732+ralismark@users.noreply.github.com";
-      };
+    identity.ralismark-github = {
+      # no auto
+      userName = "ralismark";
+      userEmail = "13449732+ralismark@users.noreply.github.com";
     };
 
     aliases = {
@@ -56,7 +49,6 @@ with lib;
 
       # misc
       sdiff = "diff --cached";
-
     };
 
     extraConfig = {
@@ -68,23 +60,11 @@ with lib;
       };
 
       advice = flip genAttrs (_: false) [
+        # disabled advice
         "detachedHead"
       ];
 
-      credential.helper = "cache";
-
-      user.useConfigOnly = true;
-
-      # Diff/Mergetool ========================================================
-
-      difftool.meld.path = "${pkgs.meld}/bin/meld";
-      mergetool.meld.path = "${pkgs.meld}/bin/meld";
-      difftool.meld.hasOutput = true;
-      mergetool.meld.hasOutput = true;
-      diff.guitool = "meld";
-      merge.guitool = "meld";
-      difftool.guiDefault = "auto";
-      mergetool.guiDefault = "auto";
+      user.useConfigOnly = true; # don't assume identity
 
       # Operation-Specific ====================================================
 
@@ -129,7 +109,7 @@ with lib;
     };
 
     ignores = [
-      (mkIf config.programs.direnv.enable ".direnv")
+      ".direnv"
     ];
   };
 }

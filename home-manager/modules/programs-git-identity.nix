@@ -17,7 +17,6 @@ in
     type = types.attrsOf (types.submodule {
       options = {
         origins = mkOption {
-          # TODO support a list of origins
           type = types.listOf types.str;
           default = [ ];
           example = "git@github.com:*/**";

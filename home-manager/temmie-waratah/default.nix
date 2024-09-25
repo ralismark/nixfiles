@@ -17,16 +17,16 @@ in {
   imports = [
     ../../assets/pin-nixpkgs.nix
     ../modules/home-bin.nix
+    ../shared/programs-git.nix
+    ../shared/toolchains-go.nix
 
     ./desktop-environment
 
-    ./programs/git.nix
     ./programs/tmux.nix
     ./programs/zsh
     ./programs/firefox
     ./programs/ipython
     ./programs/jupyter.nix
-    ./programs/ssh.nix
 
     ./toolchains/rust.nix
     ./toolchains/go.nix
@@ -254,6 +254,28 @@ in {
   };
 
   # Programs ==================================================================
+
+  programs.git = {
+    identity.ralismark-github = {
+      # all github use is via ralismark
+      origins = [ "git@github:*/**" ];
+    };
+
+    # alias manual identity
+    aliases.id-gh = "id-ralismark-github";
+
+    extraConfig = {
+      # install meld as difftool
+      difftool.meld.path = "${pkgs.meld}/bin/meld";
+      mergetool.meld.path = "${pkgs.meld}/bin/meld";
+      difftool.meld.hasOutput = true;
+      mergetool.meld.hasOutput = true;
+      diff.guitool = "meld";
+      merge.guitool = "meld";
+      difftool.guiDefault = "auto";
+      mergetool.guiDefault = "auto";
+    };
+  };
 
   programs.less = {
     enable = true;

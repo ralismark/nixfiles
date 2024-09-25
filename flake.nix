@@ -84,7 +84,7 @@
         modules = [
           rec {
             home.username = "temmie";
-            home.homeDirectory = "/home/${home.username}";
+            home.homeDirectory = "/home/temmie";
           }
           ./home-manager/temmie-waratah
         ];
@@ -106,6 +106,24 @@
           inherit inputs;
           target = { kind = "nixos"; host = "waratah"; };
           repo-root = "/home/temmie/src/github.com/ralismark/nixfiles";
+        };
+      };
+
+      # temmie@Temmies-MacBook-Pro.local: Canva ===============================
+
+      homeConfigurations."temmie@Temmies-MacBook-Pro.local" = home-manager.lib.homeManagerConfiguration {
+        pkgs = pkgsFor "x86_64-darwin";
+        modules = [
+          rec {
+            home.username = "temmie";
+            home.homeDirectory = "/Users/temmie";
+          }
+          ./home-manager/temmie-canva
+        ];
+        extraSpecialArgs = {
+          inherit inputs;
+          target = { kind = "home-manager"; user = "temmie"; host = "Temmies-MacBook-Pro.local"; };
+          repo-root = "/Users/temmie/src/github.com/ralismark/nixfiles";
         };
       };
 

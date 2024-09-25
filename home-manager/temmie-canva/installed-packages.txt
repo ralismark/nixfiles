@@ -1,0 +1,4 @@
+jq
+ranger
+silver-searcher
+yq
