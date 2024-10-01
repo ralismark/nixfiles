@@ -10,8 +10,10 @@ let
 in {
   imports = [
     ../modules/home-bin.nix
-    ../shared/toolchains-go.nix
+
     ../shared/programs-git.nix
+    ../shared/programs-zsh
+    ../shared/toolchains-go.nix
   ];
 
   # Installed =================================================================
@@ -58,6 +60,13 @@ in {
     identity.ralismark-github = {
       origins = [ "github-ralismark:*/**" ];
     };
+  };
+
+  programs.zsh = {
+    initExtra = ''
+      # escape hatch for canva-specific stuff
+      source ~/.zshrc.local
+    '';
   };
 
   # Nix =======================================================================

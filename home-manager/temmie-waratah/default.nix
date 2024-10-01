@@ -16,8 +16,11 @@ let
 in {
   imports = [
     ../../assets/pin-nixpkgs.nix
+
     ../modules/home-bin.nix
+
     ../shared/programs-git.nix
+    ../shared/programs-zsh
     ../shared/toolchains-go.nix
 
     ./desktop-environment
@@ -29,7 +32,6 @@ in {
     ./programs/jupyter.nix
 
     ./toolchains/rust.nix
-    ./toolchains/go.nix
 
     ./sshfs.nix
   ];
@@ -275,6 +277,26 @@ in {
       difftool.guiDefault = "auto";
       mergetool.guiDefault = "auto";
     };
+  };
+
+  programs.zsh = {
+    initExtra = let
+      fortunes = (pkgs.runCommand "fortunes" { } ''
+        mkdir $out
+        cp ${../../../assets/fortunes} $out/fortunes
+        ${pkgs.fortune}/bin/strfile $out/fortunes $out/fortunes.dat
+      '') + "/fortunes";
+    in ''
+      ##
+      ## motd
+      ##
+      () {
+        echo
+        if ! [ -n "$NOCOWS" ]; then
+          ${pkgs.fortune}/bin/fortune ${fortunes} | ${pkgs.cowsay}/bin/cowsay -n
+        fi
+      }
+    '';
   };
 
   programs.less = {

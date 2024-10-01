@@ -2,8 +2,8 @@
 with lib;
 {
   imports = [
-    ../../../modules/programs-zsh-bindkey.nix
-    ../../../modules/programs-zsh-options.nix
+    ../../modules/programs-zsh-bindkey.nix
+    ../../modules/programs-zsh-options.nix
   ];
 
   home.packages = [(
@@ -204,13 +204,7 @@ with lib;
       '';
     };
 
-    initExtra = let
-      fortunes = (pkgs.runCommand "fortunes" { } ''
-        mkdir $out
-        cp ${../../../../assets/fortunes} $out/fortunes
-        ${pkgs.fortune}/bin/strfile $out/fortunes $out/fortunes.dat
-      '') + "/fortunes";
-    in ''
+    initExtra = ''
       # Make sure the terminal is in application mode, when zle is
       # active. Only then are the values from $terminfo valid.
       if echoti smkx >&/dev/null; then
@@ -313,16 +307,6 @@ with lib;
       $leader$jobline%(!,%F{red}#%f,$) "
 
         PS2="... "
-      }
-
-      ##
-      ## motd
-      ##
-      () {
-        echo
-        if ! [ -n "$NOCOWS" ]; then
-          ${pkgs.fortune}/bin/fortune ${fortunes} | ${pkgs.cowsay}/bin/cowsay -n
-        fi
       }
     '';
 
