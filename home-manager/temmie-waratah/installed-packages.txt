@@ -4,10 +4,10 @@ chromium
 dnsutils
 evince
 file
-gimp
 file-roller
-gucharmap
+gimp
 gnumake
+gucharmap
 helvum
 htop-vim
 inetutils
@@ -15,7 +15,6 @@ jq
 libqalculate
 meld
 moreutils
-mpv
 nomacs
 pandoc
 pantheon.elementary-files
@@ -26,6 +25,7 @@ ranger
 rclone
 silver-searcher
 tectonic
+vlc
 wavemon
 wdisplays
 wl-clipboard

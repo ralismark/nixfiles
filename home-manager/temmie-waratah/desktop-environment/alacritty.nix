@@ -77,7 +77,7 @@
       font = {
         normal.family = "Cascadia Code PL";
 
-        size = 14.0;
+        size = 12.0;
         offset = {
           x = 0;
           y = 1;
@@ -163,4 +163,12 @@
       ];
     };
   };
+
+  # default terminal for opening Terminal=true desktop apps
+  home.packages = [
+    (pkgs.writeScriptBin "xdg-terminal-exec" ''
+      #!/bin/sh
+      exec alacritty -e "$@"
+    '')
+  ];
 }

@@ -2,8 +2,8 @@
 with lib;
 let
   mounts = {
-    "cse" = "cse:";
-    "aos-2" = "aos-2:";
+    # "cse" = "cse:";
+    # "aos-2" = "aos-2:";
   };
 
   mountBase = "${config.home.homeDirectory}/.local/mount/";

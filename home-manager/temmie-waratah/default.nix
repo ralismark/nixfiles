@@ -26,7 +26,6 @@ in {
     ./desktop-environment
 
     ./programs/tmux.nix
-    ./programs/zsh
     ./programs/firefox
     ./programs/ipython
     ./programs/jupyter.nix
@@ -260,7 +259,7 @@ in {
   programs.git = {
     identity.ralismark-github = {
       # all github use is via ralismark
-      origins = [ "git@github:*/**" ];
+      origins = [ "git@github.com:*/**" ];
     };
 
     # alias manual identity
@@ -283,7 +282,7 @@ in {
     initExtra = let
       fortunes = (pkgs.runCommand "fortunes" { } ''
         mkdir $out
-        cp ${../../../assets/fortunes} $out/fortunes
+        cp ${../../assets/fortunes} $out/fortunes
         ${pkgs.fortune}/bin/strfile $out/fortunes $out/fortunes.dat
       '') + "/fortunes";
     in ''

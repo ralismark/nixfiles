@@ -68,19 +68,13 @@
     device = "tank/ephemeral/rootfs";
     fsType = "zfs";
   };
-  boot.initrd.postDeviceCommands =
+  boot.initrd.postResumeCommands =
     assert config.fileSystems."/".fsType == "zfs";
-    let
-      rollbackScript = ''
-        echo "rolling back ${config.fileSystems."/".device}@blank..."
-        zfs rollback ${config.fileSystems."/".device}@blank
-      '';
-    in
-    lib.mkAfter (if config.boot.resumeDevice == "" then rollbackScript else ''
-      if [ "swsuspend" != "$(udevadm info -q property --property=ID_FS_TYPE --value "${config.boot.resumeDevice}")" ]; then
-        ${rollbackScript}
-      fi
-    '');
+    # force this after the zfs pool import
+    lib.mkAfter ''
+      echo "rolling back ${config.fileSystems."/".device}@blank..."
+      zfs rollback ${config.fileSystems."/".device}@blank
+    '';
   boot.tmp.useTmpfs = false; # root is ephemeral so no need for tmpfs /tmp
 
   # selective persist
@@ -98,6 +92,7 @@
       "/etc/NetworkManager/system-connections" # save network connections
       "/var/lib/systemd/timers" # make timers work across reboots
       "/var/lib/fprint"
+      "/var/lib/nixos" # nixos uid/gid mappings
     ];
     files = [
     ];

@@ -185,13 +185,13 @@ in
           };
 
           # laptop monitor (xps 13)
-          "Sharp Corporation 0x1420 Unknown".pos = "1920 1440";
+          "Sharp Corporation 0x1420 Unknown".pos = "4000 2000";
           # laptop monitor (framework 13)
           "BOE 0x0BCA Unknown" = {
             scale = "1.333333";
+            pos = "4000 2000";
           };
-          # home monitor
-          "BNQ BenQ G2420HD V7905125SL0".pos = "0 1440";
+          "Microstep MSI MP275Q PC3M264600588".pos = "1440 2000";
         };
 
         window.border = 1;
