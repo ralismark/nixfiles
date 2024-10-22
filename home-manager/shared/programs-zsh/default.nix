@@ -203,7 +203,15 @@ with lib;
       '';
     };
 
-    initExtra = ''
+    initExtra = let
+      git-status-script = lib.getExe (pkgs.writeShellApplication {
+        name = "git-status-script";
+
+        runtimeInputs = with pkgs; [ coreutils gnused git ];
+
+        text = builtins.readFile ./git-status-script.sh;
+      });
+    in ''
       # Make sure the terminal is in application mode, when zle is
       # active. Only then are the values from $terminfo valid.
       if echoti smkx >&/dev/null; then
@@ -250,7 +258,7 @@ with lib;
       ## prompt
       ##
       .prompt.git.script() {
-        local data=$(bash < ${./git-status-script.sh})
+        local data=$(${git-status-script})
         echo "_prompt_git_script=''${(q)data}; zle reset-prompt"
       }
 

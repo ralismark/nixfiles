@@ -12,12 +12,11 @@ aheadbehind() {
 }
 
 stashes() {
-	local stashes
-	stashes=$(git stash list | wc -l)
-	if [ "$stashes" -eq 0 ]; then
+	stash_count=$(git stash list | wc -l)
+	if [ "$stash_count" -eq 0 ]; then
 		return
 	fi
-	echo " %F{14}[$stashes stashed]%f"
+	echo " %F{14}[$stash_count stashed]%f"
 }
 
 inprogress() {
