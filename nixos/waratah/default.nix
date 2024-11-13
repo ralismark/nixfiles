@@ -36,7 +36,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true; # install boot entry
 
-  boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
+  # boot.kernelPackages = pkgs.linuxPackages;
   boot.zfs.forceImportRoot = false;
   boot.zfs.allowHibernation = true;
   boot.supportedFilesystems = [

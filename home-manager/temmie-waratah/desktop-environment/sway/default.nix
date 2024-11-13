@@ -73,7 +73,8 @@ in
         gaps.outer = 0;
 
         keybindings = {
-          "--locked ${modifier}+q" = ''exec "swaylock -f; ${pkgs.systemd}/bin/systemctl suspend"'';
+          "--locked ${modifier}+q" = ''exec "${pkgs.systemd}/bin/systemctl suspend"'';
+          "--locked ${modifier}+Shift+q" = ''exec "${pkgs.systemd}/bin/systemctl hibernate"'';
 
           # Start a terminal
           "${modifier}+Return" = "exec ${terminal}";

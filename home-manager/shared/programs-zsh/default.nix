@@ -26,7 +26,7 @@ with lib;
     rclone = "rclone --progress --transfers 16";
 
     diff = "diff --color=auto";
-    # grep = "grep --color=auto";
+    grep = "grep --color=auto";
     ip = "ip --color=auto";
     dd = "dd bs=1M status=progress";
     watch = "watch --color ";
