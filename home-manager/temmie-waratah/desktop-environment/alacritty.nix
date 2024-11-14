@@ -116,7 +116,7 @@
         {
           regex = ''
             (ipfs:|ipns:|magnet:|mailto:|gemini:|gopher:|https:|http:|news:|file:|git:|ssh:|ftp:)[^<>"\\s{-}\\^⟨⟩`]+'';
-          command = "${pkgs.xdg_utils}/bin/xdg-open";
+          command = "${pkgs.xdg-utils}/bin/xdg-open";
           post_processing = true;
           mouse.enabled = true;
           #mouse.mods = "Control";

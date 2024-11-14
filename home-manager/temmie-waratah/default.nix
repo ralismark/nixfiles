@@ -60,7 +60,7 @@ in {
         if [ "$#" -ne 1 ]; then
           echo >&2 "Usage: xdg-open { file | url }"
           echo >&2 ""
-          echo >&2 "This is a replacement for xdg_util's xdg-open, which is way too complicated."
+          echo >&2 "This is a replacement for xdg-util's xdg-open, which is way too complicated."
           exit 127
         fi
 
