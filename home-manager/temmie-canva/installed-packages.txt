@@ -1,3 +1,4 @@
+fzf
 jq
 ranger
 silver-searcher

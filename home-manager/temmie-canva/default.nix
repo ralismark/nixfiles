@@ -14,6 +14,7 @@ in {
     ../shared/programs-git.nix
     ../shared/programs-zsh
     ../shared/toolchains-go.nix
+    ../shared/toolchains-k8s.nix
   ];
 
   # Installed =================================================================
@@ -59,6 +60,11 @@ in {
     # personal github account
     identity.ralismark-github = {
       origins = [ "github-ralismark:*/**" ];
+    };
+
+    extraConfig = {
+      core.untrackedCache = true;
+      core.fsmonitor = true;
     };
   };
 

@@ -43,7 +43,7 @@ with lib;
       # branch workflow
       bnew = "checkout --no-track origin/HEAD -b"; # usage: bnew <name> [<commit>]
       bls = "branch --list -vv";
-      blog = "hist ^origin/HEAD";
+      blog = "hist ^origin/HEAD HEAD";
       bdiff = "diff --merge-base origin/HEAD";
       bmv = "rebase HEAD --onto";
 

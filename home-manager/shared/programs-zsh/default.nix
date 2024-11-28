@@ -93,6 +93,11 @@ with lib;
 
       # apply completions even when there are aliases
       complete_aliases = false;
+
+      # disable beeps
+      list_beep = false;
+      hist_beep = false;
+      beep = false;
     };
 
     shellAliases = {
@@ -188,14 +193,14 @@ with lib;
         [ -z "$root" ] && return
 
         selected=$(
-          ${pkgs.findutils}/bin/find "$root" -mindepth 3 -maxdepth 3 -printf '%P\n' |
+          ${pkgs.findutils}/bin/find -L "$root" -mindepth 3 -maxdepth 3 -printf '%P\n' |
           ${pkgs.fzf}/bin/fzf --height 10 --reverse --exact \
             --no-sort --no-multi --no-info \
             --bind 'backward-eof:abort'
         )
         local ret=$?
         if [[ "$ret" == 0 ]]; then
-          builtin cd "$root/$selected"
+          builtin cd "$(realpath -- "$root/$selected")"
           zle reset-prompt
         else
           zle redisplay
@@ -306,10 +311,12 @@ with lib;
 
       () {
         local leader='%(?,%F{green},%F{red})┃%f '
-        local errno='%(?,,%B%F{red}$?%f%b )'
+        local errno='%(?,,%B%F{red}%?%f%b )'
         local jobline='%(1j,%F{green}$(jobs -r | wc -l | sed "s/0//")&$(jobs -s | wc -l | sed "s/0//")%f ,)'
+        local kubectx='kubectl @ $(kubectl config current-context)'
 
         PS1="
+      $leader$kubectx
       $leader$errno\$(.prompt.cwd)\$(.prompt.venv)\$(.prompt.git)
       $leader$jobline%(!,%F{red}#%f,$) "
 
