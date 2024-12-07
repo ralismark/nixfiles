@@ -45,7 +45,9 @@ with lib;
       bls = "branch --list -vv";
       blog = "hist ^origin/HEAD HEAD";
       bdiff = "diff --merge-base origin/HEAD";
-      bmv = "rebase HEAD --onto";
+      bmv = "rebase HEAD --onto"; # move where the branch points to
+      brename = "branch -m";
+      bfreshen = "pull --rebase origin HEAD"; # rebase onto upstream HEAD, for when your branch is stale
 
       # misc
       sdiff = "diff --cached";
