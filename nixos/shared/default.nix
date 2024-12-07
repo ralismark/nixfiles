@@ -103,7 +103,7 @@
   };
 
   # enable this here since system-level changes are required for users to run steam
-  programs.steam.enable = true;
+  # programs.steam.enable = true; # uninstalling steam to try and fix my factorio addition :>
 
   # TODO this is preferably a per-user thing, but the options don't current exist in home-manager
   fonts = {

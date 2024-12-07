@@ -316,6 +316,7 @@ in {
     nix-direnv.enable = true;
     config = {
       global.warn_timeout = "99999h";
+      global.hide_env_diff = true;
     };
   };
 

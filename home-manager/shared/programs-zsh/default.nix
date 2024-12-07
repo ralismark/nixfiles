@@ -4,6 +4,7 @@ with lib;
   imports = [
     ../../modules/programs-zsh-bindkey.nix
     ../../modules/programs-zsh-options.nix
+    ../../modules/programs-zsh-iterm.nix
   ];
 
   home.packages = [(
