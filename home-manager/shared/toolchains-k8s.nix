@@ -2,10 +2,18 @@
 with lib;
 {
   home.packages = with pkgs; [
-    k9s
     kubectl
     kubernetes-helm
   ];
 
-  home.shellAliases.kubectx = "kubectl config use-context";
+  home.shellAliases.kluster = "kubectl config use-context";
+
+  programs.k9s = {
+    enable = true;
+
+    settings.k9s = {
+      ui.logoless = true;
+      skipLatestRevCheck = false;
+    }
+  };
 }
