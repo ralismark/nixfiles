@@ -25,7 +25,9 @@ ranger
 rclone
 silver-searcher
 tectonic
+unzip
 vlc
 wavemon
 wdisplays
 wl-clipboard
+zip

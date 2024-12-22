@@ -55,6 +55,16 @@ with lib;
 
     cdtemp = "cd $(mktemp -d)";
     isatty = ''(){ script --return --quiet --flush --command "$(printf "%q " "$@")" /dev/null } '';
+    ranger = ''(){
+      local temp_file="$(mktemp -t "ranger_cd.XXXXXXXXXX")"
+      \ranger --choosedir="$temp_file" "$@"
+      local return_value="$?"
+      if chosen_dir="$(cat -- "$temp_file")" && [ -n "$chosen_dir" ] && [ "$chosen_dir" != "$PWD" ]; then
+          cd -- "$chosen_dir"
+      fi
+      rm -f -- "$temp_file"
+      return "$return_value"
+    }'';
   };
 
   programs.zsh = {
@@ -125,13 +135,6 @@ with lib;
     bindkey = let
       zle-run = x: "zle push-input\nBUFFER=${escapeShellArg x}\nzle accept-line";
     in {
-      # TODO ranger-like cd. In quick-cd mode:
-      # - h adds .. to current path (or strips one path element)
-      # - j goes to next suggestion
-      # - k goes to previous suggestion
-      # - l enters directory to dir/.
-      # you are also shown a summary of the contents of the directory
-
       # standard meanings of keys
       Home.widget = "beginning-of-line";
       End.widget = "end-of-line";
@@ -157,6 +160,14 @@ with lib;
       "^p".script = "builtin popd && zle reset-prompt";
       "^g^i".script = zle-run "git status -sb";
       "^g^a".script = zle-run "git add -p";
+
+      "\\ek" = {
+        widget = "deer";
+        initExtra = ''
+          source ${pkgs.deer}/share/zsh/site-functions/deer
+          zle -N deer
+        '';
+      };
 
       # better history
       "^r".script = ''
@@ -314,12 +325,15 @@ with lib;
         local leader='%(?,%F{green},%F{red})┃%f '
         local errno='%(?,,%B%F{red}%?%f%b )'
         local jobline='%(1j,%F{green}$(jobs -r | wc -l | sed "s/0//")&$(jobs -s | wc -l | sed "s/0//")%f ,)'
-        local kubectx='kubectl @ $(kubectl config current-context)'
 
         PS1="
-      $leader$kubectx
       $leader$errno\$(.prompt.cwd)\$(.prompt.venv)\$(.prompt.git)
       $leader$jobline%(!,%F{red}#%f,$) "
+
+        if which kubectl > /dev/null; then
+          PS1="
+          ''${leader}kubectl @ $(kubectl config current-context)$PS1"
+        fi
 
         PS2="... "
       }
