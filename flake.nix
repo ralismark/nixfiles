@@ -10,8 +10,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    flake-compat = { url = "github:edolstra/flake-compat"; flake = false; };
-
     mafredri-zsh-async = { url = "github:mafredri/zsh-async"; flake = false; };
     nix-index-database = {
       url = "github:Mic92/nix-index-database";
@@ -20,15 +18,16 @@
   };
 
   outputs =
-    { self
-    , nixpkgs
-    , home-manager
-    , ...
+    {
+      self,
+      nixpkgs,
+      home-manager,
+      ...
     }@inputs:
     let
       pkgsFor = system: import nixpkgs {
         inherit system;
-        overlays = [self.overlays.default];
+        overlays = [ self.overlays.default ];
         config = import ./assets/nixpkgs-config.nix;
       };
 
