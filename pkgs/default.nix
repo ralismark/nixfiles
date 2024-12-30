@@ -1,3 +1,7 @@
+{
+  lix-module,
+  ...
+}:
 self: super: {
 
   adapta-maia-theme = self.callPackage ./adapta-maia-theme { };
@@ -32,4 +36,4 @@ self: super: {
     ];
   });
 
-}
+} // (lix-module.overlays.lixFromNixpkgs self super)

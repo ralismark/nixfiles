@@ -99,7 +99,7 @@ in {
 
         exec ${pkgs.restic}/bin/restic \
           -o rclone.program=${pkgs.rclone}/bin/rclone \
-          -o rclone.args="serve restic --stdio --transfers 16 --config /persist/secrets/rclone.conf" \
+          -o rclone.args="serve restic --stdio --transfers 16 --config /mnt/persist/secrets/rclone.conf" \
           "$@"
       '';
     };
@@ -414,7 +414,7 @@ in {
     "application/zstd"
   ]);
 
-  xdg.configFile."rclone/rclone.conf".source = config.lib.file.mkOutOfStoreSymlink "/persist/secrets/rclone.conf";
+  xdg.configFile."rclone/rclone.conf".source = config.lib.file.mkOutOfStoreSymlink "/mnt/persist/secrets/rclone.conf";
 
   # Misc ======================================================================
 

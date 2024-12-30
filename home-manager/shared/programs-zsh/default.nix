@@ -337,6 +337,9 @@ with lib;
 
         PS2="... "
       }
+
+      # escape hatch for things you don't want in the store
+      [[ -e ~/.zshrc.local ]] && source ~/.zshrc.local
     '';
 
     plugins = [

@@ -9,6 +9,12 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    lix-module = {
+      url = "https://git.lix.systems/lix-project/nixos-module/archive/main.tar.gz";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    flake-compat = { url = "github:edolstra/flake-compat"; flake = false; };
 
     mafredri-zsh-async = { url = "github:mafredri/zsh-async"; flake = false; };
     nix-index-database = {
@@ -22,6 +28,7 @@
       self,
       nixpkgs,
       home-manager,
+      lix-module,
       ...
     }@inputs:
     let
@@ -39,7 +46,9 @@
         nixpkgs = pkgsFor s;
       });
 
-      overlays.default = import ./pkgs;
+      overlays.default = import ./pkgs {
+        inherit lix-module;
+      };
 
       # temmie@wattle: XPS 13 =================================================
 

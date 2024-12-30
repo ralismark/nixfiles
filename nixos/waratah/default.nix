@@ -78,13 +78,13 @@
   boot.tmp.useTmpfs = false; # root is ephemeral so no need for tmpfs /tmp
 
   # selective persist
-  fileSystems."/persist" = {
+  fileSystems."/mnt/persist" = {
     device = "tank/waratah/nixos_persist";
     fsType = "zfs";
     neededForBoot = true;
   };
 
-  environment.persistence."/persist" = {
+  environment.persistence."/mnt/persist" = {
     hideMounts = true; # ux only -- make them not show up in gvfs
     directories = [
       "/nix"
@@ -96,6 +96,12 @@
     ];
     files = [
     ];
+  };
+
+  # scratch space
+  fileSystems."/mnt/scratch" = {
+    device = "tank/waratah/scratch";
+    fsType = "zfs";
   };
 
   # Services ==================================================================
@@ -188,7 +194,7 @@
         User temmie
         Hostname 152.67.106.24
         Port 6666
-        IdentityFile /persist/secrets/root_ed25519
+        IdentityFile /mnt/persist/secrets/root_ed25519
     '';
     knownHostsFiles = [
       (pkgs.writeText "nixbld-julia.known_hosts" ''

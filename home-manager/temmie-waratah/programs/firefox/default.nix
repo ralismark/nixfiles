@@ -5,7 +5,7 @@ with lib;
 {
   programs.firefox = {
     enable = true;
-    package = pkgs.firefox-devedition;
+    package = pkgs.firefox-devedition-bin;
 
     profiles.dev-edition-default = {
       id = 1;
@@ -65,6 +65,24 @@ with lib;
         #tabbrowser-tabs {
           --tab-min-height: 0;
         }
+
+        /*** hide bookmark bar when not hovering *****************************/
+
+        /*#navigator-toolbox {
+            z-index: 100;
+
+            & > #PersonalToolbar {
+               height: 0;
+            }
+        }
+
+        #navigator-toolbox:hover:not(:has(#urlbar[open])) {
+            margin-bottom: -2em;
+
+            & > #PersonalToolbar {
+                height: 2em;
+            }
+        }*/
 
         /*** number tabs *****************************************************/
 
